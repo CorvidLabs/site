@@ -251,26 +251,26 @@
                     <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">We are a passionate indie collective combining technical expertise with creative vision to build tools that enhance productivity.</p>
                 </div>
                 <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <a href="https://leif.algo.xyz" target="_blank" rel="noopener noreferrer" class="block bg-white p-6 rounded-lg shadow-md text-center hover:shadow-xl hover:scale-105 transform transition-all duration-300">
                         <h3 class="text-xl font-bold text-accent">Leif</h3>
                         <p class="font-semibold text-gray-500 mb-2">Co-Founder & Lead Architect</p>
                         <p class="text-gray-600 text-sm">Primary Swift developer and creator of the Nevermore NFT concept.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    </a>
+                    <a href="https://gaspar.algo.xyz" target="_blank" rel="noopener noreferrer" class="block bg-white p-6 rounded-lg shadow-md text-center hover:shadow-xl hover:scale-105 transform transition-all duration-300">
                         <h3 class="text-xl font-bold text-accent">Gaspar</h3>
                         <p class="font-semibold text-gray-500 mb-2">Co-Founder & Software Engineer</p>
                         <p class="text-gray-600 text-sm">Full-stack expertise, leading backend systems and core infrastructure development.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    </a>
+                    <a href="https://kyn.algo.xyz" target="_blank" rel="noopener noreferrer" class="block bg-white p-6 rounded-lg shadow-md text-center hover:shadow-xl hover:scale-105 transform transition-all duration-300">
                         <h3 class="text-xl font-bold text-accent">Kyn</h3>
                         <p class="font-semibold text-gray-500 mb-2">Co-Founder & Community Lead</p>
                         <p class="text-gray-600 text-sm">Manages Discord community engagement and integrates user feedback.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    </a>
+                    <a href="https://tofu.algo.xyz" target="_blank" rel="noopener noreferrer" class="block bg-white p-6 rounded-lg shadow-md text-center hover:shadow-xl hover:scale-105 transform transition-all duration-300">
                         <h3 class="text-xl font-bold text-accent">Tofu</h3>
                         <p class="font-semibold text-gray-500 mb-2">Co-Founder & Creative Director</p>
                         <p class="text-gray-600 text-sm">Leads visual identity, user experience design, and brand development.</p>
-                    </div>
+                    </a>
                 </div>
             </div>
         </section>
@@ -281,11 +281,11 @@
                 <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto mb-8">
                     Explore the complete, official whitepaper below or download the file to read offline.
                 </p>
-                <a href="corvid-labs-v1-nft-whitepaper.pdf" download="corvid-labs-v1-nft-whitepaper.pdf" class="inline-block bg-accent text-white font-bold py-3 px-6 rounded-lg hover:bg-opacity-90 transition-colors mb-8">
+                <a href="CorvidLabs_Nevermore_NFT_Whitepaper.pdf" download="CorvidLabs_Nevermore_NFT_Whitepaper.pdf" class="inline-block bg-accent text-white font-bold py-3 px-6 rounded-lg hover:bg-opacity-90 transition-colors mb-8">
                     Download PDF
                 </a>
                 <div class="w-full max-w-4xl mx-auto border rounded-lg shadow-lg overflow-hidden" style="height: 80vh;">
-                    <iframe src="corvid-labs-v1-nft-whitepaper.pdf" class="w-full h-full" style="border: none;" title="Corvid Labs Nevermore NFT Whitepaper"></iframe>
+                    <iframe src="CorvidLabs_Nevermore_NFT_Whitepaper.pdf" class="w-full h-full" style="border: none;" title="Corvid Labs Nevermore NFT Whitepaper"></iframe>
                 </div>
             </div>
         </section>
@@ -300,6 +300,24 @@
                 </div>
             </div>
         </section>
+
+        <section id="support" class="py-16">
+            <div class="container mx-auto px-6 text-center max-w-2xl">
+              <h2 class="text-3xl md:text-4xl font-bold">Support Our Work</h2>
+              <p class="mt-4 text-lg text-gray-600 mb-8">
+                As an indie collective, we're funded by our community. Donations help us cover server costs, invest in new tools, and dedicate more time to building open-source projects for everyone.
+              </p>
+              <div class="bg-white p-6 rounded-lg shadow-md inline-block border">
+                  <p class="text-gray-500 font-semibold mb-2">Our Official Donation Wallet (ALGO)</p>
+                  <img src="corvid-labs-wallet-qr.jpg" alt="Donation Wallet QR Code" class="mx-auto mb-4 rounded-md">
+                  <div class="flex items-center bg-gray-100 p-2 rounded-lg">
+                      <input id="wallet-address" type="text" readonly value="WGSHC4TYKYBS6EX5V5E377BQDLKWIIPBCFOLZQZIXCKHFIEKRPBFOMW25A" class="bg-transparent text-gray-700 text-sm font-mono flex-grow focus:outline-none p-2 w-full truncate">
+                      <button id="copy-button" class="bg-accent text-white font-bold py-2 px-4 rounded-md hover:bg-opacity-90 transition-colors ml-2 flex-shrink-0">Copy</button>
+                  </div>
+              </div>
+            </div>
+        </section>
+
     </main>
 
     <footer class="bg-gray-800 text-white">
@@ -357,6 +375,12 @@
             
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
+                    // Home link should just scroll to top
+                    if (this.getAttribute('href') === '#') {
+                        e.preventDefault();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        return;
+                    }
                     e.preventDefault();
                     if(mobileMenu.classList.contains('hidden') === false) {
                        mobileMenu.classList.add('hidden');
@@ -469,6 +493,31 @@
                     faqItem.classList.toggle('open');
                 }
             });
+
+            const copyButton = document.getElementById('copy-button');
+            const walletAddressInput = document.getElementById('wallet-address');
+
+            if (copyButton && walletAddressInput) {
+                copyButton.addEventListener('click', () => {
+                    const tempTextArea = document.createElement('textarea');
+                    tempTextArea.value = walletAddressInput.value;
+                    document.body.appendChild(tempTextArea);
+                    tempTextArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempTextArea);
+                    
+                    const originalText = copyButton.textContent;
+                    copyButton.textContent = 'Copied!';
+                    copyButton.classList.add('bg-green-500');
+                    copyButton.classList.remove('bg-accent');
+                    
+                    setTimeout(() => {
+                        copyButton.textContent = originalText;
+                        copyButton.classList.remove('bg-green-500');
+                        copyButton.classList.add('bg-accent');
+                    }, 2000);
+                });
+            }
         });
     </script>
 </body>
