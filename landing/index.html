@@ -357,28 +357,8 @@
             const navLinks = document.querySelectorAll('.nav-link');
             const sections = document.querySelectorAll('main section');
             const headerHeight = document.getElementById('header').offsetHeight;
-
-            const observerOptions = {
-                root: null,
-                rootMargin: `-${headerHeight}px 0px 0px 0px`,
-                threshold: 0.4
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    const id = entry.target.getAttribute('id');
-                    const navLink = document.querySelector(`.nav-link[href="#${id}"]`);
-                    if (entry.isIntersecting) {
-                        navLinks.forEach(link => link.classList.remove('active'));
-                        if(navLink) navLink.classList.add('active');
-                    }
-                });
-            }, observerOptions);
-
-            sections.forEach(section => {
-                observer.observe(section);
-            });
             
+            // --- SMOOTH SCROLL AND CLOSE MOBILE MENU ---
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     if (this.getAttribute('href') === '#') {
@@ -400,6 +380,39 @@
                     }
                 });
             });
+
+            // --- NAVIGATION HIGHLIGHT FIX ---
+            // This function checks the scroll position and highlights the correct nav link.
+            const highlightNavOnScroll = () => {
+                // Get the current vertical scroll position, and add an offset for the header and a little extra.
+                const scrollPosition = window.scrollY + headerHeight + 50;
+                
+                let currentSectionId = '';
+
+                // Iterate over each section to see which one is currently active.
+                sections.forEach(section => {
+                    // We check if the section's top is above the scroll position.
+                    // The last section to meet this condition is the current one.
+                    if (section.offsetTop <= scrollPosition) {
+                        currentSectionId = section.getAttribute('id');
+                    }
+                });
+
+                // Now, update the 'active' class on the navigation links.
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    const linkHref = link.getAttribute('href');
+                    if (linkHref === `#${currentSectionId}`) {
+                        link.classList.add('active');
+                    }
+                });
+            };
+
+            // Listen for scroll events and run the highlighting function.
+            window.addEventListener('scroll', highlightNavOnScroll);
+            // Also run it once on load to set the initial state.
+            highlightNavOnScroll();
+
 
             const tokenomicsData = {
                 labels: ['Community Distribution', 'Team Allocation', 'Ecosystem Treasury'],
