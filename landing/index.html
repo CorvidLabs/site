@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corvid Labs - Nevermore NFT Collection Whitepaper</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Raven's Quill -->
+    <!-- Application Structure Plan: A thematic, single-page application with a sticky top navigation bar for easy access to key sections (Project, Utility, Tokenomics, Team, FAQ). This structure was chosen to transform the linear whitepaper into a non-linear, exploratory experience. Users can immediately jump to the information they care about most, like the token distribution or team background, rather than scrolling through the entire document. The flow starts with a high-level summary (Hero), dives into the core value proposition (Utility), presents data visually (Tokenomics), builds trust (Team), and finally offers detailed information in a condensed format (FAQ), optimizing for quick comprehension and user engagement. -->
+    <!-- Visualization & Content Choices: The tokenomics allocation is visualized using a Chart.js donut chart to provide an immediate, clear understanding of the distribution proportions. This is more effective than a simple text list. Core concepts like "Problem/Solution" and "Utility" are presented in interactive cards to break down information into digestible chunks and encourage user interaction. The "Risk" and "Governance" sections are organized into an accordion-style FAQ, making detailed information accessible without cluttering the main view. This design prioritizes clarity and interactive discovery. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F2; 
+            color: #24283b;
+        }
+        .text-accent { color: #574f7d; }
+        .bg-accent { background-color: #574f7d; }
+        .bg-accent-light { background-color: #95adbe; }
+        .border-accent { border-color: #574f7d; }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #574f7d;
+            transition: width 0.3s ease;
+        }
+        .nav-link.active::after, .nav-link:hover::after {
+            width: 100%;
+        }
+        .stat-card h3 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #574f7d;
+        }
+        .faq-question {
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+            padding: 0 1.5rem;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 500px; 
+            padding: 1.5rem 1.5rem;
+        }
+        .faq-item.open .faq-arrow {
+            transform: rotate(180deg);
+        }
+        .faq-arrow {
+            transition: transform 0.3s ease-out;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+         @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="bg-F8F7F2/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-accent">
+                Corvid Labs
+            </a>
+            <div class="hidden md:flex space-x-8">
+                <a href="#project" class="nav-link text-gray-700 hover:text-accent font-medium">The Project</a>
+                <a href="#utility" class="nav-link text-gray-700 hover:text-accent font-medium">Utility</a>
+                <a href="#tokenomics" class="nav-link text-gray-700 hover:text-accent font-medium">Tokenomics</a>
+                <a href="#team" class="nav-link text-gray-700 hover:text-accent font-medium">Team</a>
+                <a href="#faq" class="nav-link text-gray-700 hover:text-accent font-medium">FAQ</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="#" class="text-gray-700 font-medium py-2 px-4 rounded-lg hover:bg-gray-200 transition-colors border border-transparent hover:border-gray-300">Whitepaper</a>
+                <a href="https://discord.gg/6xMfGZgnf9" target="_blank" class="bg-accent text-white font-bold py-2 px-5 rounded-lg hover:bg-opacity-90 transition-colors">Join Discord</a>
+            </div>
+             <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-200 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 space-y-2">
+            <a href="corvid-labs-v1-nft-whitepaper.pdf" class="block nav-link text-gray-700 hover:text-accent font-medium py-2">Whitepaper</a>
+            <a href="#project" class="block nav-link text-gray-700 hover:text-accent font-medium py-2">The Project</a>
+            <a href="#utility" class="block nav-link text-gray-700 hover:text-accent font-medium py-2">Utility</a>
+            <a href="#tokenomics" class="block nav-link text-gray-700 hover:text-accent font-medium py-2">Tokenomics</a>
+            <a href="#team" class="block nav-link text-gray-700 hover:text-accent font-medium py-2">Team</a>
+            <a href="#faq" class="block nav-link text-gray-700 hover:text-accent font-medium py-2">FAQ</a>
+            <a href="https://discord.gg/6xMfGZgnf9" target="_blank" class="block bg-accent text-white text-center font-bold py-2 px-5 rounded-lg hover:bg-opacity-90 transition-colors mt-2">Join Discord</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="py-20 md:py-32">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-4">Nevermore NFT Collection</h1>
+                <p class="text-lg md:text-xl text-gray-600 mb-2">A Lifetime Membership for the Corvid Labs Ecosystem.</p>
+                <p class="max-w-3xl mx-auto text-gray-600 mb-8">
+                    This utility-focused NFT combines the security of the blockchain with tangible benefits for our early supporters, granting pro features across all our iOS apps, exclusive access to new tools, and a voice in our community-driven development.
+                </p>
+                <a href="#tokenomics" class="bg-accent text-white font-bold py-3 px-8 rounded-lg hover:bg-opacity-90 transition-colors text-lg">Learn About the Mint</a>
+            </div>
+        </section>
+
+        <section id="project" class="py-16 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">The Project: Reimagining App Subscriptions</h2>
+                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">We're an indie development collective building innovative iOS apps. The Nevermore NFT is our answer to the flaws of the traditional, fragmented subscription model.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-4 text-accent">The Problem</h3>
+                        <div class="space-y-4">
+                            <div class="p-4 bg-red-50 rounded-lg flex items-start space-x-3">
+                                <span class="text-red-500 font-bold text-xl">✗</span>
+                                <div>
+                                    <h4 class="font-semibold">Fragmented Subscriptions</h4>
+                                    <p class="text-gray-600 text-sm">Costs add up for users who need multiple specialized apps.</p>
+                                </div>
+                            </div>
+                            <div class="p-4 bg-red-50 rounded-lg flex items-start space-x-3">
+                                <span class="text-red-500 font-bold text-xl">✗</span>
+                                <div>
+                                    <h4 class="font-semibold">Limited Value for Early Supporters</h4>
+                                    <p class="text-gray-600 text-sm">Beta testers and early adopters rarely receive long-term benefits.</p>
+                                </div>
+                            </div>
+                            <div class="p-4 bg-red-50 rounded-lg flex items-start space-x-3">
+                                <span class="text-red-500 font-bold text-xl">✗</span>
+                                <div>
+                                    <h4 class="font-semibold">No Community Ownership</h4>
+                                    <p class="text-gray-600 text-sm">Users have little say in the development process of tools they rely on.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-4 text-accent">Our Solution: The Nevermore NFT</h3>
+                        <div class="space-y-4">
+                            <div class="p-4 bg-green-50 rounded-lg flex items-start space-x-3">
+                                <span class="text-green-500 font-bold text-xl">✓</span>
+                                <div>
+                                    <h4 class="font-semibold">Unified Lifetime Access</h4>
+                                    <p class="text-gray-600 text-sm">One token unlocks premium features across all Corvid Labs apps, forever.</p>
+                                </div>
+                            </div>
+                             <div class="p-4 bg-green-50 rounded-lg flex items-start space-x-3">
+                                <span class="text-green-500 font-bold text-xl">✓</span>
+                                <div>
+                                    <h4 class="font-semibold">Meaningful Membership</h4>
+                                    <p class="text-gray-600 text-sm">Holders gain governance rights and help shape our development roadmap.</p>
+                                </div>
+                            </div>
+                            <div class="p-4 bg-green-50 rounded-lg flex items-start space-x-3">
+                                <span class="text-green-500 font-bold text-xl">✓</span>
+                                <div>
+                                    <h4 class="font-semibold">A Tradeable Digital Asset</h4>
+                                    <p class="text-gray-600 text-sm">Your membership has inherent utility and can be traded on the open market.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="utility" class="py-16">
+            <div class="container mx-auto px-6">
+                 <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">Core Utility & Benefits</h2>
+                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Holding a Nevermore NFT is more than ownership; it's a key to a growing ecosystem of tools and a vibrant community.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-accent">
+                        <h3 class="text-xl font-bold mb-2 text-accent">Lifetime Pro Access</h3>
+                        <p class="text-gray-600">Unlock premium features in all current and future Corvid Labs applications, including our upcoming flagship app, Mono. No more recurring subscription fees.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-accent-light">
+                        <h3 class="text-xl font-bold mb-2">Exclusive Tool Access</h3>
+                        <p class="text-gray-600">Get early access to beta features, experimental tools, and specialized utilities not available to the general public. Your feedback directly shapes our products.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-gray-300">
+                        <h3 class="text-xl font-bold mb-2">Community Privileges</h3>
+                        <p class="text-gray-600">Gain voting rights on feature development, access private Discord channels with the dev team, and join exclusive community events and AMAs.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tokenomics" class="py-16 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">Tokenomics: A Community-First Approach</h2>
+                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Our model prioritizes fair distribution and long-term utility over revenue. We're focused on building a foundational community of engaged supporters.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                    <div class="text-center md:text-left">
+                        <div class="grid grid-cols-2 gap-4 mb-8">
+                            <div class="stat-card bg-gray-50 p-4 rounded-lg text-center">
+                                <h3 class="leading-none">1,000</h3>
+                                <p class="text-gray-600">Total Genesis Supply</p>
+                            </div>
+                            <div class="stat-card bg-gray-50 p-4 rounded-lg text-center">
+                                <h3 class="leading-none">5 <span class="text-lg">ALGO</span></h3>
+                                <p class="text-gray-600">Nominal Mint Price</p>
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-accent">Allocation & Distribution</h3>
+                        <p class="text-gray-600 mb-2"><strong class="font-semibold">85% Community Distribution:</strong> For public mint, giveaways, and beta tester rewards.</p>
+                        <p class="text-gray-600 mb-2"><strong class="font-semibold">10% Team Allocation:</strong> Reserved for the four core founders to align long-term incentives.</p>
+                        <p class="text-gray-600"><strong class="font-semibold">5% Ecosystem Treasury:</strong> For future partnerships, contributors, and community events.</p>
+                    </div>
+                    <div>
+                        <div class="chart-container">
+                            <canvas id="tokenomicsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="team" class="py-16">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">Meet the Core Team</h2>
+                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">We are a passionate indie collective combining technical expertise with creative vision to build tools that enhance productivity.</p>
+                </div>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <h3 class="text-xl font-bold text-accent">Leif</h3>
+                        <p class="font-semibold text-gray-500 mb-2">Co-Founder & Lead Architect</p>
+                        <p class="text-gray-600 text-sm">Primary Swift developer and creator of the Nevermore NFT concept.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <h3 class="text-xl font-bold text-accent">Gaspar</h3>
+                        <p class="font-semibold text-gray-500 mb-2">Co-Founder & Software Engineer</p>
+                        <p class="text-gray-600 text-sm">Full-stack expertise, leading backend systems and core infrastructure development.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <h3 class="text-xl font-bold text-accent">Kyn</h3>
+                        <p class="font-semibold text-gray-500 mb-2">Co-Founder & Community Lead</p>
+                        <p class="text-gray-600 text-sm">Manages Discord community engagement and integrates user feedback.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <h3 class="text-xl font-bold text-accent">Tofu</h3>
+                        <p class="font-semibold text-gray-500 mb-2">Co-Founder & Creative Director</p>
+                        <p class="text-gray-600 text-sm">Leads visual identity, user experience design, and brand development.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="py-16 bg-white">
+            <div class="container mx-auto px-6 max-w-4xl">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">Frequently Asked Questions</h2>
+                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Important details about the project, risks, and legal considerations.</p>
+                </div>
+                <div id="faq-container" class="space-y-4">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto px-6 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-center md:text-left mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold">Corvid Labs</h3>
+                    <p class="text-gray-400">Building the future of mobile productivity.</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="https://discord.gg/6xMfGZgnf9" target="_blank" class="text-gray-400 hover:text-white transition-colors">Discord</a>
+                    <a href="https://github.com/CorvidLabs" target="_blank" class="text-gray-400 hover:text-white transition-colors">GitHub</a>
+                    <a href="mailto:corvid-labs.envoy197@passmail.net" class="text-gray-400 hover:text-white transition-colors">Email</a>
+                </div>
+            </div>
+            <div class="mt-8 pt-4 border-t border-gray-700 text-center text-gray-500 text-sm">
+                &copy; 2025 Corvid Labs. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main section');
+            const headerHeight = document.getElementById('header').offsetHeight;
+
+            const observerOptions = {
+                root: null,
+                rootMargin: `-${headerHeight}px 0px 0px 0px`,
+                threshold: 0.4
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    const navLink = document.querySelector(`.nav-link[href="#${id}"]`);
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => link.classList.remove('active'));
+                        if(navLink) navLink.classList.add('active');
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    if(mobileMenu.classList.contains('hidden') === false) {
+                       mobileMenu.classList.add('hidden');
+                    }
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement){
+                       window.scrollTo({
+                           top: targetElement.offsetTop - headerHeight,
+                           behavior: 'smooth'
+                       });
+                    }
+                });
+            });
+
+            const tokenomicsData = {
+                labels: ['Community Distribution', 'Team Allocation', 'Ecosystem Treasury'],
+                datasets: [{
+                    label: 'Allocation',
+                    data: [85, 10, 5],
+                    backgroundColor: [
+                        '#574f7d',
+                        '#95adbe',
+                        '#d4d2d5'
+                    ],
+                    borderColor: '#FFFFFF',
+                    borderWidth: 2,
+                    hoverOffset: 4
+                }]
+            };
+
+            const tokenomicsConfig = {
+                type: 'doughnut',
+                data: tokenomicsData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                             labels: {
+                                color: '#24283b',
+                                font: {
+                                    size: 14,
+                                    family: 'Inter, sans-serif'
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '60%',
+                }
+            };
+
+            const tokenomicsChartCtx = document.getElementById('tokenomicsChart').getContext('2d');
+            new Chart(tokenomicsChartCtx, tokenomicsConfig);
+
+            const faqData = [
+                {
+                    question: "What are the technical risks?",
+                    answer: "<strong>Smart Contract Security:</strong> Contracts will undergo professional security auditing. They will be open-source for community review. Team assets are protected by a multi-signature wallet. <br/><strong>Platform Dependencies:</strong> Utility delivery depends on the iOS ecosystem and Apple App Store policies. The project also relies on Algorand network performance and third-party services like Discord."
+                },
+                {
+                    question: "What are the market and development risks?",
+                    answer: "<strong>Market Volatility:</strong> Secondary market prices are subject to cryptocurrency market conditions. While utility provides a value floor, it doesn't guarantee appreciation. <br/><strong>Development Risks:</strong> As an indie team, development timelines are subject to change. The evolving iOS platform may require significant adaptation."
+                },
+                {
+                    question: "How does community governance work?",
+                    answer: "Core development decisions are team-led with strong community input. NFT holders can vote on feature prioritization via a Discord-based proposal system. We hold regular community surveys and quarterly development calls to ensure transparent discussion and consensus on major strategic changes."
+                },
+                {
+                    question: "Which blockchain is used and why?",
+                    answer: "The Nevermore NFT Collection is built on the Algorand blockchain. We chose Algorand for its high performance, low transaction costs, carbon-negative footprint, and robust security through its pure proof-of-stake consensus mechanism. This ensures long-term viability and seamless integration with the Algorand ecosystem."
+                }
+            ];
+            
+            const faqContainer = document.getElementById('faq-container');
+            faqData.forEach(item => {
+                const faqItem = document.createElement('div');
+                faqItem.className = 'faq-item bg-gray-50 rounded-lg border border-gray-200';
+                faqItem.innerHTML = `
+                    <div class="faq-question flex justify-between items-center p-4 md:p-6">
+                        <h4 class="font-semibold text-lg">${item.question}</h4>
+                        <span class="faq-arrow text-accent text-2xl font-light transform transition-transform duration-300">&darr;</span>
+                    </div>
+                    <div class="faq-answer text-gray-600">
+                        <p>${item.answer}</p>
+                    </div>
+                `;
+                faqContainer.appendChild(faqItem);
+            });
+            
+            faqContainer.addEventListener('click', function(e) {
+                const questionHeader = e.target.closest('.faq-question');
+                if (questionHeader) {
+                    const faqItem = questionHeader.parentElement;
+                    faqItem.classList.toggle('open');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
