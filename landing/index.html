@@ -9,20 +9,26 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Raven's Quill -->
-    <!-- Application Structure Plan: A thematic, single-page application with a sticky top navigation bar for easy access to key sections (Project, Utility, Tokenomics, Team, Whitepaper, FAQ). This structure was chosen to transform the linear whitepaper into a non-linear, exploratory experience. Users can immediately jump to the information they care about most, like the token distribution or the embedded PDF, rather than scrolling through the entire document. The flow starts with a high-level summary (Hero), dives into the core value proposition (Utility), presents data visually (Tokenomics), builds trust (Team), provides the full document (Whitepaper PDF), and finally offers detailed information in a condensed format (FAQ), optimizing for quick comprehension and user engagement. -->
-    <!-- Visualization & Content Choices: The tokenomics allocation is visualized using a Chart.js donut chart to provide an immediate, clear understanding of the distribution proportions. This is more effective than a simple text list. Core concepts like "Problem/Solution" and "Utility" are presented in interactive cards to break down information into digestible chunks and encourage user interaction. The full whitepaper is embedded using an iframe for direct access, supplemented by a download link. The "Risk" and "Governance" sections are organized into an accordion-style FAQ, making detailed information accessible without cluttering the main view. This design prioritizes clarity and interactive discovery. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <!-- 
+        Chosen Palette: "Raven's Shadow" - A dark theme.
+        - Primary Background: #111827 (Deep Indigo)
+        - Section/Card Background: #1f2937 (Dark Slate)
+        - Primary Text: #f9fafb (Off-white)
+        - Secondary Text (Accessible): #d1d5db (Light Gray)
+        - Primary Accent: #8b5cf6 (Vibrant Violet)
+        - Secondary Accent: #14b8a6 (Rich Teal)
+        - Border Color: #374151 (Charcoal)
+    -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #F8F7F2; 
-            color: #24283b;
+            background-color: #111827; 
+            color: #f9fafb;
         }
-        .text-accent { color: #574f7d; }
-        .bg-accent { background-color: #574f7d; }
-        .bg-accent-light { background-color: #95adbe; }
-        .border-accent { border-color: #574f7d; }
+        .text-accent { color: #8b5cf6; }
+        .bg-accent { background-color: #8b5cf6; }
+        .bg-accent-light { background-color: #14b8a6; } /* Re-purposed for secondary accent */
+        .border-accent { border-color: #8b5cf6; }
         .nav-link {
             position: relative;
             transition: color 0.3s ease;
@@ -35,7 +41,7 @@
             bottom: -4px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: #574f7d;
+            background-color: #8b5cf6;
             transition: width 0.3s ease;
         }
         .nav-link.active::after, .nav-link:hover::after {
@@ -44,7 +50,7 @@
         .stat-card h3 {
             font-size: 2.5rem;
             font-weight: 700;
-            color: #574f7d;
+            color: #8b5cf6;
         }
         .faq-question {
             cursor: pointer;
@@ -84,31 +90,31 @@
 </head>
 <body class="antialiased">
 
-    <header id="header" class="bg-F8F7F2/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+    <header id="header" class="bg-[#111827]/80 backdrop-blur-md sticky top-0 z-50 shadow-lg shadow-black/20">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="text-2xl font-bold text-accent">
                 Corvid Labs
             </a>
             <div class="hidden md:flex items-center space-x-8">
-                <a href="#project" class="nav-link text-gray-700 hover:text-accent font-medium">The Project</a>
-                <a href="#utility" class="nav-link text-gray-700 hover:text-accent font-medium">Utility</a>
-                <a href="#tokenomics" class="nav-link text-gray-700 hover:text-accent font-medium">Tokenomics</a>
-                <a href="#team" class="nav-link text-gray-700 hover:text-accent font-medium">Team</a>
-                <a href="#whitepaper-pdf" class="nav-link text-gray-700 hover:text-accent font-medium">Whitepaper</a>
-                <a href="#faq" class="nav-link text-gray-700 hover:text-accent font-medium">FAQ</a>
+                <a href="#project" class="nav-link text-gray-300 hover:text-accent font-medium">The Project</a>
+                <a href="#utility" class="nav-link text-gray-300 hover:text-accent font-medium">Utility</a>
+                <a href="#tokenomics" class="nav-link text-gray-300 hover:text-accent font-medium">Tokenomics</a>
+                <a href="#team" class="nav-link text-gray-300 hover:text-accent font-medium">Team</a>
+                <a href="#whitepaper-pdf" class="nav-link text-gray-300 hover:text-accent font-medium">Whitepaper</a>
+                <a href="#faq" class="nav-link text-gray-300 hover:text-accent font-medium">FAQ</a>
                 <a href="https://discord.gg/6xMfGZgnf9" target="_blank" class="bg-accent text-white font-bold py-2 px-5 rounded-lg hover:bg-opacity-90 transition-colors ml-4">Join Discord</a>
             </div>
-             <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-200 focus:outline-none">
+             <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-gray-300 hover:bg-gray-700 focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
             </button>
         </nav>
         <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 space-y-2">
-            <a href="#project" class="block nav-link text-gray-700 hover:text-accent font-medium py-2">The Project</a>
-            <a href="#utility" class="block nav-link text-gray-700 hover:text-accent font-medium py-2">Utility</a>
-            <a href="#tokenomics" class="block nav-link text-gray-700 hover:text-accent font-medium py-2">Tokenomics</a>
-            <a href="#team" class="block nav-link text-gray-700 hover:text-accent font-medium py-2">Team</a>
-            <a href="#whitepaper-pdf" class="block nav-link text-gray-700 hover:text-accent font-medium py-2">Whitepaper</a>
-            <a href="#faq" class="block nav-link text-gray-700 hover:text-accent font-medium py-2">FAQ</a>
+            <a href="#project" class="block nav-link text-gray-300 hover:text-accent font-medium py-2">The Project</a>
+            <a href="#utility" class="block nav-link text-gray-300 hover:text-accent font-medium py-2">Utility</a>
+            <a href="#tokenomics" class="block nav-link text-gray-300 hover:text-accent font-medium py-2">Tokenomics</a>
+            <a href="#team" class="block nav-link text-gray-300 hover:text-accent font-medium py-2">Team</a>
+            <a href="#whitepaper-pdf" class="block nav-link text-gray-300 hover:text-accent font-medium py-2">Whitepaper</a>
+            <a href="#faq" class="block nav-link text-gray-300 hover:text-accent font-medium py-2">FAQ</a>
             <a href="https://discord.gg/6xMfGZgnf9" target="_blank" class="block bg-accent text-white text-center font-bold py-2 px-5 rounded-lg hover:bg-opacity-90 transition-colors mt-2">Join Discord</a>
         </div>
     </header>
@@ -117,44 +123,44 @@
         <section id="home" class="py-20 md:py-32">
             <div class="container mx-auto px-6 text-center">
                 <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-4">Nevermore NFT Collection</h1>
-                <p class="text-lg md:text-xl text-gray-600 mb-2">A Lifetime Membership for the Corvid Labs Ecosystem.</p>
-                <p class="max-w-3xl mx-auto text-gray-600 mb-8">
+                <p class="text-lg md:text-xl text-gray-300 mb-2">A Lifetime Membership for the Corvid Labs Ecosystem.</p>
+                <p class="max-w-3xl mx-auto text-gray-300 mb-8">
                     This utility-focused NFT combines the security of the blockchain with tangible benefits for our early supporters, granting pro features across all our iOS apps, exclusive access to new tools, and a voice in our community-driven development.
                 </p>
                 <a href="#tokenomics" class="bg-accent text-white font-bold py-3 px-8 rounded-lg hover:bg-opacity-90 transition-colors text-lg">Learn About the Mint</a>
             </div>
         </section>
 
-        <section id="project" class="py-16 bg-white">
+        <section id="project" class="py-16 bg-[#1f2937]">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl md:text-4xl font-bold">The Project: Reimagining App Subscriptions</h2>
-                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">We're an indie development collective building innovative iOS apps. The Nevermore NFT is our answer to the flaws of the traditional, fragmented subscription model.</p>
+                    <p class="mt-4 text-lg text-gray-300 max-w-2xl mx-auto">We're an indie development collective building innovative iOS apps. The Nevermore NFT is our answer to the flaws of the traditional, fragmented subscription model.</p>
                 </div>
 
                 <div class="grid md:grid-cols-2 gap-8 items-center">
                     <div>
                         <h3 class="text-2xl font-semibold mb-4 text-accent">The Problem</h3>
                         <div class="space-y-4">
-                            <div class="p-4 bg-red-50 rounded-lg flex items-start space-x-3">
-                                <span class="text-red-500 font-bold text-xl">✗</span>
+                            <div class="p-4 bg-red-900/30 rounded-lg flex items-start space-x-3">
+                                <span class="text-red-400 font-bold text-xl">✗</span>
                                 <div>
-                                    <h4 class="font-semibold">Fragmented Subscriptions</h4>
-                                    <p class="text-gray-600 text-sm">Costs add up for users who need multiple specialized apps.</p>
+                                    <h4 class="font-semibold text-gray-100">Fragmented Subscriptions</h4>
+                                    <p class="text-gray-400 text-sm">Costs add up for users who need multiple specialized apps.</p>
                                 </div>
                             </div>
-                            <div class="p-4 bg-red-50 rounded-lg flex items-start space-x-3">
-                                <span class="text-red-500 font-bold text-xl">✗</span>
+                            <div class="p-4 bg-red-900/30 rounded-lg flex items-start space-x-3">
+                                <span class="text-red-400 font-bold text-xl">✗</span>
                                 <div>
-                                    <h4 class="font-semibold">Limited Value for Early Supporters</h4>
-                                    <p class="text-gray-600 text-sm">Beta testers and early adopters rarely receive long-term benefits.</p>
+                                    <h4 class="font-semibold text-gray-100">Limited Value for Early Supporters</h4>
+                                    <p class="text-gray-400 text-sm">Beta testers and early adopters rarely receive long-term benefits.</p>
                                 </div>
                             </div>
-                            <div class="p-4 bg-red-50 rounded-lg flex items-start space-x-3">
-                                <span class="text-red-500 font-bold text-xl">✗</span>
+                            <div class="p-4 bg-red-900/30 rounded-lg flex items-start space-x-3">
+                                <span class="text-red-400 font-bold text-xl">✗</span>
                                 <div>
-                                    <h4 class="font-semibold">No Community Ownership</h4>
-                                    <p class="text-gray-600 text-sm">Users have little say in the development process of tools they rely on.</p>
+                                    <h4 class="font-semibold text-gray-100">No Community Ownership</h4>
+                                    <p class="text-gray-400 text-sm">Users have little say in the development process of tools they rely on.</p>
                                 </div>
                             </div>
                         </div>
@@ -162,25 +168,25 @@
                     <div>
                         <h3 class="text-2xl font-semibold mb-4 text-accent">Our Solution: The Nevermore NFT</h3>
                         <div class="space-y-4">
-                            <div class="p-4 bg-green-50 rounded-lg flex items-start space-x-3">
-                                <span class="text-green-500 font-bold text-xl">✓</span>
+                            <div class="p-4 bg-green-900/30 rounded-lg flex items-start space-x-3">
+                                <span class="text-green-400 font-bold text-xl">✓</span>
                                 <div>
-                                    <h4 class="font-semibold">Unified Lifetime Access</h4>
-                                    <p class="text-gray-600 text-sm">One token unlocks premium features across all Corvid Labs apps, forever.</p>
+                                    <h4 class="font-semibold text-gray-100">Unified Lifetime Access</h4>
+                                    <p class="text-gray-400 text-sm">One token unlocks premium features across all Corvid Labs apps, forever.</p>
                                 </div>
                             </div>
-                             <div class="p-4 bg-green-50 rounded-lg flex items-start space-x-3">
-                                <span class="text-green-500 font-bold text-xl">✓</span>
+                             <div class="p-4 bg-green-900/30 rounded-lg flex items-start space-x-3">
+                                <span class="text-green-400 font-bold text-xl">✓</span>
                                 <div>
-                                    <h4 class="font-semibold">Meaningful Membership</h4>
-                                    <p class="text-gray-600 text-sm">Holders gain governance rights and help shape our development roadmap.</p>
+                                    <h4 class="font-semibold text-gray-100">Meaningful Membership</h4>
+                                    <p class="text-gray-400 text-sm">Holders gain governance rights and help shape our development roadmap.</p>
                                 </div>
                             </div>
-                            <div class="p-4 bg-green-50 rounded-lg flex items-start space-x-3">
-                                <span class="text-green-500 font-bold text-xl">✓</span>
+                            <div class="p-4 bg-green-900/30 rounded-lg flex items-start space-x-3">
+                                <span class="text-green-400 font-bold text-xl">✓</span>
                                 <div>
-                                    <h4 class="font-semibold">A Tradeable Digital Asset</h4>
-                                    <p class="text-gray-600 text-sm">Your membership has inherent utility and can be traded on the open market.</p>
+                                    <h4 class="font-semibold text-gray-100">A Tradeable Digital Asset</h4>
+                                    <p class="text-gray-400 text-sm">Your membership has inherent utility and can be traded on the open market.</p>
                                 </div>
                             </div>
                         </div>
@@ -193,47 +199,47 @@
             <div class="container mx-auto px-6">
                  <div class="text-center mb-12">
                     <h2 class="text-3xl md:text-4xl font-bold">Core Utility & Benefits</h2>
-                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Holding a Nevermore NFT is more than ownership; it's a key to a growing ecosystem of tools and a vibrant community.</p>
+                    <p class="mt-4 text-lg text-gray-300 max-w-2xl mx-auto">Holding a Nevermore NFT is more than ownership; it's a key to a growing ecosystem of tools and a vibrant community.</p>
                 </div>
                 <div class="grid md:grid-cols-3 gap-8">
-                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-accent">
+                    <div class="bg-[#1f2937] p-6 rounded-lg shadow-lg border-t-4 border-accent">
                         <h3 class="text-xl font-bold mb-2 text-accent">Lifetime Pro Access</h3>
-                        <p class="text-gray-600">Unlock premium features in all current and future Corvid Labs applications, including our upcoming flagship app, Mono. No more recurring subscription fees.</p>
+                        <p class="text-gray-300">Unlock premium features in all current and future Corvid Labs applications, including our upcoming flagship app, Mono. No more recurring subscription fees.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-accent-light">
-                        <h3 class="text-xl font-bold mb-2">Exclusive Tool Access</h3>
-                        <p class="text-gray-600">Get early access to beta features, experimental tools, and specialized utilities not available to the general public. Your feedback directly shapes our products.</p>
+                    <div class="bg-[#1f2937] p-6 rounded-lg shadow-lg border-t-4 border-teal-500">
+                        <h3 class="text-xl font-bold mb-2 text-teal-400">Exclusive Tool Access</h3>
+                        <p class="text-gray-300">Get early access to beta features, experimental tools, and specialized utilities not available to the general public. Your feedback directly shapes our products.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-gray-300">
-                        <h3 class="text-xl font-bold mb-2">Community Privileges</h3>
-                        <p class="text-gray-600">Gain voting rights on feature development, access private Discord channels with the dev team, and join exclusive community events and AMAs.</p>
+                    <div class="bg-[#1f2937] p-6 rounded-lg shadow-lg border-t-4 border-gray-500">
+                        <h3 class="text-xl font-bold mb-2 text-gray-300">Community Privileges</h3>
+                        <p class="text-gray-300">Gain voting rights on feature development, access private Discord channels with the dev team, and join exclusive community events and AMAs.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="tokenomics" class="py-16 bg-white">
+        <section id="tokenomics" class="py-16 bg-[#1f2937]">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl md:text-4xl font-bold">Tokenomics: A Community-First Approach</h2>
-                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Our model prioritizes fair distribution and long-term utility over revenue. We're focused on building a foundational community of engaged supporters.</p>
+                    <p class="mt-4 text-lg text-gray-300 max-w-2xl mx-auto">Our model prioritizes fair distribution and long-term utility over revenue. We're focused on building a foundational community of engaged supporters.</p>
                 </div>
                 <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
                     <div class="text-center md:text-left">
                         <div class="grid grid-cols-2 gap-4 mb-8">
-                            <div class="stat-card bg-gray-50 p-4 rounded-lg text-center">
+                            <div class="stat-card bg-gray-900 p-4 rounded-lg text-center">
                                 <h3 class="leading-none">1,000</h3>
-                                <p class="text-gray-600">Total Genesis Supply</p>
+                                <p class="text-gray-400">Total Genesis Supply</p>
                             </div>
-                            <div class="stat-card bg-gray-50 p-4 rounded-lg text-center">
+                            <div class="stat-card bg-gray-900 p-4 rounded-lg text-center">
                                 <h3 class="leading-none">5 <span class="text-lg">ALGO</span></h3>
-                                <p class="text-gray-600">Nominal Mint Price</p>
+                                <p class="text-gray-400">Nominal Mint Price</p>
                             </div>
                         </div>
                         <h3 class="text-2xl font-bold mb-4 text-accent">Allocation & Distribution</h3>
-                        <p class="text-gray-600 mb-2"><strong class="font-semibold">85% Community Distribution:</strong> For public mint, giveaways, and beta tester rewards.</p>
-                        <p class="text-gray-600 mb-2"><strong class="font-semibold">10% Team Allocation:</strong> Reserved for the four core founders to align long-term incentives.</p>
-                        <p class="text-gray-600"><strong class="font-semibold">5% Ecosystem Treasury:</strong> For future partnerships, contributors, and community events.</p>
+                        <p class="text-gray-300 mb-2"><strong class="font-semibold text-gray-100">85% Community Distribution:</strong> For public mint, giveaways, and beta tester rewards.</p>
+                        <p class="text-gray-300 mb-2"><strong class="font-semibold text-gray-100">10% Team Allocation:</strong> Reserved for the four core founders to align long-term incentives.</p>
+                        <p class="text-gray-300"><strong class="font-semibold text-gray-100">5% Ecosystem Treasury:</strong> For future partnerships, contributors, and community events.</p>
                     </div>
                     <div>
                         <div class="chart-container">
@@ -248,28 +254,28 @@
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl md:text-4xl font-bold">Meet the Core Team</h2>
-                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">We are a passionate indie collective combining technical expertise with creative vision to build tools that enhance productivity.</p>
+                    <p class="mt-4 text-lg text-gray-300 max-w-2xl mx-auto">We are a passionate indie collective combining technical expertise with creative vision to build tools that enhance productivity.</p>
                 </div>
                 <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <a href="https://leif.algo.xyz" target="_blank" rel="noopener noreferrer" class="block bg-white p-6 rounded-lg shadow-md text-center hover:shadow-xl hover:scale-105 transform transition-all duration-300">
+                    <a href="https://leif.algo.xyz" target="_blank" rel="noopener noreferrer" class="block bg-[#1f2937] p-6 rounded-lg shadow-lg text-center hover:shadow-2xl hover:scale-105 transform transition-all duration-300">
                         <h3 class="text-xl font-bold text-accent">Leif</h3>
-                        <p class="font-semibold text-gray-500 mb-2">Co-Founder & Lead Architect</p>
-                        <p class="text-gray-600 text-sm">Primary Swift developer and creator of the Nevermore NFT concept.</p>
+                        <p class="font-semibold text-gray-300 mb-2">Co-Founder & Lead Architect</p>
+                        <p class="text-gray-400 text-sm">Primary Swift developer and creator of the Nevermore NFT concept.</p>
                     </a>
-                    <a href="https://gaspar.algo.xyz" target="_blank" rel="noopener noreferrer" class="block bg-white p-6 rounded-lg shadow-md text-center hover:shadow-xl hover:scale-105 transform transition-all duration-300">
+                    <a href="https://gaspar.algo.xyz" target="_blank" rel="noopener noreferrer" class="block bg-[#1f2937] p-6 rounded-lg shadow-lg text-center hover:shadow-2xl hover:scale-105 transform transition-all duration-300">
                         <h3 class="text-xl font-bold text-accent">Gaspar</h3>
-                        <p class="font-semibold text-gray-500 mb-2">Co-Founder & Software Engineer</p>
-                        <p class="text-gray-600 text-sm">Full-stack expertise, leading backend systems and core infrastructure development.</p>
+                        <p class="font-semibold text-gray-300 mb-2">Co-Founder & Software Engineer</p>
+                        <p class="text-gray-400 text-sm">Full-stack expertise, leading backend systems and core infrastructure development.</p>
                     </a>
-                    <a href="https://kyn.algo.xyz" target="_blank" rel="noopener noreferrer" class="block bg-white p-6 rounded-lg shadow-md text-center hover:shadow-xl hover:scale-105 transform transition-all duration-300">
+                    <a href="https://kyn.algo.xyz" target="_blank" rel="noopener noreferrer" class="block bg-[#1f2937] p-6 rounded-lg shadow-lg text-center hover:shadow-2xl hover:scale-105 transform transition-all duration-300">
                         <h3 class="text-xl font-bold text-accent">Kyn</h3>
-                        <p class="font-semibold text-gray-500 mb-2">Co-Founder & Community Lead</p>
-                        <p class="text-gray-600 text-sm">Manages Discord community engagement and integrates user feedback.</p>
+                        <p class="font-semibold text-gray-300 mb-2">Co-Founder & Community Lead</p>
+                        <p class="text-gray-400 text-sm">Manages Discord community engagement and integrates user feedback.</p>
                     </a>
-                    <a href="https://tofu.algo.xyz" target="_blank" rel="noopener noreferrer" class="block bg-white p-6 rounded-lg shadow-md text-center hover:shadow-xl hover:scale-105 transform transition-all duration-300">
+                    <a href="https://tofu.algo.xyz" target="_blank" rel="noopener noreferrer" class="block bg-[#1f2937] p-6 rounded-lg shadow-lg text-center hover:shadow-2xl hover:scale-105 transform transition-all duration-300">
                         <h3 class="text-xl font-bold text-accent">Tofu</h3>
-                        <p class="font-semibold text-gray-500 mb-2">Co-Founder & Creative Director</p>
-                        <p class="text-gray-600 text-sm">Leads visual identity, user experience design, and brand development.</p>
+                        <p class="font-semibold text-gray-300 mb-2">Co-Founder & Creative Director</p>
+                        <p class="text-gray-400 text-sm">Leads visual identity, user experience design, and brand development.</p>
                     </a>
                 </div>
             </div>
@@ -278,23 +284,23 @@
         <section id="whitepaper-pdf" class="py-16">
             <div class="container mx-auto px-6 text-center">
                 <h2 class="text-3xl md:text-4xl font-bold mb-4">Read the Full Whitepaper</h2>
-                <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto mb-8">
+                <p class="mt-4 text-lg text-gray-300 max-w-2xl mx-auto mb-8">
                     Explore the complete, official whitepaper below or download the file to read offline.
                 </p>
                 <a href="corvid-labs-v1-nft-whitepaper.pdf" download="corvid-labs-v1-nft-whitepaper.pdf" class="inline-block bg-accent text-white font-bold py-3 px-6 rounded-lg hover:bg-opacity-90 transition-colors mb-8">
                     Download PDF
                 </a>
-                <div class="w-full max-w-4xl mx-auto border rounded-lg shadow-lg overflow-hidden" style="height: 80vh;">
+                <div class="w-full max-w-4xl mx-auto border border-gray-700 rounded-lg shadow-lg overflow-hidden" style="height: 80vh;">
                     <iframe src="corvid-labs-v1-nft-whitepaper.pdf" class="w-full h-full" style="border: none;" title="Corvid Labs Nevermore NFT Whitepaper"></iframe>
                 </div>
             </div>
         </section>
 
-        <section id="faq" class="py-16 bg-white">
+        <section id="faq" class="py-16 bg-[#1f2937]">
             <div class="container mx-auto px-6 max-w-4xl">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl md:text-4xl font-bold">Frequently Asked Questions</h2>
-                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Important details about the project, risks, and legal considerations.</p>
+                    <p class="mt-4 text-lg text-gray-300 max-w-2xl mx-auto">Important details about the project, risks, and legal considerations.</p>
                 </div>
                 <div id="faq-container" class="space-y-4">
                 </div>
@@ -304,14 +310,14 @@
         <section id="support" class="py-16">
             <div class="container mx-auto px-6 text-center max-w-2xl">
               <h2 class="text-3xl md:text-4xl font-bold">Support Our Work</h2>
-              <p class="mt-4 text-lg text-gray-600 mb-8">
+              <p class="mt-4 text-lg text-gray-300 mb-8">
                 As an indie collective, we're funded by our community. Donations help us cover server costs, invest in new tools, and dedicate more time to building open-source projects for everyone.
               </p>
-              <div class="bg-white p-6 rounded-lg shadow-md inline-block border">
-                  <p class="text-gray-500 font-semibold mb-2">Our Official Donation Wallet (ALGO)</p>
+              <div class="bg-[#1f2937] p-6 rounded-lg shadow-lg inline-block border border-gray-700">
+                  <p class="text-gray-300 font-semibold mb-2">Our Official Donation Wallet (ALGO)</p>
                   <img src="https://github.com/CorvidLabs/site/blob/main/landing/corvid-labs-wallet-qr.jpg?raw=true" alt="Donation Wallet QR Code" class="mx-auto mb-4 rounded-md">
-                  <div class="flex items-center bg-gray-100 p-2 rounded-lg">
-                      <input id="wallet-address" type="text" readonly value="WGSHC4TYKYBS6EX5V5E377BQDLKWIIPBCFOLZQZIXCKHFIEKRPBFOMW25A" class="bg-transparent text-gray-700 text-sm font-mono flex-grow focus:outline-none p-2 w-full truncate">
+                  <div class="flex items-center bg-gray-800 p-2 rounded-lg">
+                      <input id="wallet-address" type="text" readonly value="WGSHC4TYKYBS6EX5V5E377BQDLKWIIPBCFOLZQZIXCKHFIEKRPBFOMW25A" class="bg-transparent text-gray-300 text-sm font-mono flex-grow focus:outline-none p-2 w-full truncate">
                       <button id="copy-button" class="bg-accent text-white font-bold py-2 px-4 rounded-md hover:bg-opacity-90 transition-colors ml-2 flex-shrink-0">Copy</button>
                   </div>
               </div>
@@ -320,7 +326,7 @@
 
     </main>
 
-    <footer class="bg-gray-800 text-white">
+    <footer class="bg-gray-900 text-white">
         <div class="container mx-auto px-6 py-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="text-center md:text-left mb-4 md:mb-0">
@@ -375,7 +381,6 @@
             
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
-                    // Home link should just scroll to top
                     if (this.getAttribute('href') === '#') {
                         e.preventDefault();
                         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -402,12 +407,12 @@
                     label: 'Allocation',
                     data: [85, 10, 5],
                     backgroundColor: [
-                        '#574f7d',
-                        '#95adbe',
-                        '#d4d2d5'
+                        '#8b5cf6', // Accent
+                        '#14b8a6', // Accent 2
+                        '#6b7280'  // Gray
                     ],
-                    borderColor: '#FFFFFF',
-                    borderWidth: 2,
+                    borderColor: '#1f2937',
+                    borderWidth: 3,
                     hoverOffset: 4
                 }]
             };
@@ -422,7 +427,7 @@
                         legend: {
                             position: 'bottom',
                              labels: {
-                                color: '#24283b',
+                                color: '#d1d5db',
                                 font: {
                                     size: 14,
                                     family: 'Inter, sans-serif'
@@ -454,11 +459,11 @@
             const faqData = [
                 {
                     question: "What are the technical risks?",
-                    answer: "<strong>Smart Contract Security:</strong> Contracts will undergo professional security auditing. They will be open-source for community review. Team assets are protected by a multi-signature wallet. <br/><strong>Platform Dependencies:</strong> Utility delivery depends on the iOS ecosystem and Apple App Store policies. The project also relies on Algorand network performance and third-party services like Discord."
+                    answer: "<strong>Smart Contract Security:</strong> Contracts will undergo professional security auditing. They will be open-source for community review. Team assets are protected by a multi-signature wallet. <br/><br/><strong>Platform Dependencies:</strong> Utility delivery depends on the iOS ecosystem and Apple App Store policies. The project also relies on Algorand network performance and third-party services like Discord."
                 },
                 {
                     question: "What are the market and development risks?",
-                    answer: "<strong>Market Volatility:</strong> Secondary market prices are subject to cryptocurrency market conditions. While utility provides a value floor, it doesn't guarantee appreciation. <br/><strong>Development Risks:</strong> As an indie team, development timelines are subject to change. The evolving iOS platform may require significant adaptation."
+                    answer: "<strong>Market Volatility:</strong> Secondary market prices are subject to cryptocurrency market conditions. While utility provides a value floor, it doesn't guarantee appreciation. <br/><br/><strong>Development Risks:</strong> As an indie team, development timelines are subject to change. The evolving iOS platform may require significant adaptation."
                 },
                 {
                     question: "How does community governance work?",
@@ -473,13 +478,13 @@
             const faqContainer = document.getElementById('faq-container');
             faqData.forEach(item => {
                 const faqItem = document.createElement('div');
-                faqItem.className = 'faq-item bg-gray-50 rounded-lg border border-gray-200';
+                faqItem.className = 'faq-item bg-gray-900 rounded-lg border border-gray-700';
                 faqItem.innerHTML = `
-                    <div class="faq-question flex justify-between items-center p-4 md:p-6">
-                        <h4 class="font-semibold text-lg">${item.question}</h4>
+                    <div class="faq-question flex justify-between items-center p-4 md:p-6 hover:bg-gray-800 rounded-lg">
+                        <h4 class="font-semibold text-lg text-gray-100">${item.question}</h4>
                         <span class="faq-arrow text-accent text-2xl font-light transform transition-transform duration-300">&darr;</span>
                     </div>
-                    <div class="faq-answer text-gray-600">
+                    <div class="faq-answer text-gray-300">
                         <p>${item.answer}</p>
                     </div>
                 `;
