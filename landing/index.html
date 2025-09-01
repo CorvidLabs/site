@@ -10,8 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Raven's Quill -->
-    <!-- Application Structure Plan: A thematic, single-page application with a sticky top navigation bar for easy access to key sections (Project, Utility, Tokenomics, Team, FAQ). This structure was chosen to transform the linear whitepaper into a non-linear, exploratory experience. Users can immediately jump to the information they care about most, like the token distribution or team background, rather than scrolling through the entire document. The flow starts with a high-level summary (Hero), dives into the core value proposition (Utility), presents data visually (Tokenomics), builds trust (Team), and finally offers detailed information in a condensed format (FAQ), optimizing for quick comprehension and user engagement. -->
-    <!-- Visualization & Content Choices: The tokenomics allocation is visualized using a Chart.js donut chart to provide an immediate, clear understanding of the distribution proportions. This is more effective than a simple text list. Core concepts like "Problem/Solution" and "Utility" are presented in interactive cards to break down information into digestible chunks and encourage user interaction. The "Risk" and "Governance" sections are organized into an accordion-style FAQ, making detailed information accessible without cluttering the main view. This design prioritizes clarity and interactive discovery. -->
+    <!-- Application Structure Plan: A thematic, single-page application with a sticky top navigation bar for easy access to key sections (Project, Utility, Tokenomics, Team, Whitepaper, FAQ). This structure was chosen to transform the linear whitepaper into a non-linear, exploratory experience. Users can immediately jump to the information they care about most, like the token distribution or the embedded PDF, rather than scrolling through the entire document. The flow starts with a high-level summary (Hero), dives into the core value proposition (Utility), presents data visually (Tokenomics), builds trust (Team), provides the full document (Whitepaper PDF), and finally offers detailed information in a condensed format (FAQ), optimizing for quick comprehension and user engagement. -->
+    <!-- Visualization & Content Choices: The tokenomics allocation is visualized using a Chart.js donut chart to provide an immediate, clear understanding of the distribution proportions. This is more effective than a simple text list. Core concepts like "Problem/Solution" and "Utility" are presented in interactive cards to break down information into digestible chunks and encourage user interaction. The full whitepaper is embedded using an iframe for direct access, supplemented by a download link. The "Risk" and "Governance" sections are organized into an accordion-style FAQ, making detailed information accessible without cluttering the main view. This design prioritizes clarity and interactive discovery. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
@@ -89,27 +89,25 @@
             <a href="#" class="text-2xl font-bold text-accent">
                 Corvid Labs
             </a>
-            <div class="hidden md:flex space-x-8">
+            <div class="hidden md:flex items-center space-x-8">
                 <a href="#project" class="nav-link text-gray-700 hover:text-accent font-medium">The Project</a>
                 <a href="#utility" class="nav-link text-gray-700 hover:text-accent font-medium">Utility</a>
                 <a href="#tokenomics" class="nav-link text-gray-700 hover:text-accent font-medium">Tokenomics</a>
                 <a href="#team" class="nav-link text-gray-700 hover:text-accent font-medium">Team</a>
+                <a href="#whitepaper-pdf" class="nav-link text-gray-700 hover:text-accent font-medium">Whitepaper</a>
                 <a href="#faq" class="nav-link text-gray-700 hover:text-accent font-medium">FAQ</a>
-            </div>
-            <div class="hidden md:flex items-center space-x-4">
-                <a href="#" class="text-gray-700 font-medium py-2 px-4 rounded-lg hover:bg-gray-200 transition-colors border border-transparent hover:border-gray-300">Whitepaper</a>
-                <a href="https://discord.gg/6xMfGZgnf9" target="_blank" class="bg-accent text-white font-bold py-2 px-5 rounded-lg hover:bg-opacity-90 transition-colors">Join Discord</a>
+                <a href="https://discord.gg/6xMfGZgnf9" target="_blank" class="bg-accent text-white font-bold py-2 px-5 rounded-lg hover:bg-opacity-90 transition-colors ml-4">Join Discord</a>
             </div>
              <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-200 focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
             </button>
         </nav>
         <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 space-y-2">
-            <a href="corvid-labs-v1-nft-whitepaper.pdf" class="block nav-link text-gray-700 hover:text-accent font-medium py-2">Whitepaper</a>
             <a href="#project" class="block nav-link text-gray-700 hover:text-accent font-medium py-2">The Project</a>
             <a href="#utility" class="block nav-link text-gray-700 hover:text-accent font-medium py-2">Utility</a>
             <a href="#tokenomics" class="block nav-link text-gray-700 hover:text-accent font-medium py-2">Tokenomics</a>
             <a href="#team" class="block nav-link text-gray-700 hover:text-accent font-medium py-2">Team</a>
+            <a href="#whitepaper-pdf" class="block nav-link text-gray-700 hover:text-accent font-medium py-2">Whitepaper</a>
             <a href="#faq" class="block nav-link text-gray-700 hover:text-accent font-medium py-2">FAQ</a>
             <a href="https://discord.gg/6xMfGZgnf9" target="_blank" class="block bg-accent text-white text-center font-bold py-2 px-5 rounded-lg hover:bg-opacity-90 transition-colors mt-2">Join Discord</a>
         </div>
@@ -273,6 +271,21 @@
                         <p class="font-semibold text-gray-500 mb-2">Co-Founder & Creative Director</p>
                         <p class="text-gray-600 text-sm">Leads visual identity, user experience design, and brand development.</p>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="whitepaper-pdf" class="py-16">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Read the Full Whitepaper</h2>
+                <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto mb-8">
+                    Explore the complete, official whitepaper below or download the file to read offline.
+                </p>
+                <a href="corvid-labs-v1-nft-whitepaper.pdf" download="corvid-labs-v1-nft-whitepaper.pdf" class="inline-block bg-accent text-white font-bold py-3 px-6 rounded-lg hover:bg-opacity-90 transition-colors mb-8">
+                    Download PDF
+                </a>
+                <div class="w-full max-w-4xl mx-auto border rounded-lg shadow-lg overflow-hidden" style="height: 80vh;">
+                    <iframe src="corvid-labs-v1-nft-whitepaper.pdf" class="w-full h-full" style="border: none;" title="Corvid Labs Nevermore NFT Whitepaper"></iframe>
                 </div>
             </div>
         </section>
