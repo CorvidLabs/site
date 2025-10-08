@@ -1,0 +1,60 @@
+@use '../../styles.scss';
+
+.text-accent { color: styles.$primary-accent; }
+.bg-accent { background-color: styles.$primary-accent; }
+.bg-accent-light { background-color: styles.$secondary-accent; } /* Re-purposed for secondary accent */
+.border-accent { border-color: styles.$primary-accent; }
+.section-bg { background-color: styles.$section-bg; }
+.primary-bg { background-color: styles.$primary-bg; }
+.nav-link {
+  position: relative;
+  transition: color 0.3s ease;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: styles.$primary-accent;
+  transition: width 0.3s ease;
+}
+.nav-link.active::after, .nav-link:hover::after {
+  width: 100%;
+}
+.stat-card h3 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: styles.$primary-accent;
+}
+.faq-question {
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+  padding: 0 1.5rem;
+}
+.faq-item.open .faq-answer {
+  max-height: 500px; 
+  padding: 1.5rem 1.5rem;
+}
+.faq-item.open .faq-arrow {
+  transform: rotate(180deg);
+}
+.faq-arrow {
+  transition: transform 0.3s ease-out;
+}
+.chart-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 400px;
+  max-height: 400px;
+}
