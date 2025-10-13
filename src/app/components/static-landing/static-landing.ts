@@ -1,5 +1,6 @@
-import { Component, ElementRef, viewChild, afterNextRender, PLATFORM_ID, inject, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, viewChild } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 
 declare const Chart: any;
@@ -11,9 +12,9 @@ interface FaqItem {
 
 @Component({
   selector: 'app-static-landing',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './static-landing.html',
-  styleUrl: './static-landing.scss'
+  styleUrls: ['./static-landing.scss']
 })
 export class StaticLanding implements AfterViewInit {
   mobileMenu = viewChild<ElementRef<HTMLDivElement>>('mobileMenu');
