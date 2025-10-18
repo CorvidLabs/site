@@ -1,22 +1,30 @@
-name: Build and Deploy
+name: 📖 Pages
+
 on:
   push:
-    branches:
-      - main
-jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v3
-    - name: All things angular
-      uses: AhsanAyaz/angular-deploy-gh-pages-actions@v1.4.0
-      with:
-        build_configuration: production # The build environment for the app. please look configurations in your angular.json
-        base_href: https://corvidlabs.github.io/site/   # make sure this corresponds to https://<your_username>.github.io/<base_href>/
-        deploy_branch: gh-pages # The branch the action should deploy to.
-        angular_dist_build_folder: dist/corvid-site # The folder where your project is supposed to be after running ng build by the action.
+    branches: [ "gh-pages" ]
+  workflow_dispatch:
 
 permissions:
-  contents: write # Allow write permission to GITHUB_TOKEN to commit to deploy branch.
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v3
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: landing
+      - id: deployment
+        uses: actions/deploy-pages@v4
