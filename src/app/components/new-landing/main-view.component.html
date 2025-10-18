@@ -1,0 +1,21 @@
+<!-- We use Tailwind classes directly for styling -->
+<div class="main-view w-screen h-[calc(100vh-50px)] relative flex bg-gray-200 p-4 overflow-hidden">
+
+  <!-- This button will trigger the window creation -->
+  <!-- <button (click)="openWindow()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded absolute top-4 left-4">
+    DEBUG Create window
+  </button> -->
+
+  <!-- This button will trigger a typed window creation -->
+  <button (click)="openWindowByType('GALLERY')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded absolute top-4 left-4">
+    DEBUG Create window
+  </button>
+
+  <!--
+    This is the magic part!
+    It's an invisible anchor in your template.
+    The #windowHost is a template reference variable that we use in the .ts file.
+  -->
+  <ng-template #windowHost></ng-template>
+
+</div>

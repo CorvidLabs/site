@@ -1,0 +1,18 @@
+<div appDraggable [style.width.px]="width" [style.height.px]="height" 
+  class="float-window bg-white border border-gray-300 shadow-lg rounded-lg flex flex-col absolute top-20 left-20">
+
+  <!-- Header acts as the drag handle -->
+  <div class="drag-handle bg-gray-100 p-2 rounded-t-lg flex justify-between items-center border-b" [ngClass]="{'cursor-grab': !isDragging, 'cursor-grabbing': isDragging}" (mousedown)="isDragging = true" (mouseup)="isDragging = false">
+    <h2 class="text-lg font-bold">{{ title }}</h2>
+    <!-- Close button -->
+    <button (click)="close()" class="text-gray-500 hover:text-red-500 font-bold text-xl w-6 h-6 flex items-center justify-center">
+      &times;
+    </button>
+  </div>
+
+  <!-- Window Content -->
+  <div class="p-4 flex-grow">
+    
+    <p>This is a floating window component.</p>
+  </div>
+</div>
