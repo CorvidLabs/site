@@ -11,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: All things angular
-      uses: AhsanAyaz/angular-deploy-gh-pages-actions@1.4.0
+      uses: AhsanAyaz/angular-deploy-gh-pages-actions
       with:
         build_configuration: production # The build environment for the app. please look configurations in your angular.json
         base_href: /sit/   # make sure this corresponds to https://<your_username>.github.io/<base_href>/
