@@ -48,7 +48,6 @@
                   "maximumError": "8kB"
                 }
               ],
-              "browser": "",
               "outputHashing": "all"
             },
             "development": {
