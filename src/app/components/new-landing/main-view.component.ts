@@ -2,11 +2,14 @@ import { Component, ComponentRef, ViewChild, ViewContainerRef } from '@angular/c
 import { FloatWindow } from '../float-window/float-window.component';
 import { WindowTypes } from '../../enums/window-types.enum';
 import { GalleryWindowComponent } from '../gallery-window/gallery-window.component';
+import { MatIconModule } from '@angular/material/icon';
+import { PlayerWindowComponent } from '../player-window/player-window.component';
 
 @Component({
   selector: 'main-view',
   templateUrl: 'main-view.component.html',
-  styleUrls: ['main-view.component.scss']
+  styleUrls: ['main-view.component.scss'],
+  imports: [MatIconModule]
 })
 export class MainViewComponent {
   // 1. Get a reference to the template element where we will host our dynamic components.
@@ -47,6 +50,10 @@ export class MainViewComponent {
 
     const componentRef = this.windowHost.createComponent(component);
 
+    // Set a cascading initial position for new windows
+    const offset = this.openedWindows.length * 30;
+    componentRef.instance.initialPosition = { x: 50 + offset, y: 50 + offset };
+
     const closeSub = componentRef.instance.closeEvent.subscribe(() => {
       this.closeWindow(componentRef);
       closeSub.unsubscribe();
@@ -62,6 +69,12 @@ export class MainViewComponent {
       case WindowTypes.GALLERY:
         this.openWindowAdvanced<GalleryWindowComponent>(GalleryWindowComponent);
         break;
+      case WindowTypes.SOUNDCLOUD_PLAYER:
+        this.openWindowAdvanced<PlayerWindowComponent>(PlayerWindowComponent);
+        break;
+
+      // Add more cases as needed
+      // Example:
       // case WindowTypes.SETTINGS:
       //   this.openWindowAdvanced(SettingsWindowComponent);
       //   break;

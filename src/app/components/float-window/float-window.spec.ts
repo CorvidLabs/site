@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FloatWindow } from './float-window';
+import { FloatWindow } from './float-window.component';
 
 describe('FloatWindow', () => {
   let component: FloatWindow;

@@ -14,7 +14,7 @@ export class FloatWindow {
   @Input() width: number = 400;
   @Input() height: number = 300;
   @Input() title: string = 'Floating Window';
-
+  @Input() initialPosition?: { x: number; y: number };
 
   isDragging = false; // Track dragging state for cursor style
 

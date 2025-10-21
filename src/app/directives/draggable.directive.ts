@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, OnInit, inject } from '@angular/core';
+import { Directive, ElementRef, HostListener, inject, Input, OnInit } from '@angular/core';
 import { ZIndexManagerService } from '../services/z-index-manager.service';
 
 @Directive({
@@ -6,6 +6,9 @@ import { ZIndexManagerService } from '../services/z-index-manager.service';
   standalone: true,
 })
 export class DraggableDirective implements OnInit {
+  @Input('appDraggableInitialPosition')
+  initialPosition?: { x: number; y: number };
+
   private isDragging = false;
   private startX = 0;
   private startY = 0;
@@ -27,8 +30,14 @@ export class DraggableDirective implements OnInit {
     this.draggableElement.style.position = 'absolute';
     // Set a default transform if none exists
     if (!this.draggableElement.style.transform) {
-      this.draggableElement.style.transform = 'translate(0px, 0px)';
+      const x = this.initialPosition?.x ?? 0;
+      const y = this.initialPosition?.y ?? 0;
+      this.draggableElement.style.transform = `translate(${x}px, ${y}px)`;
+      this.initialX = x;
+      this.initialY = y;
     }
+
+    this.draggableElement.style.zIndex = this.zIndexManager.getNextZIndex().toString();
   }
 
   @HostListener('mousedown', ['$event'])

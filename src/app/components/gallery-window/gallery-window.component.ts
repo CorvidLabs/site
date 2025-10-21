@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { DraggableDirective } from '../../directives/draggable.directive';
-import { PeraService } from '../../services/pera.service';
+import { CorvidNft } from '../../interfaces/corvid-nft.interface';
+import { NodelyService } from '../../services/nodely.service';
 import { FloatWindow } from '../float-window/float-window.component';
 import { NftCardComponent } from "../nft-card/nft-card.component";
-import { CorvidNft } from '../../interfaces/corvid-nft.interface';
 
 @Component({
   selector: 'app-gallery-window',
@@ -17,7 +17,7 @@ export class GalleryWindowComponent extends FloatWindow implements OnInit {
   corvidNfts: CorvidNft[] = [];
 
   constructor(
-    private peraService: PeraService
+    private nodelyService: NodelyService
   ) {
     super();
 
@@ -31,7 +31,7 @@ export class GalleryWindowComponent extends FloatWindow implements OnInit {
       this.height = 400;
     }
 
-    this.peraService.listAssetsMetadata().subscribe({
+    this.nodelyService.listAssetsMetadata().subscribe({
       next: (nfts) => {
         console.log('Fetched NFTs:', nfts);
         this.corvidNfts = nfts;

@@ -18,7 +18,7 @@ export interface CreatedAssetsResponse {
 @Injectable({
   providedIn: 'root',
 })
-export class PeraService {
+export class NodelyService {
   
   // TODO: Figure out the ipfs gateway and how to extract the CID from the ipft url from the api list response
   // https://nodely.io/swagger/index.html?url=/swagger/api/4160/indexer.oas3.yml#/common/makeHealthCheck ????????

@@ -1,5 +1,6 @@
 export enum WindowTypes {
   GALLERY = 'GALLERY',
+  SOUNDCLOUD_PLAYER = 'SOUNDCLOUD_PLAYER',
   SETTINGS = 'SETTINGS',
   ABOUT = 'ABOUT'
 }
