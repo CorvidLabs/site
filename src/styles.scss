@@ -1,11 +1,44 @@
-/* You can add global styles to this file, and also import other style files */
-@use './variables' as *;
+@use '@angular/material' as mat;
 
+// Import theme files (must be before @include mat.core())
+@use 'themes/dark-theme';
+@use 'themes/light-theme';
+@use 'themes/corvid-theme';
+
+// Include Material core (only once per app)
+@include mat.core();
+
+// Set up color-scheme for light/dark mode support
+html {
+  color-scheme: light dark;
+}
+
+// Apply themes based on body class
+body.light-theme {
+  @include light-theme.theme();
+}
+
+body.dark-theme {
+  @include dark-theme.theme();
+}
+
+body.corvid-theme {
+  @include corvid-theme.theme();
+}
+
+// Global styles
 body {
   font-family: 'Inter', sans-serif;
-  background-color: $primary-bg;
-  color: $primary-text;
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  margin: 0;
+  padding: 0;
+
+  // macOS-style scrollbar
+  scrollbar-width: thin;
+  scrollbar-color: var(--mat-sys-primary) var(--mat-sys-surface-container);
 }
+
 @media (min-width: 768px) {
   .chart-container {
     height: 400px;
@@ -13,6 +46,51 @@ body {
 }
 
 .float-window {
-  // font color
-  color: $primary-text;
+  background-color: var(--mat-sys-surface);
+  border: 1px solid;
+  border-color: var(--theme-border-color, var(--mat-sys-outline-variant));
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 5rem;
+  left: 5rem;
+}
+
+.float-window-content {
+  flex-grow: 1;
+}
+
+.drag-handle {
+  padding: 0.5rem;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid;
+  border-bottom-color: var(--theme-border-color, var(--mat-sys-outline-variant));
+  background-color: var(--theme-section-bg, var(--mat-sys-surface-container));
+
+  h2 {
+    color: var(--theme-primary-accent, var(--mat-sys-primary));
+    font-size: 1.125rem;
+    font-weight: bold;
+  }
+}
+
+.drag-handle-close {
+  color: var(--theme-primary-accent, var(--mat-sys-primary));
+  font-weight: bold;
+  font-size: 1.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--mat-sys-error);
+  }
 }

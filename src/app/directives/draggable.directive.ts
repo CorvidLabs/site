@@ -1,5 +1,5 @@
 import { Directive, ElementRef, HostListener, inject, Input, OnInit } from '@angular/core';
-import { ZIndexManagerService } from '../services/z-index-manager.service';
+import { ZIndexManagerService } from '../services/general/z-index-manager.service';
 
 @Directive({
   selector: '[appDraggable]',
@@ -18,9 +18,10 @@ export class DraggableDirective implements OnInit {
   // The element that will be dragged
   private draggableElement: HTMLElement;
 
-  private zIndexManager = inject(ZIndexManagerService);
-
-  constructor(private el: ElementRef) {
+  constructor(
+    private zIndexManager: ZIndexManagerService,
+    private el: ElementRef
+  ) {
     this.draggableElement = this.el.nativeElement;
   }
 
@@ -28,6 +29,7 @@ export class DraggableDirective implements OnInit {
     // Use 'absolute' to remove the element from the normal document flow.
     // This prevents other elements from shifting when one is closed.
     this.draggableElement.style.position = 'absolute';
+    
     // Set a default transform if none exists
     if (!this.draggableElement.style.transform) {
       const x = this.initialPosition?.x ?? 0;
@@ -37,7 +39,7 @@ export class DraggableDirective implements OnInit {
       this.initialY = y;
     }
 
-    this.draggableElement.style.zIndex = this.zIndexManager.getNextZIndex().toString();
+    this.increaseZIndex()
   }
 
   @HostListener('mousedown', ['$event'])
@@ -79,5 +81,9 @@ export class DraggableDirective implements OnInit {
   onMouseUp() {
     this.isDragging = false;
     // this.draggableElement.style.cursor = 'grab';
+  }
+
+  increaseZIndex() {
+    this.draggableElement.style.zIndex = this.zIndexManager.getNextZIndex().toString();
   }
 }

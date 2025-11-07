@@ -1,0 +1,32 @@
+// Component styles - global styles are already applied at app level
+
+.main-view {
+  // background-image: url('../../../../public/wallpapers/space-gradient-background.png');
+  background-size: cover;
+  background-position: center;
+
+  // w-screen h-screen flex flex-col bg-gray-200 overflow-hidden
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  // background: $secondary-bg;
+  overflow: hidden;
+}
+
+.main-view-content {
+  // flex-grow relative p-4;
+  flex-grow: 1;
+  position: relative;
+  padding: 1rem;
+}
+
+.main-view-dock {
+  position: relative;
+  height: 6rem;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}

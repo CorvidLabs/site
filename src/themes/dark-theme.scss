@@ -1,0 +1,33 @@
+@use '@angular/material' as mat;
+
+// Define a dark theme
+$dark-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: mat.$violet-palette,
+    tertiary: mat.$rose-palette,
+  ),
+  typography: (
+    brand-family: 'Inter',
+    plain-family: 'Inter',
+  ),
+  density: (
+    scale: 0
+  )
+));
+
+// Export theme for use
+@mixin theme() {
+  @include mat.all-component-themes($dark-theme);
+  
+  // Custom theme variables you can use in your components
+  --theme-primary-bg: #111827;
+  --theme-secondary-bg: #1f2937;
+  --theme-section-bg: #1f2937;
+  --theme-primary-text: #f9fafb;
+  --theme-secondary-text: #d1d5db;
+  --theme-primary-accent: #8b5cf6;
+  --theme-secondary-accent: #14b8a6;
+  --theme-border-color: #374151;
+  --theme-player-bg: #a6a9ad;
+}

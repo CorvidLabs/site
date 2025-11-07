@@ -1,21 +1,19 @@
-<div [style.width.px]="width" [style.height.px]="height"
-  appDraggable [appDraggableInitialPosition]="initialPosition"
-  class="float-window bg-white border border-gray-300 shadow-lg rounded-lg flex flex-col absolute top-20 left-20 overflow-hidden">
+<div [style.width.px]="width" [style.height.px]="height" #elementWithDrag appDraggable [appDraggableInitialPosition]="initialPosition" class="float-window">
 
   <!-- Header acts as the drag handle -->
-  <div class="drag-handle bg-gray-100 p-2 rounded-t-lg flex justify-between items-center border-b" [ngClass]="{'cursor-grab': !isDragging, 'cursor-grabbing': isDragging}" (mousedown)="isDragging = true" (mouseup)="isDragging = false">
-    <h2 class="text-lg font-bold">{{ title }}</h2>
+  <div class="drag-handle" [ngClass]="{'cursor-grab': !isDragging, 'cursor-grabbing': isDragging}" (mousedown)="isDragging = true" (mouseup)="isDragging = false">
+    <h2>{{ title }}</h2>
     <!-- Close button -->
-    <button (click)="close()" class="text-gray-500 hover:text-red-500 font-bold text-xl w-6 h-6 flex items-center justify-center">
+    <button (click)="close()" class="drag-handle-close">
       &times;
     </button>
   </div>
 
   <!-- Window Content -->
-  <div class="p-4 flex-grow overflow-y-auto"> 
-    <div class="grid grid-cols-3 gap-4">
+  <div class="float-window-content gallery-padding-fix overflow-hidden">
+    <div class="gallery-grid overflow-y-auto">
       @for (asset of corvidNfts; track $index) {
-        <div class="col-span-1">
+        <div class="gallery-image-container">
           <app-nft-card [imageUrl]="asset.imageIpfsUrl?? ''" [title]="asset.name"></app-nft-card>
         </div>
       }

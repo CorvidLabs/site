@@ -44,6 +44,29 @@ export class MainViewComponent {
     }
   }
 
+  openOrCreateWindowAdvanced<T extends FloatWindow>(component: { new (...args: any[]): T}): ComponentRef<T> {
+    console.log('Opening or creating window of type:', component.name);
+    const existingComponentRef = this.openedWindows.find(ref => ref.instance instanceof component) as ComponentRef<T>;
+
+    const componentRef = existingComponentRef ?? this.windowHost.createComponent(component);
+
+    // If its an existing window, just bring it to front
+    existingComponentRef? componentRef.instance.bringWindowToFront() : null;
+
+    // Set a cascading initial position for new windows
+    const offset = this.openedWindows.length * 30;
+    componentRef.instance.initialPosition = { x: 50 + offset, y: 50 + offset };
+
+    const closeSub = componentRef.instance.closeEvent.subscribe(() => {
+      this.closeWindow(componentRef);
+      closeSub.unsubscribe();
+    });
+
+    this.openedWindows.push(componentRef);
+
+    return componentRef;
+  }
+
   // Advanced version with generics
   openWindowAdvanced<T extends FloatWindow>(component: { new (...args: any[]): T }): ComponentRef<T> {
     console.log('Opening window of type:', component.name);
@@ -67,10 +90,10 @@ export class MainViewComponent {
   openWindowByType(type: string) {
     switch (type) {
       case WindowTypes.GALLERY:
-        this.openWindowAdvanced<GalleryWindowComponent>(GalleryWindowComponent);
+        this.openOrCreateWindowAdvanced<GalleryWindowComponent>(GalleryWindowComponent);
         break;
       case WindowTypes.SOUNDCLOUD_PLAYER:
-        this.openWindowAdvanced<PlayerWindowComponent>(PlayerWindowComponent);
+        this.openOrCreateWindowAdvanced<PlayerWindowComponent>(PlayerWindowComponent);
         break;
 
       // Add more cases as needed

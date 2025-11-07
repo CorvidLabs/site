@@ -31,6 +31,7 @@ export class GalleryWindowComponent extends FloatWindow implements OnInit {
       this.height = 400;
     }
 
+    // TODO: Implement a cache service/interceptor to avoid fetching every time
     this.nodelyService.listAssetsMetadata().subscribe({
       next: (nfts) => {
         console.log('Fetched NFTs:', nfts);

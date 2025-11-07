@@ -1,15 +1,22 @@
-@use '../../..//variables' as *;
+// @use '../../..//variables' as *;
 
-.text-accent { color: $primary-accent; }
-.bg-accent { background-color: $primary-accent; }
-.bg-accent-light { background-color: $secondary-accent; } /* Re-purposed for secondary accent */
-.border-accent { border-color: $primary-accent; }
-.section-bg { background-color: $section-bg; }
-.primary-bg { background-color: $primary-bg; }
+// .text-accent { color: $primary-accent; }
+
+// .bg-accent { background-color: $primary-accent; }
+
+// .bg-accent-light { background-color: $secondary-accent; } /* Re-purposed for secondary accent */
+
+// .border-accent { border-color: $primary-accent; }
+
+// .section-bg { background-color: $section-bg; }
+
+// .primary-bg { background-color: $primary-bg; }
+
 .nav-link {
   position: relative;
   transition: color 0.3s ease;
 }
+
 .nav-link::after {
   content: '';
   position: absolute;
@@ -18,37 +25,45 @@
   bottom: -4px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: $primary-accent;
+  // background-color: $primary-accent;
   transition: width 0.3s ease;
 }
+
 .nav-link.active::after, .nav-link:hover::after {
   width: 100%;
 }
+
 .stat-card h3 {
   font-size: 2.5rem;
   font-weight: 700;
-  color: $primary-accent;
+  // color: $primary-accent;
 }
+
 .faq-question {
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
 }
+
 .faq-answer {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease-out, padding 0.3s ease-out;
   padding: 0 1.5rem;
 }
+
 .faq-item.open .faq-answer {
   max-height: 500px; 
   padding: 1.5rem 1.5rem;
 }
+
 .faq-item.open .faq-arrow {
   transform: rotate(180deg);
 }
+
 .faq-arrow {
   transition: transform 0.3s ease-out;
 }
+
 .chart-container {
   position: relative;
   width: 100%;

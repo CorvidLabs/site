@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { DraggableDirective } from '../../directives/draggable.directive';
 
 
@@ -11,6 +11,8 @@ import { DraggableDirective } from '../../directives/draggable.directive';
 })
 export class FloatWindow {
 
+  @ViewChild(DraggableDirective) draggableDirective!: DraggableDirective;
+
   @Input() width: number = 400;
   @Input() height: number = 300;
   @Input() title: string = 'Floating Window';
@@ -21,6 +23,10 @@ export class FloatWindow {
   @Output() closeEvent = new EventEmitter<void>();
 
   constructor() {}
+
+  bringWindowToFront() {
+    this.draggableDirective?.increaseZIndex();
+  }
 
   close() {
     // Logic to close the window, e.g., emit an event to the parent component

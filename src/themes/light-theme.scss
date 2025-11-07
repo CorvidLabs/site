@@ -1,0 +1,33 @@
+@use '@angular/material' as mat;
+
+// Define a light theme
+$light-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$violet-palette,
+    tertiary: mat.$rose-palette,
+  ),
+  typography: (
+    brand-family: 'Inter',
+    plain-family: 'Inter',
+  ),
+  density: (
+    scale: 0
+  )
+));
+
+// Export theme for use
+@mixin theme() {
+  @include mat.all-component-themes($light-theme);
+  
+  // Custom theme variables you can use in your components
+  --theme-primary-bg: #ffffff;
+  --theme-secondary-bg: #f9fafb;
+  --theme-section-bg: #f3f4f6;
+  --theme-primary-text: #111827;
+  --theme-secondary-text: #6b7280;
+  --theme-primary-accent: #8b5cf6;
+  --theme-secondary-accent: #14b8a6;
+  --theme-border-color: #e5e7eb;
+  --theme-player-bg: #ffffff;
+}
