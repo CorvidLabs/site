@@ -6,6 +6,8 @@ import { GalleryWindowComponent } from '../windows/gallery-window/gallery-window
 import { PlayerWindowComponent } from '../windows/player-window/player-window.component';
 import { SettingsWindowComponent } from '../windows/settings-window/settings-window.component';
 import { LoginPromptComponent } from '../login-prompt/login-prompt.component';
+import { PeraWalletConnect } from '@perawallet/connect';
+import { AlgorandChainIDs, PeraWalletConnectOptions } from '../../interfaces/pera-wallet-connect-options';
 
 @Component({
   selector: 'app-main-view',
@@ -18,17 +20,42 @@ export class MainViewComponent {
   @ViewChild('windowHost', { read: ViewContainerRef, static: false }) windowHost!: ViewContainerRef;
 
   openedWindows: ComponentRef<FloatWindow>[] = [];
+  
+  // Pera Wallet Connect Setup
+  peraWalletConnectOptions: PeraWalletConnectOptions = {
+    shouldShowSignTxnToast: true,
+    chainId: AlgorandChainIDs.TestNet // Using TestNet for development
+  };
+  
+  peraWalletConnect: PeraWalletConnect = new PeraWalletConnect(this.peraWalletConnectOptions);
+  userAccountAddress = signal<string | null>(null);
   isAuthenticated = signal(false);
+  // End Pera Wallet Connect Setup
 
   constructor() {}
 
-  onLoginSuccess(success: boolean): void {
-    if (success) {
-      this.isAuthenticated.set(true);
-      // this.windowHost.get(0);
+  onLoginSuccess(accountAddress: string | null): void {
+    if (!accountAddress) {
+      this.isAuthenticated.set(false);
+      return;
     }
+
+    this.isAuthenticated.set(true);
+    this.userAccountAddress.set(accountAddress);
   }
 
+  handleDisconnectWallet(event: Event): void {
+    event?.preventDefault();
+
+    this.peraWalletConnect.disconnect().catch(error => {
+      console.error('Error disconnecting wallet:', error);
+    });
+
+    this.userAccountAddress.set(null);
+    this.isAuthenticated.set(false);
+  }
+
+  // MARK: - Window Management
   openWindow() {
     // For a real desktop, you'd want to manage multiple windows.
 

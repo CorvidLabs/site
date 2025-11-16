@@ -1,12 +1,15 @@
 import { HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import {MatDialog} from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UtilsService {
 
-  constructor() { }
+  constructor(
+    private dialog: MatDialog
+  ) { }
 
   public static mapObjToParams(obj: any): HttpParams {
     let params = new HttpParams();

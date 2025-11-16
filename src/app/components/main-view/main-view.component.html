@@ -1,6 +1,6 @@
 <!-- Show login prompt if not authenticated -->
 @if (!isAuthenticated()) {
-  <app-login-prompt (loginSuccess)="onLoginSuccess($event)"></app-login-prompt>
+  <app-login-prompt [peraInstance]="peraWalletConnect" (userAccountAddress)="onLoginSuccess($event)"></app-login-prompt>
 } @else {
   <!-- We use Tailwind classes directly for styling -->
   <!-- The main container is now a flex column to position the window area and the dock -->
@@ -9,6 +9,11 @@
 
     <!-- This div will be the area where floating windows can exist, positioned above the dock -->
     <div class="main-view-content">
+      <!-- Button to disconnect wallet, should be fixed on top right corner and can be behind windows -->
+      <button mat-icon-button class="absolute top-4 right-4 bg-white/40 backdrop-blur-md rounded-full shadow-lg hover:bg-white/60 transition-colors z-50 flex items-center justify-center p-2" (click)="handleDisconnectWallet($event)" matTooltip="Disconnect Wallet">
+        <mat-icon class="text-gray-800">logout</mat-icon>
+      </button>
+
       <!--
         This is the magic part!
         It's an invisible anchor in your template.
