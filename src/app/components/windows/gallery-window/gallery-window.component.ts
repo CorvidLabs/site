@@ -29,13 +29,13 @@ export class GalleryWindowComponent extends FloatWindow implements OnInit, OnDes
   ) {
     super();
     this.title = 'Gallery';
-    
+
     if (window.innerWidth >= 1920) { // Assuming 1920px is a common "bigger" screen width
-      this.width = 1000;
-      this.height = 700;
+      this.width.set(1000);
+      this.height.set(700);
     } else {
-      this.width = 600;
-      this.height = 400;
+      this.width.set(600);
+      this.height.set(400);
     }
 
     this.requestItems();

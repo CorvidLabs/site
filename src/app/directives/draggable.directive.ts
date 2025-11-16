@@ -1,6 +1,9 @@
 import { Directive, ElementRef, HostListener, inject, Input, OnInit } from '@angular/core';
 import { ZIndexManagerService } from '../services/general/z-index-manager.service';
 
+// TODO: Inconsistent with ResizableDirective - this uses @HostListener while ResizableDirective uses addEventListener
+// Consider standardizing on one approach for better maintainability
+
 @Directive({
   selector: '[appDraggable]',
   standalone: true,
@@ -44,6 +47,12 @@ export class DraggableDirective implements OnInit {
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent) {
+    // Check if the mousedown event is on a resize handle - if so, don't drag
+    const target = event.target as HTMLElement;
+    if (target.className && typeof target.className === 'string' && target.className.includes('resize-handle')) {
+      return; // Don't drag if clicking on a resize handle
+    }
+
     // Check if the mousedown event is on the drag handle (the header)
     const handle = this.draggableElement.querySelector('.drag-handle');
     if (handle && !handle.contains(event.target as Node)) {

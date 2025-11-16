@@ -5,6 +5,8 @@ import { FloatWindow } from '../windows/float-window/float-window.component';
 import { GalleryWindowComponent } from '../windows/gallery-window/gallery-window.component';
 import { PlayerWindowComponent } from '../windows/player-window/player-window.component';
 import { SettingsWindowComponent } from '../windows/settings-window/settings-window.component';
+import { NotepadWindowComponent } from '../windows/notepad-window/notepad-window.component';
+import { TetrisWindowComponent } from '../windows/tetris-window/tetris-window.component';
 import { LoginPromptComponent } from '../login-prompt/login-prompt.component';
 import { PeraWalletConnect } from '@perawallet/connect';
 import { AlgorandChainIDs, PeraWalletConnectOptions } from '../../interfaces/pera-wallet-connect-options';
@@ -131,7 +133,13 @@ export class MainViewComponent {
       case WindowTypes.SETTINGS:
         this.openOrCreateWindowAdvanced<SettingsWindowComponent>(SettingsWindowComponent);
         break;
-      
+      case WindowTypes.NOTEPAD:
+        this.openWindowAdvanced<NotepadWindowComponent>(NotepadWindowComponent);
+        break;
+      case WindowTypes.TETRIS:
+        this.openWindowAdvanced<TetrisWindowComponent>(TetrisWindowComponent);
+        break;
+
       // case WindowTypes.ABOUT:
       //   this.openWindowAdvanced(AboutWindowComponent);
       //   break;
