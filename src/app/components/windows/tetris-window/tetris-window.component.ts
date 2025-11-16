@@ -54,8 +54,8 @@ export class TetrisWindowComponent extends FloatWindow implements OnInit, OnDest
   constructor() {
     super();
     this.title = 'Tetris';
-    this.width.set(350);
-    this.height.set(600);
+    this.width.set(380);
+    this.height.set(750);
     this.initBoard();
   }
 

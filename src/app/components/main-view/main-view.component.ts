@@ -7,21 +7,35 @@ import { PlayerWindowComponent } from '../windows/player-window/player-window.co
 import { SettingsWindowComponent } from '../windows/settings-window/settings-window.component';
 import { NotepadWindowComponent } from '../windows/notepad-window/notepad-window.component';
 import { TetrisWindowComponent } from '../windows/tetris-window/tetris-window.component';
+import { LaunchpadWindowComponent } from '../windows/launchpad-window/launchpad-window.component';
 import { LoginPromptComponent } from '../login-prompt/login-prompt.component';
 import { PeraWalletConnect } from '@perawallet/connect';
 import { AlgorandChainIDs, PeraWalletConnectOptions } from '../../interfaces/pera-wallet-connect-options';
+import { CommonModule } from '@angular/common';
+
+interface DockItem {
+  type: WindowTypes;
+  icon: string;
+  label: string;
+}
 
 @Component({
   selector: 'app-main-view',
   templateUrl: 'main-view.component.html',
   styleUrls: ['main-view.component.scss'],
-  imports: [MatIconModule, LoginPromptComponent]
+  imports: [MatIconModule, LoginPromptComponent, CommonModule]
 })
 export class MainViewComponent {
   // 1. Get a reference to the template element where we will host our dynamic components.
   @ViewChild('windowHost', { read: ViewContainerRef, static: false }) windowHost!: ViewContainerRef;
 
   openedWindows: ComponentRef<FloatWindow>[] = [];
+
+  // Dock items - starts with only LaunchPad and Settings
+  dockItems = signal<DockItem[]>([
+    { type: WindowTypes.LAUNCHPAD, icon: 'apps', label: 'Launch Pad' },
+    { type: WindowTypes.SETTINGS, icon: 'settings', label: 'Settings' }
+  ]);
   
   // Pera Wallet Connect Setup
   peraWalletConnectOptions: PeraWalletConnectOptions = {
@@ -79,7 +93,55 @@ export class MainViewComponent {
     if (index > -1) {
       this.openedWindows.splice(index, 1);
       componentRef.destroy();
+
+      // Remove from dock if it's not LaunchPad or Settings
+      this.updateDockItems();
     }
+  }
+
+  private updateDockItems() {
+    const currentDockItems = this.dockItems();
+    const updatedDockItems: DockItem[] = [
+      { type: WindowTypes.LAUNCHPAD, icon: 'apps', label: 'Launch Pad' },
+      { type: WindowTypes.SETTINGS, icon: 'settings', label: 'Settings' }
+    ];
+
+    // Add items for currently open windows (except LaunchPad and Settings which are always shown)
+    this.openedWindows.forEach(windowRef => {
+      const windowType = this.getWindowType(windowRef);
+      if (windowType && windowType !== WindowTypes.LAUNCHPAD && windowType !== WindowTypes.SETTINGS) {
+        const dockItem = this.getDockItemForType(windowType);
+        if (dockItem && !updatedDockItems.find(item => item.type === windowType)) {
+          updatedDockItems.push(dockItem);
+        }
+      }
+    });
+
+    this.dockItems.set(updatedDockItems);
+  }
+
+  private getWindowType(componentRef: ComponentRef<FloatWindow>): WindowTypes | null {
+    if (componentRef.instance instanceof GalleryWindowComponent) return WindowTypes.GALLERY;
+    if (componentRef.instance instanceof NotepadWindowComponent) return WindowTypes.NOTEPAD;
+    if (componentRef.instance instanceof TetrisWindowComponent) return WindowTypes.TETRIS;
+    if (componentRef.instance instanceof SettingsWindowComponent) return WindowTypes.SETTINGS;
+    if (componentRef.instance instanceof LaunchpadWindowComponent) return WindowTypes.LAUNCHPAD;
+    return null;
+  }
+
+  private getDockItemForType(type: WindowTypes): DockItem | null {
+    const iconMap: Record<WindowTypes, { icon: string, label: string }> = {
+      [WindowTypes.LAUNCHPAD]: { icon: 'apps', label: 'Launch Pad' },
+      [WindowTypes.GALLERY]: { icon: 'photo', label: 'Gallery' },
+      [WindowTypes.NOTEPAD]: { icon: 'description', label: 'Notepad' },
+      [WindowTypes.TETRIS]: { icon: 'videogame_asset', label: 'Tetris' },
+      [WindowTypes.SETTINGS]: { icon: 'settings', label: 'Settings' },
+      [WindowTypes.SOUNDCLOUD_PLAYER]: { icon: 'music_note', label: 'Music' },
+      [WindowTypes.ABOUT]: { icon: 'info', label: 'About' }
+    };
+
+    const config = iconMap[type];
+    return config ? { type, icon: config.icon, label: config.label } : null;
   }
 
   openOrCreateWindowAdvanced<T extends FloatWindow>(component: { new (...args: any[]): T}): ComponentRef<T> {
@@ -89,7 +151,10 @@ export class MainViewComponent {
     const componentRef = existingComponentRef ?? this.windowHost.createComponent(component);
 
     // If its an existing window, just bring it to front
-    existingComponentRef? componentRef.instance.bringWindowToFront() : null;
+    if (existingComponentRef) {
+      componentRef.instance.bringWindowToFront();
+      return componentRef;
+    }
 
     // Set a cascading initial position for new windows
     const offset = this.openedWindows.length * 30;
@@ -101,6 +166,9 @@ export class MainViewComponent {
     });
 
     this.openedWindows.push(componentRef);
+
+    // Update dock to show this window
+    this.updateDockItems();
 
     return componentRef;
   }
@@ -122,11 +190,25 @@ export class MainViewComponent {
 
     this.openedWindows.push(componentRef);
 
+    // Update dock to show this window
+    this.updateDockItems();
+
     return componentRef;
   }
 
   openWindowByType(type: string) {
     switch (type) {
+      case WindowTypes.LAUNCHPAD:
+        const launchpadRef = this.openOrCreateWindowAdvanced<LaunchpadWindowComponent>(LaunchpadWindowComponent);
+        // Handle app selection from the Launch Pad
+        // We need to hook into the event emitter differently since LaunchPad emits app types
+        launchpadRef.instance.closeEvent.subscribe((appType: any) => {
+          if (appType && typeof appType === 'string' && appType !== undefined) {
+            // This is an app selection event from LaunchPad
+            this.openWindowByType(appType);
+          }
+        });
+        break;
       case WindowTypes.GALLERY:
         this.openOrCreateWindowAdvanced<GalleryWindowComponent>(GalleryWindowComponent);
         break;
