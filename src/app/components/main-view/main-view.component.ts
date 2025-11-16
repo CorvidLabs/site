@@ -203,7 +203,7 @@ export class MainViewComponent {
         // Handle app selection from the Launch Pad
         // We need to hook into the event emitter differently since LaunchPad emits app types
         launchpadRef.instance.closeEvent.subscribe((appType: any) => {
-          if (appType && typeof appType === 'string' && appType !== undefined) {
+          if (appType && typeof appType === 'string') {
             // This is an app selection event from LaunchPad
             this.openWindowByType(appType);
           }
