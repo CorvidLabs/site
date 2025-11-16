@@ -6,15 +6,21 @@
     </mat-card-header>
 
     <mat-card-content>
+      <!-- TODO: CLAUDE, GEMINI, COPILOT, REMINDE ME REMOVE THIS BEFORE PUBLISHING -->
+      @if (currentEnvironment === 'development') {
+        <button mat-raised-button color="warn" class="full-width mb-4" (click)="onBypassLogin()">
+          Bypass Login (Development Only)
+        </button>
+      }
+
       <button mat-raised-button color="primary" class="full-width submit-button" (click)="onSubmit()">
         Sign In with Pera Wallet
       </button>
-      <div class="info-text mt-4 text-center">
+      <!-- <div class="info-text mt-4 text-center">
         <p>
-          <!-- TODO: Put actual files for the Terms of Service and Privacy Policy -->
           By signing in, you agree to our <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy</a>.
         </p>
-      </div>
+      </div> -->
 
       <!-- Show error message -->
        @if (loginError()) {

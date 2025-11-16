@@ -18,6 +18,7 @@ import { environment } from '../../../environments/environment.local';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginPromptComponent implements OnInit {
+  currentEnvironment: string = environment.environment_name;
   peraInstance = input.required<PeraWalletConnect>();
   peraWallet!: PeraWalletConnect;
 
@@ -60,7 +61,7 @@ export class LoginPromptComponent implements OnInit {
   }
 
   // Temporary method to bypass login for development purposes
-  bypassLogin(): void {
+  onBypassLogin(): void {
     const development = environment.development_wallet;
     this.userAccountAddress.emit(development);
   }
