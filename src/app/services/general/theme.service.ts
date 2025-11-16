@@ -1,7 +1,15 @@
 import { DOCUMENT } from '@angular/common';
 import { Injectable, RendererFactory2, inject, signal } from '@angular/core';
 
-export type ThemeName = 'light-theme' | 'dark-theme' | 'corvid-theme';
+export type ThemeName = 'light-theme' | 'dark-theme' | 'corvid-theme' | 'green-theme' | 'black-orange-theme';
+
+export enum Themes {
+  LIGHT_THEME = 'light-theme',
+  DARK_THEME = 'dark-theme',
+  CORVID_THEME = 'corvid-theme',
+  GREEN_THEME = 'green-theme',
+  BLACK_ORANGE_THEME = 'black-orange-theme'
+}
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +19,11 @@ export class ThemeService {
   private document = inject(DOCUMENT);
 
   // Available themes for the application
-  private readonly availableThemes: ThemeName[] = ['light-theme', 'dark-theme', 'corvid-theme'];
+  private readonly availableThemes: ThemeName[] = ['light-theme', 'dark-theme', 'corvid-theme', 'green-theme', 'black-orange-theme'];
+  private readonly availableThemesTest = Object.values(Themes);
   
   // Use a signal to hold the current theme state
-  theme = signal<ThemeName>('dark-theme');
+  theme = signal<ThemeName>('corvid-theme');
 
   constructor() {
     this.initializeTheme();

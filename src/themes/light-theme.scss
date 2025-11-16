@@ -30,4 +30,14 @@ $light-theme: mat.define-theme((
   --theme-secondary-accent: #14b8a6;
   --theme-border-color: #e5e7eb;
   --theme-player-bg: #ffffff;
+
+  scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
+
+  .main-view {
+    background: linear-gradient(var(--theme-primary-accent) 0%, var(--theme-secondary-bg) 100%);
+  }
+
+  .login-container {
+    background: linear-gradient(var(--theme-primary-accent) 0%, var(--theme-secondary-bg) 100%);
+  }
 }

@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FloatWindow } from '../float-window/float-window.component';
-import { DraggableDirective } from '../../directives/draggable.directive';
 import { CommonModule } from '@angular/common';
-import { SoundcloudPlayerComponent } from "../soundcloud-player/soundcloud-player.component";
+import { Component, OnInit } from '@angular/core';
+import { DraggableDirective } from '../../../directives/draggable.directive';
+import { FloatWindow } from '../float-window/float-window.component';
+import { SoundcloudPlayerComponent } from "../../soundcloud-player/soundcloud-player.component";
 
 @Component({
   selector: 'app-player-window',

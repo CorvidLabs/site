@@ -1,0 +1,13 @@
+<div class="theme-switcher">
+  <h3>Themes: </h3>
+  <div class="theme-buttons">
+    @for (theme of themes; track theme) {
+      <button
+        (click)="switchTheme(theme)"
+        [class.active]="currentTheme() === theme">
+        {{ formatThemeName(theme) }}
+      </button>
+    }
+  </div>
+  <!-- <p class="current-theme">Current theme: {{ formatThemeName(currentTheme()) }}</p> -->
+</div>

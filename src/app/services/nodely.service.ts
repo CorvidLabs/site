@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import algosdk from "algosdk";
 import { CID } from 'multiformats/cid';
@@ -31,14 +31,20 @@ export class NodelyService {
     private httpClient: HttpClient
   ) {}
 
-  public listCreatedAssets(): Observable<CreatedAssetsResponse>  {
-    return this.httpClient.get<any>(`${this.url}/v2/accounts/${this.corvid_wallet}/created-assets`).pipe(
-      map(response => {
-        // All the camel case on the createdAssetsResponse interface comes with dash-case on the api response. so we remap it to camel
+  listCreatedAssets(pageSize: number, nextToken: string | null): Observable<CreatedAssetsResponse>  {
+    let params: HttpParams = new HttpParams();
+    params = params.append('limit', pageSize);
+    
+    if (nextToken) {
+      params = params.append('next', nextToken);
+    }
+    
+    return this.httpClient.get<any>(`${this.url}/v2/accounts/${this.corvid_wallet}/created-assets`, { params }).pipe(
+      map(rawResponse => {
         const createdAssetsResponse: CreatedAssetsResponse = {
-          currentRound: response['current-round'],
-          nextToken: response['next-token'],
-          assets: response.assets.map((asset: any) => {
+          currentRound: rawResponse['current-round'],
+          nextToken: rawResponse['next-token'] ?? null,
+          assets: rawResponse.assets.map((asset: any) => {
             let cid = this.extractCidFromReserveAddress(asset.params.reserve);
             const metadataIpfs = `${this.ipfsGateway}${cid}`;
 
@@ -71,24 +77,18 @@ export class NodelyService {
     );
   }
 
-  listAssetsMetadata(): Observable<CorvidNft[]> {
-    return this.listCreatedAssets().pipe(
-      map(response => {
-        if (!response || response.assets.length === 0) {
-          console.log('No assets found.');
-          return of([]); // Return an observable of an empty array
-        }
-        const metadataUrls = response.assets.map(asset => asset.params.metadataIpfs);
-        const metadataRequests: Observable<CorvidNft>[] = metadataUrls.map(url =>
-          this.httpClient.get<CorvidNft>(url)
-        );
-        return forkJoin(metadataRequests);
-      }),
-      // Flatten the Observable<Observable<CorvidNft[]>> to Observable<CorvidNft[]>
-      // This is needed because the inner map returns an Observable (of([]) or forkJoin)
-      // and we want the outer Observable to emit the result of that inner Observable.
-      // switchMap is a good choice here.
-      switchMap(innerObservable => innerObservable),
+  listCorvidNftsFromCreatedAssets(createdAssetsResponse: CreatedAssetsResponse): Observable<CorvidNft[]> {
+    if (!createdAssetsResponse || createdAssetsResponse.assets.length === 0) {
+      console.log('No assets found.');
+      return of([]); // Return an observable of an empty array
+    }
+
+    const metadataUrls = createdAssetsResponse.assets.map(asset => asset.params.metadataIpfs);
+    const metadataRequests: Observable<CorvidNft>[] = metadataUrls.map(url =>
+      this.httpClient.get<CorvidNft>(url)
+    );
+
+    return forkJoin(metadataRequests).pipe(
       map(nfts => {
         nfts.forEach(nft => {
           nft.imageIpfsUrl = nft.image.replace('ipfs://', this.ipfsGateway);

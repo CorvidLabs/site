@@ -11,7 +11,7 @@
 
   <!-- Window Content -->
   <div class="float-window-content gallery-padding-fix overflow-hidden">
-    <div class="gallery-grid overflow-y-auto">
+    <div #scrollableElement class="gallery-grid overflow-y-auto" (scroll)="onNearScrollEnd()">
       @for (asset of corvidNfts; track $index) {
         <div class="gallery-image-container">
           <app-nft-card [imageUrl]="asset.imageIpfsUrl?? ''" [title]="asset.name"></app-nft-card>

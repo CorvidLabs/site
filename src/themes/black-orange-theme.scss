@@ -1,0 +1,75 @@
+@use '@angular/material' as mat;
+
+// Black & Orange Theme
+// Modern theme with black backgrounds, white text, and vibrant orange accents
+// Perfect for bold, high-contrast designs
+
+// Define the theme using Material's orange palette
+$black-orange-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: mat.$orange-palette,
+    tertiary: mat.$red-palette,
+  ),
+  typography: (
+    brand-family: 'Inter',
+    plain-family: 'Inter',
+  ),
+  density: (
+    scale: 0
+  )
+));
+
+// Export theme mixin
+@mixin theme() {
+  // Apply Material component themes with orange palette
+  @include mat.all-component-themes($black-orange-theme);
+  
+  // Custom theme variables - Black & Orange aesthetic
+  --theme-primary-bg: #000000;        // Pure black
+  --theme-secondary-bg: #1a1a1a;      // Very dark gray (almost black)
+  --theme-section-bg: #2a2a2a;        // Dark gray
+  --theme-primary-text: #ffffff;      // Pure white
+  --theme-secondary-text: #b3b3b3;    // Light gray
+  --theme-primary-accent: #ff6b35;    // Vibrant orange
+  --theme-secondary-accent: #ff8c61;  // Lighter orange
+  --theme-border-color: #404040;      // Medium gray
+  --theme-player-bg: #1a1a1a;         // Very dark gray
+  
+  // Optional: Custom scrollbar for this theme
+  scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
+  
+  // Optional: Enhance focus states with orange
+  *:focus-visible {
+    outline-color: var(--theme-primary-accent);
+  }
+
+  .main-view {
+    background: linear-gradient(var(--theme-primary-accent, #a84d19) 0%, var(--theme-secondary-bg, #303030) 100%);
+  }
+
+  .login-container {
+    background: linear-gradient(var(--theme-primary-accent, #a84d19) 0%, var(--theme-secondary-bg, #303030) 100%);
+  }
+}
+
+// Theme Color Palette Reference:
+// Primary Background:    #000000 (Pure Black)
+// Secondary Background:  #1a1a1a (Very Dark Gray)
+// Section Background:    #2a2a2a (Dark Gray)
+// Primary Text:          #ffffff (Pure White)
+// Secondary Text:        #b3b3b3 (Light Gray)
+// Primary Accent:        #ff6b35 (Vibrant Orange)
+// Secondary Accent:      #ff8c61 (Lighter Orange)
+// Border Color:          #404040 (Medium Gray)
+// Player Background:     #1a1a1a (Very Dark Gray)
+//
+// Contrast Ratios (WCAG):
+// - White on Black: 21:1 (AAA - Perfect!)
+// - Orange on Black: 7.6:1 (AAA - Excellent!)
+// - White on Orange: 2.8:1 (Use with caution, increase font size)
+//
+// Usage:
+// 1. Already imported in src/styles.scss
+// 2. Switch to this theme:
+//    this.themeService.setTheme('black-orange-theme');

@@ -1,0 +1,47 @@
+.theme-switcher {
+  padding: 1rem;
+  background-color: var(--theme-section-bg, var(--mat-sys-surface-container));
+  // border-radius: 0.5rem;
+  border: 1px solid var(--theme-border-color, var(--mat-sys-outline-variant));
+  
+  h3 {
+    margin-top: 0;
+    color: var(--theme-primary-text, var(--mat-sys-on-surface));
+  }
+}
+
+.theme-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--theme-border-color, var(--mat-sys-outline));
+  background-color: var(--theme-secondary-bg, var(--mat-sys-surface));
+  color: var(--theme-primary-text, var(--mat-sys-on-surface));
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: var(--theme-primary-accent, var(--mat-sys-primary));
+    // Use theme's primary background color for text to ensure contrast
+    color: var(--theme-primary-bg, var(--mat-sys-on-primary));
+  }
+
+  &.active {
+    background-color: var(--theme-primary-accent, var(--mat-sys-primary));
+    // Use theme's primary background color for text to ensure contrast
+    color: var(--theme-primary-bg, var(--mat-sys-on-primary));
+    font-weight: bold;
+  }
+}
+
+.current-theme {
+  margin-top: 1rem;
+  margin-bottom: 0;
+  color: var(--theme-secondary-text, var(--mat-sys-on-surface-variant));
+  font-size: 0.875rem;
+}

@@ -1,24 +1,33 @@
-import { Component, ComponentRef, ViewChild, ViewContainerRef } from '@angular/core';
-import { FloatWindow } from '../float-window/float-window.component';
-import { WindowTypes } from '../../enums/window-types.enum';
-import { GalleryWindowComponent } from '../gallery-window/gallery-window.component';
+import { Component, ComponentRef, ViewChild, ViewContainerRef, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { PlayerWindowComponent } from '../player-window/player-window.component';
+import { WindowTypes } from '../../enums/window-types.enum';
+import { FloatWindow } from '../windows/float-window/float-window.component';
+import { GalleryWindowComponent } from '../windows/gallery-window/gallery-window.component';
+import { PlayerWindowComponent } from '../windows/player-window/player-window.component';
+import { SettingsWindowComponent } from '../windows/settings-window/settings-window.component';
+import { LoginPromptComponent } from '../login-prompt/login-prompt.component';
 
 @Component({
-  selector: 'main-view',
+  selector: 'app-main-view',
   templateUrl: 'main-view.component.html',
   styleUrls: ['main-view.component.scss'],
-  imports: [MatIconModule]
+  imports: [MatIconModule, LoginPromptComponent]
 })
 export class MainViewComponent {
   // 1. Get a reference to the template element where we will host our dynamic components.
-  @ViewChild('windowHost', { read: ViewContainerRef, static: true })
-  windowHost!: ViewContainerRef;
+  @ViewChild('windowHost', { read: ViewContainerRef, static: false }) windowHost!: ViewContainerRef;
 
   openedWindows: ComponentRef<FloatWindow>[] = [];
+  isAuthenticated = signal(false);
 
   constructor() {}
+
+  onLoginSuccess(success: boolean): void {
+    if (success) {
+      this.isAuthenticated.set(true);
+      // this.windowHost.get(0);
+    }
+  }
 
   openWindow() {
     // For a real desktop, you'd want to manage multiple windows.
@@ -92,17 +101,15 @@ export class MainViewComponent {
       case WindowTypes.GALLERY:
         this.openOrCreateWindowAdvanced<GalleryWindowComponent>(GalleryWindowComponent);
         break;
-      case WindowTypes.SOUNDCLOUD_PLAYER:
-        this.openOrCreateWindowAdvanced<PlayerWindowComponent>(PlayerWindowComponent);
+      case WindowTypes.SETTINGS:
+        this.openOrCreateWindowAdvanced<SettingsWindowComponent>(SettingsWindowComponent);
         break;
-
-      // Add more cases as needed
-      // Example:
-      // case WindowTypes.SETTINGS:
-      //   this.openWindowAdvanced(SettingsWindowComponent);
-      //   break;
+      
       // case WindowTypes.ABOUT:
       //   this.openWindowAdvanced(AboutWindowComponent);
+      //   break;
+      // case WindowTypes.SOUNDCLOUD_PLAYER:  // NOTE: Removed till a new music api is implemented
+      //   this.openOrCreateWindowAdvanced<PlayerWindowComponent>(PlayerWindowComponent);
       //   break;
     }
   }

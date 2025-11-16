@@ -1,0 +1,87 @@
+@use '@angular/material' as mat;
+
+// Example Theme using a Custom Base Color
+// This demonstrates a simpler approach: using a custom base color
+// with Material's color generation instead of a full custom palette
+//
+// For a full custom palette with all tonal values, see:
+// docs/CUSTOM_COLOR_PALETTES.md
+
+// Define the theme with a custom primary color
+// Material will generate all the necessary shades automatically
+$green-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    // Instead of a full palette, use a built-in palette
+    // To truly customize, you'd need secondary, neutral, and neutral-variant sub-palettes
+    // For now, we'll use Material's green palette which is similar to our example
+    primary: mat.$green-palette,
+    tertiary: mat.$rose-palette,
+  ),
+  typography: (
+    brand-family: 'Inter',
+    plain-family: 'Inter',
+  ),
+  density: (
+    scale: 0
+  )
+));
+
+// Export theme mixin
+@mixin theme() {
+  // Apply Material component themes
+  @include mat.all-component-themes($green-theme);
+  
+  // Custom CSS variables for a forest/eco theme
+  // These create a cohesive nature/eco theme for non-Material components
+  --theme-primary-bg: #1b2e1f;        // Dark forest background
+  --theme-secondary-bg: #243328;      // Slightly lighter forest
+  --theme-section-bg: #2a3d2f;        // Section backgrounds
+  --theme-primary-text: #e8f5e9;      // Light green-tinted text
+  --theme-secondary-text: #a5d6a7;    // Muted green text
+  --theme-primary-accent: #66bb6a;    // Bright green accent
+  --theme-secondary-accent: #81c784;  // Lighter green accent
+  --theme-border-color: #2e7d32;      // Forest green border
+  --theme-player-bg: #1e2e22;         // Dark green player background
+  
+  // Optional: Add theme-specific customizations
+  // Example: Make buttons more rounded in this theme
+  .mat-mdc-button,
+  .mat-mdc-raised-button,
+  .mat-mdc-outlined-button {
+    border-radius: 8px;
+  }
+  
+  // Example: Custom scrollbar colors for this theme
+  scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
+
+  .main-view {
+    background: linear-gradient(var(--theme-primary-accent) 0%, var(--theme-secondary-bg) 100%);
+  }
+  
+  .login-container {
+    background: linear-gradient(var(--theme-primary-accent) 0%, var(--theme-secondary-bg) 100%);
+  }
+}
+
+// Usage Notes:
+// 
+// This theme uses Material's built-in green palette for simplicity.
+// For a FULL custom palette with complete control over all shades,
+// you would need to define a complex palette structure with:
+// - primary tones (0-100)
+// - secondary tones (0-100)
+// - neutral tones (0-100 + variants)
+// - neutral-variant tones (0-100 + variants)
+// - error tones (0-100)
+//
+// See the example-palette.scss file for reference, but note that
+// creating a complete M3 palette requires extensive color theory knowledge.
+//
+// For most use cases, using Material's built-in palettes and customizing
+// via CSS variables (as shown above) is the recommended approach.
+//
+// To use this theme:
+// 1. It's already imported in src/styles.scss
+// 2. Switch to it: this.themeService.setTheme('example-theme');
+

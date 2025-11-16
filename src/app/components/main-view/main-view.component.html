@@ -1,32 +1,37 @@
-<!-- We use Tailwind classes directly for styling -->
-<!-- The main container is now a flex column to position the window area and the dock -->
-<div class="main-view">
-  <!-- <img src="wallpapers/space-gradient-background.png" class="absolute top-0 left-0 w-full h-full object-cover -z-100" alt="BackgroundImage"> -->
+<!-- Show login prompt if not authenticated -->
+@if (!isAuthenticated()) {
+  <app-login-prompt (loginSuccess)="onLoginSuccess($event)"></app-login-prompt>
+} @else {
+  <!-- We use Tailwind classes directly for styling -->
+  <!-- The main container is now a flex column to position the window area and the dock -->
+  <div class="main-view">
+    <!-- <img src="wallpapers/space-gradient-background.png" class="absolute top-0 left-0 w-full h-full object-cover -z-100" alt="BackgroundImage"> -->
 
-  <!-- This div will be the area where floating windows can exist, positioned above the dock -->
-  <div class="main-view-content">
-    <!--
-      This is the magic part!
-      It's an invisible anchor in your template.
-      The #windowHost is a template reference variable that we use in the .ts file.
-    -->
-    <ng-template #windowHost></ng-template>
-  </div>
+    <!-- This div will be the area where floating windows can exist, positioned above the dock -->
+    <div class="main-view-content">
+      <!--
+        This is the magic part!
+        It's an invisible anchor in your template.
+        The #windowHost is a template reference variable that we use in the .ts file.
+      -->
+      <ng-template #windowHost></ng-template>
+    </div>
 
-  <!-- This is the macOS-style dock -->
-  <div class="main-view-dock">
-    <div class="h-16 px-4 py-2 bg-white/40 backdrop-blur-md rounded-2xl shadow-lg flex items-center space-x-2 border border-white/20">
-      <!-- Dock icons using mat-icon -->
-      <div class="w-14 h-14 flex items-center justify-center cursor-pointer hover:bg-white/30 rounded-lg transition-colors" (click)="openWindowByType('GALLERY')">
-        <mat-icon class="text-gray-800 scale-[1.5]">photo</mat-icon>
-      </div>
-      <div class="w-14 h-14 flex items-center justify-center cursor-pointer hover:bg-white/30 rounded-lg transition-colors" (click)="openWindowByType('SOUNDCLOUD_PLAYER')">
-        <mat-icon class="text-gray-800 scale-[1.5]">music_note</mat-icon>
-      </div>
-      <div class="w-14 h-14 flex items-center justify-center cursor-pointer hover:bg-white/30 rounded-lg transition-colors">
-        <mat-icon class="text-gray-800 scale-[1.5]">settings</mat-icon>
+    <!-- This is the macOS-style dock -->
+    <div class="main-view-dock">
+      <div class="h-16 px-4 py-2 bg-white/40 backdrop-blur-md rounded-2xl shadow-lg flex items-center space-x-2 border border-white/20">
+        <!-- Dock icons using mat-icon -->
+        <div class="w-14 h-14 flex items-center justify-center cursor-pointer hover:bg-white/30 rounded-lg transition-colors" (click)="openWindowByType('GALLERY')">
+          <mat-icon class="text-gray-800 scale-[1.5]">photo</mat-icon>
+        </div>
+        <!-- <div class="w-14 h-14 flex items-center justify-center cursor-pointer hover:bg-white/30 rounded-lg transition-colors" (click)="openWindowByType('SOUNDCLOUD_PLAYER')">
+          <mat-icon class="text-gray-800 scale-[1.5]">music_note</mat-icon>
+        </div> -->
+        <div class="w-14 h-14 flex items-center justify-center cursor-pointer hover:bg-white/30 rounded-lg transition-colors" (click)="openWindowByType('SETTINGS')">
+          <mat-icon class="text-gray-800 scale-[1.5]">settings</mat-icon>
+        </div>
       </div>
     </div>
-  </div>
 
-</div>
+  </div>
+}

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { DraggableDirective } from '../../directives/draggable.directive';
+import { DraggableDirective } from '../../../directives/draggable.directive';
 
 
 @Component({
