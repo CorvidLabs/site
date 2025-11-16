@@ -1,0 +1,31 @@
+<div appDraggable appResizable #elementWithDrag [style.width.px]="width()" [style.height.px]="height()" (windowResize)="onResize($event)" class="float-window">
+
+  <!-- Header acts as the drag handle -->
+  <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging" (mousedown)="isDragging = true" (mouseup)="isDragging = false">
+    <h2>{{ title }}</h2>
+    <div class="header-actions">
+      <!-- Preview Toggle -->
+      <button mat-icon-button (click)="togglePreview()" [matTooltip]="isPreviewMode() ? 'Edit Mode' : 'Preview Mode'">
+        <mat-icon>{{ isPreviewMode() ? 'edit' : 'visibility' }}</mat-icon>
+      </button>
+      <!-- Close button -->
+      <button (click)="close()" class="drag-handle-close">
+        &times;
+      </button>
+    </div>
+  </div>
+
+  <!-- Notepad Content -->
+  <div class="notepad-content">
+    @if (isPreviewMode()) {
+      <div class="markdown-preview" [innerHTML]="renderedMarkdown()"></div>
+    } @else {
+      <textarea
+        class="notepad-textarea"
+        [value]="noteContent()"
+        (input)="onContentChange($event)"
+        placeholder="Start typing markdown..."
+      ></textarea>
+    }
+  </div>
+</div>

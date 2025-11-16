@@ -1,4 +1,4 @@
-<div appDraggable #elementWithDrag [style.width.px]="width" [style.height.px]="height" class="float-window">
+<div appDraggable appResizable (windowResize)="onResize($event)" #elementWithDrag [style.width.px]="width()" [style.height.px]="height()" class="float-window">
 
   <!-- Header acts as the drag handle -->
   <div class="drag-handle" [ngClass]="{'cursor-grab': !isDragging, 'cursor-grabbing': isDragging}" (mousedown)="isDragging = true" (mouseup)="isDragging = false">

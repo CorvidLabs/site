@@ -1,0 +1,136 @@
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.notepad-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0.5rem;
+}
+
+.notepad-textarea {
+  flex: 1;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--theme-border-color, #e0e0e0);
+  border-radius: 0.25rem;
+  background-color: var(--theme-bg, #ffffff);
+  color: var(--theme-text-color, #000000);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  resize: none;
+  outline: none;
+
+  &:focus {
+    border-color: var(--theme-primary-color, #007bff);
+  }
+
+  &::placeholder {
+    color: var(--theme-placeholder-color, #999999);
+  }
+}
+
+.markdown-preview {
+  flex: 1;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--theme-border-color, #e0e0e0);
+  border-radius: 0.25rem;
+  background-color: var(--theme-bg, #ffffff);
+  color: var(--theme-text-color, #000000);
+  overflow-y: auto;
+  font-size: 14px;
+  line-height: 1.6;
+
+  // Markdown element styles following theme
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--theme-primary-accent, var(--mat-sys-primary));
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    font-weight: 600;
+  }
+
+  h1 {
+    font-size: 2em;
+    border-bottom: 2px solid var(--theme-border-color, #e0e0e0);
+    padding-bottom: 0.3em;
+  }
+
+  h2 {
+    font-size: 1.5em;
+    border-bottom: 1px solid var(--theme-border-color, #e0e0e0);
+    padding-bottom: 0.3em;
+  }
+
+  h3 {
+    font-size: 1.25em;
+  }
+
+  p {
+    margin-bottom: 1em;
+  }
+
+  strong {
+    font-weight: 700;
+    color: var(--theme-primary-accent, var(--mat-sys-primary));
+  }
+
+  em {
+    font-style: italic;
+    color: var(--theme-text-color, #000000);
+  }
+
+  code {
+    background-color: var(--theme-code-bg, rgba(0, 0, 0, 0.05));
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9em;
+    color: var(--theme-code-color, #e83e8c);
+  }
+
+  pre {
+    background-color: var(--theme-code-bg, rgba(0, 0, 0, 0.05));
+    padding: 1em;
+    border-radius: 0.25rem;
+    overflow-x: auto;
+    margin: 1em 0;
+
+    code {
+      background-color: transparent;
+      padding: 0;
+      color: var(--theme-text-color, #000000);
+    }
+  }
+
+  ul, ol {
+    margin-left: 2em;
+    margin-bottom: 1em;
+  }
+
+  li {
+    margin-bottom: 0.5em;
+  }
+
+  a {
+    color: var(--theme-link-color, var(--mat-sys-primary));
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  blockquote {
+    border-left: 4px solid var(--theme-primary-accent, var(--mat-sys-primary));
+    padding-left: 1em;
+    margin-left: 0;
+    color: var(--theme-secondary-text, #666666);
+    font-style: italic;
+  }
+}

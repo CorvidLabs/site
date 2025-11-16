@@ -1,0 +1,81 @@
+<div appDraggable appResizable #elementWithDrag [style.width.px]="width()" [style.height.px]="height()" (windowResize)="onResize($event)" class="float-window">
+
+  <!-- Header acts as the drag handle -->
+  <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging" (mousedown)="isDragging = true" (mouseup)="isDragging = false">
+    <h2>{{ title }}</h2>
+    <button (click)="close()" class="drag-handle-close">
+      &times;
+    </button>
+  </div>
+
+  <!-- Tetris Content -->
+  <div class="tetris-content">
+    <div class="game-info">
+      <div class="info-item">
+        <span class="info-label">Score:</span>
+        <span class="info-value">{{ score() }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Level:</span>
+        <span class="info-value">{{ level() }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Lines:</span>
+        <span class="info-value">{{ lines() }}</span>
+      </div>
+    </div>
+
+    <div class="game-board-container">
+      <div class="game-board">
+        @for (row of getRows(); track row) {
+          <div class="board-row">
+            @for (col of getCols(); track col) {
+              <div
+                class="board-cell"
+                [style.background-color]="getCellColor(row, col) || 'transparent'"
+                [class.empty]="!getCellColor(row, col)">
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      @if (isGameOver()) {
+        <div class="game-overlay">
+          <div class="game-over-message">
+            <h2>Game Over!</h2>
+            <p>Final Score: {{ score() }}</p>
+            <button mat-raised-button color="primary" (click)="restartGame()">
+              <mat-icon>refresh</mat-icon> Play Again
+            </button>
+          </div>
+        </div>
+      }
+
+      @if (isPaused() && !isGameOver()) {
+        <div class="game-overlay">
+          <div class="paused-message">
+            <h2>Paused</h2>
+            <p>Press P to resume</p>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="game-controls">
+      <button mat-button (click)="togglePause()" [disabled]="isGameOver()">
+        <mat-icon>{{ isPaused() ? 'play_arrow' : 'pause' }}</mat-icon>
+        {{ isPaused() ? 'Resume' : 'Pause' }}
+      </button>
+      <button mat-button (click)="restartGame()">
+        <mat-icon>refresh</mat-icon>
+        Restart
+      </button>
+    </div>
+
+    <div class="game-instructions">
+      <p><strong>Controls:</strong></p>
+      <p>← → Move | ↑/Space Rotate | ↓ Drop | P Pause</p>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,9 @@
 import { Directive, ElementRef, HostListener, inject, Input, OnInit } from '@angular/core';
 import { ZIndexManagerService } from '../services/general/z-index-manager.service';
 
+// TODO: Inconsistent with ResizableDirective - this uses @HostListener while ResizableDirective uses addEventListener
+// Consider standardizing on one approach for better maintainability
+
 @Directive({
   selector: '[appDraggable]',
   standalone: true,
@@ -47,6 +50,12 @@ export class DraggableDirective implements OnInit {
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent) {
+    // Check if the mousedown event is on a resize handle - if so, don't drag
+    const target = event.target as HTMLElement;
+    if (target.className && typeof target.className === 'string' && target.className.includes('resize-handle')) {
+      return; // Don't drag if clicking on a resize handle
+    }
+
     // Check if the mousedown event is on the drag handle (the header)
     const handle = this.draggableElement.querySelector('.drag-handle');
     if (handle && !handle.contains(event.target as Node)) {
@@ -77,7 +86,39 @@ export class DraggableDirective implements OnInit {
 
     const dx = event.clientX - this.startX;
     const dy = event.clientY - this.startY;
-    this.draggableElement.style.transform = `translate(${this.initialX + dx}px, ${this.initialY + dy}px)`;
+
+    // Calculate new position
+    let newX = this.initialX + dx;
+    let newY = this.initialY + dy;
+
+    // Get element dimensions
+    const elementRect = this.draggableElement.getBoundingClientRect();
+    const elementWidth = elementRect.width;
+    const elementHeight = elementRect.height;
+
+    // Get viewport dimensions
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    // Minimum visible area (in pixels) - keep at least 50px of the header visible
+    const minVisibleWidth = Math.min(elementWidth, 100);
+    const minVisibleHeight = 50;
+
+    // Constrain horizontal position
+    // Allow dragging left but keep some of the window visible on the right
+    const minX = -(elementWidth - minVisibleWidth);
+    // Allow dragging right but keep some of the window visible on the left
+    const maxX = viewportWidth - minVisibleWidth;
+    newX = Math.max(minX, Math.min(newX, maxX));
+
+    // Constrain vertical position
+    // Don't allow dragging above the top (keep header visible)
+    const minY = 0;
+    // Allow dragging down but keep some of the window visible at the top
+    const maxY = viewportHeight - minVisibleHeight;
+    newY = Math.max(minY, Math.min(newY, maxY));
+
+    this.draggableElement.style.transform = `translate(${newX}px, ${newY}px)`;
   }
 
   // Called when mouse is released anywhere in the document
