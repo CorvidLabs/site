@@ -34,4 +34,8 @@ export class UtilsService {
 
     return result;
   }
+
+  public static sortByStr(a: string, b: string): number {
+    return a.localeCompare(b);
+  }
 }

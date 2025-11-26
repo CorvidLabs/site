@@ -1,15 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { debounceTime, Subject, Subscription } from 'rxjs';
 import { DraggableDirective } from '../../../directives/draggable.directive';
+import { ResizableDirective } from '../../../directives/resizable.directive';
 import { CorvidNft } from '../../../interfaces/corvid-nft.interface';
 import { NodelyService } from '../../../services/nodely.service';
 import { NftCardComponent } from "../../nft-card/nft-card.component";
 import { FloatWindow } from '../float-window/float-window.component';
-import { debounce, debounceTime, interval, Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-gallery-window',
-  imports: [CommonModule, DraggableDirective, NftCardComponent], // HttpClientModule should be removed if it's here
+  imports: [CommonModule, DraggableDirective, ResizableDirective, NftCardComponent], // HttpClientModule should be removed if it's here
   templateUrl: 'gallery-window.component.html',
   styleUrls: ['gallery-window.component.scss']
 })

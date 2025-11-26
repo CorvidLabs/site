@@ -1,4 +1,4 @@
-import { Directive, ElementRef, OnInit, OnDestroy, output } from '@angular/core';
+import { Directive, ElementRef, OnDestroy, OnInit, output } from '@angular/core';
 
 export interface ResizeEvent {
   width: number;
@@ -19,7 +19,6 @@ export class ResizableDirective implements OnInit, OnDestroy {
   private startHeight = 0;
   private minWidth = 300;
   private minHeight = 200;
-  private resizeHandle: HTMLElement | null = null;
   private currentHandle: string | null = null;
 
   private mouseMoveListener: ((e: MouseEvent) => void) | null = null;
@@ -66,8 +65,6 @@ export class ResizableDirective implements OnInit, OnDestroy {
 
       handle.addEventListener('mousedown', (e) => this.onMouseDown(e, position));
       element.appendChild(handle);
-
-      console.log(`Created resize handle: ${className} at position ${position}`); // Debug
     });
   }
 
@@ -80,18 +77,9 @@ export class ResizableDirective implements OnInit, OnDestroy {
     handle.style.zIndex = '99999'; // Very high z-index to be above EVERYTHING
     handle.style.pointerEvents = 'auto'; // Ensure handles can receive mouse events
     // Make handles MORE visible for debugging
-    handle.style.backgroundColor = 'rgba(59, 130, 246, 0.3)'; // Blue with more opacity
-    handle.style.transition = 'background-color 0.2s';
-    handle.style.border = '1px solid rgba(59, 130, 246, 0.5)'; // Add border for visibility
-
-    // Hover effect
-    handle.addEventListener('mouseenter', () => {
-      handle.style.backgroundColor = 'rgba(59, 130, 246, 0.6)';
-      console.log(`Hovering over resize handle: ${position}`); // Debug
-    });
-    handle.addEventListener('mouseleave', () => {
-      handle.style.backgroundColor = 'rgba(59, 130, 246, 0.3)';
-    });
+    // Make background full transparent
+    handle.style.background = 'transparent';
+    handle.style.border = 'none';
 
     switch (position) {
       case 'n':
@@ -158,8 +146,6 @@ export class ResizableDirective implements OnInit, OnDestroy {
     const element = this.el.nativeElement;
     this.startWidth = element.offsetWidth;
     this.startHeight = element.offsetHeight;
-
-    console.log(`Starting resize from ${this.startWidth}x${this.startHeight}`); // Debug
 
     this.mouseMoveListener = (e: MouseEvent) => this.onMouseMove(e);
     this.mouseUpListener = (e: MouseEvent) => this.onMouseUp(e);

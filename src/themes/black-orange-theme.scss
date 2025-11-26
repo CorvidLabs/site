@@ -35,6 +35,7 @@ $black-orange-theme: mat.define-theme((
   --theme-secondary-accent: #ff8c61;  // Lighter orange
   --theme-border-color: #404040;      // Medium gray
   --theme-player-bg: #1a1a1a;         // Very dark gray
+  --theme-shadow-color: #000000b3; // Dark shadow for depth
   
   // Optional: Custom scrollbar for this theme
   scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);

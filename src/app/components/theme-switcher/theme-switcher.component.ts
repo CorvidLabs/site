@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { ThemeService, type ThemeName } from '../../services/general/theme.service';
+import { ThemeService, type ThemeConfig, type ThemeId } from '../../services/general/theme.service';
 
 @Component({
   selector: 'app-theme-switcher',
@@ -10,18 +10,14 @@ import { ThemeService, type ThemeName } from '../../services/general/theme.servi
 })
 export class ThemeSwitcherComponent {
   private themeService = inject(ThemeService);
-  
+
   protected readonly themes = this.themeService.getAvailableThemes();
-  protected readonly currentTheme = this.themeService.theme;
+  protected readonly darkThemes = this.themes.filter(theme => theme.type === 'dark');
+  protected readonly lightThemes = this.themes.filter(theme => theme.type === 'light');
 
-  protected switchTheme(theme: ThemeName): void {
-    this.themeService.setTheme(theme);
-  }
+  protected readonly currentThemeId = this.themeService.theme;
 
-  protected formatThemeName(theme: ThemeName): string {
-    return theme
-      .split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
+  protected switchTheme(themeConfig: ThemeConfig): void {
+    this.themeService.setTheme(themeConfig.id as ThemeId);
   }
 }

@@ -30,6 +30,7 @@ $dark-theme: mat.define-theme((
   --theme-secondary-accent: #14b8a6;
   --theme-border-color: #374151;
   --theme-player-bg: #a6a9ad;
+  --theme-shadow-color: #000000b3; // Dark shadow for depth
 
   scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
 

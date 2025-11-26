@@ -26,7 +26,7 @@
     transform: scale(1.1);
 
     .app-icon-circle {
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      box-shadow: var(--theme-shadow-color, #111827) !important;
     }
   }
 
@@ -42,8 +42,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, var(--theme-primary-accent, #667eea) 0%, var(--theme-secondary-accent, #764ba2) 100%);
+  box-shadow: var(--theme-shadow-color, #111827) !important;
   transition: box-shadow 0.2s ease;
 }
 
@@ -56,7 +56,7 @@
 
 .app-label {
   font-size: 0.875rem;
-  color: var(--theme-text-color, #000000);
+  color: var(--theme-primary-text, #000000);
   text-align: center;
   font-weight: 500;
 }
