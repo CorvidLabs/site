@@ -14,9 +14,9 @@ export class SettingsWindowComponent extends FloatWindow implements OnInit {
   constructor() {
     super();
 
-    this.title = 'Gallery';
-    this.width = 600;
-    this.height = 400;
+    this.title = 'Settings';
+    this.width.set(600);
+    this.height.set(400);
   }
 
   ngOnInit() { }

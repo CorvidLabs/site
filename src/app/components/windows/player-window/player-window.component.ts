@@ -16,14 +16,14 @@ export class PlayerWindowComponent extends FloatWindow implements OnInit {
     super();
 
     this.title = 'ASMR Radio';
-    
-    this.width = 600;
-    this.height = 400;
-    
-    
+
+    this.width.set(600);
+    this.height.set(400);
+
+
     // if (window.innerWidth >= 1920) { // Assuming 1920px is a common "bigger" screen width
-    //   this.width = 1000;
-    //   this.height = 700;
+    //   this.width.set(1000);
+    //   this.height.set(700);
     // }
   }
 

@@ -1,5 +1,5 @@
-<div [style.width.px]="width" [style.height.px]="height" #elementWithDrag
-  appDraggable [appDraggableInitialPosition]="initialPosition"
+<div [style.width.px]="width()" [style.height.px]="height()" #elementWithDrag
+  appDraggable appResizable (windowResize)="onResize($event)" [appDraggableInitialPosition]="initialPosition"
   class="float-window">
 
   <!-- Header acts as the drag handle -->

@@ -211,7 +211,6 @@ When adding new themes or palettes:
 1. Check the relevant documentation file above
 2. Look at the example files in `/src/themes/`
 3. Review [THEME_EXAMPLES.md](./THEME_EXAMPLES.md) for code samples
-4. Check [FLOAT_WINDOW_FIX.md](./FLOAT_WINDOW_FIX.md) for common issues
 
 ---
 

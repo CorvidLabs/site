@@ -1,0 +1,14 @@
+.image-card-img {
+  border-radius: 0.5rem;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-card-title {
+  color: var(--theme-primary-text);
+  font-family: 'Press Start 2P', cursive;
+  text-align: center;
+  margin-top: 0.5rem;
+  padding-top: 0.05rem;
+}

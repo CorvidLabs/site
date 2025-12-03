@@ -1,15 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { debounceTime, Subject, Subscription } from 'rxjs';
 import { DraggableDirective } from '../../../directives/draggable.directive';
+import { ResizableDirective } from '../../../directives/resizable.directive';
 import { CorvidNft } from '../../../interfaces/corvid-nft.interface';
 import { NodelyService } from '../../../services/nodely.service';
 import { NftCardComponent } from "../../nft-card/nft-card.component";
 import { FloatWindow } from '../float-window/float-window.component';
-import { debounce, debounceTime, interval, Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-gallery-window',
-  imports: [CommonModule, DraggableDirective, NftCardComponent], // HttpClientModule should be removed if it's here
+  imports: [CommonModule, DraggableDirective, ResizableDirective, NftCardComponent], // HttpClientModule should be removed if it's here
   templateUrl: 'gallery-window.component.html',
   styleUrls: ['gallery-window.component.scss']
 })
@@ -29,13 +30,13 @@ export class GalleryWindowComponent extends FloatWindow implements OnInit, OnDes
   ) {
     super();
     this.title = 'Gallery';
-    
+
     if (window.innerWidth >= 1920) { // Assuming 1920px is a common "bigger" screen width
-      this.width = 1000;
-      this.height = 700;
+      this.width.set(1000);
+      this.height.set(700);
     } else {
-      this.width = 600;
-      this.height = 400;
+      this.width.set(600);
+      this.height.set(400);
     }
 
     this.requestItems();

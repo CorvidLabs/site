@@ -1,7 +1,7 @@
 // Component styles - global styles are already applied at app level
 
 .gallery-padding-fix {
-  padding: 1rem 0.2rem 1rem 1rem;
+  padding: 0.5rem;
 }
 
 .gallery-grid {
@@ -16,4 +16,13 @@
 .gallery-image-container {
   // col-span-1
   grid-column: span 1;
+  border: 5px solid var(--theme-border-color);
+
+  // fit content
+  width: fit-content;
+  height: fit-content;
+
+  padding: 0.1rem;
+  text-align: center;
+  justify-content: center;
 }

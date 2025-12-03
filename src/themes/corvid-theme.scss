@@ -30,6 +30,7 @@ $corvid-theme: mat.define-theme((
   --theme-secondary-accent: #0c0f18;  // Shadow Accent
   --theme-border-color: #0d1019;      // Dark Border
   --theme-player-bg: #12121c;         // Player Background
+  --theme-shadow-color: #000000b3; // Dark shadow for depth
 
   scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
 

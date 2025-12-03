@@ -6,6 +6,10 @@
 @use 'themes/corvid-theme';
 @use 'themes/green-theme';
 @use 'themes/black-orange-theme';
+@use 'themes/arcade-theme';
+@use 'themes/sunset-theme';
+@use 'themes/cyberpunk-theme';
+@use 'themes/nes-pixel';
 
 // Include Material core (only once per app)
 @include mat.core();
@@ -36,6 +40,18 @@ body.black-orange-theme {
   @include black-orange-theme.theme();
 }
 
+body.arcade-theme {
+  @include arcade-theme.theme();
+}
+
+body.sunset-theme {
+  @include sunset-theme.theme();
+}
+
+body.cyberpunk-theme {
+  @include cyberpunk-theme.theme();
+}
+
 // Global styles
 body {
   font-family: 'Inter', sans-serif;
@@ -57,9 +73,8 @@ body {
 
 .float-window {
   background-color: var(--theme-secondary-bg, var(--mat-sys-surface-container));
-  border: 1px solid;
+  border: 5px solid;
   border-color: var(--theme-border-color, var(--mat-sys-outline-variant));
-  border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -67,18 +82,18 @@ body {
   left: 5rem;
   
   // Ensure no transparency
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 .float-window-content {
   flex-grow: 1;
+  padding: 0.5rem;
+  overflow: auto;
   background-color: var(--theme-secondary-bg, var(--mat-sys-surface-container));
 }
 
 .drag-handle {
   padding: 0.5rem;
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -87,9 +102,9 @@ body {
   background-color: var(--theme-primary-bg, var(--mat-sys-surface));
   
   // Ensure no transparency
-  opacity: 1;
+  opacity: 1 !important;
 
-  h2 {
+  > label {
     color: var(--theme-primary-accent, var(--mat-sys-primary));
     font-size: 1.125rem;
     font-weight: bold;

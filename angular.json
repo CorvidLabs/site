@@ -33,7 +33,25 @@
             "styles": [
               "src/styles.scss"
             ],
-            "outputPath": "dist/corvid-site"
+            "outputPath": "dist/corvid-site",
+            "allowedCommonJsDependencies": [
+              "qr-code-styling",
+              "@evanhahn/lottie-web-light",
+              "bowser",
+              "ws",
+              "is-typedarray",
+              "typedarray-to-buffer",
+              "tweetnacl",
+              "js-sha512",
+              "hi-base32",
+              "json-bigint",
+              "bn.js",
+              "js-sha3",
+              "query-string",
+              "@walletconnect/environment",
+              "@walletconnect/window-metadata",
+              "@walletconnect/window-getters"
+            ]
           },
           "configurations": {
             "production": {
@@ -96,5 +114,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

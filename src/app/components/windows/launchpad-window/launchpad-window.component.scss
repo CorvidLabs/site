@@ -1,0 +1,62 @@
+.launchpad-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  overflow: auto;
+}
+
+.apps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+  align-items: start;
+}
+
+.app-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.1);
+
+    .app-icon-circle {
+      box-shadow: var(--theme-shadow-color, #111827) !important;
+    }
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.app-icon-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--theme-primary-accent, #667eea) 0%, var(--theme-secondary-accent, #764ba2) 100%);
+  box-shadow: var(--theme-shadow-color, #111827) !important;
+  transition: box-shadow 0.2s ease;
+}
+
+.app-icon-mat {
+  color: white;
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+}
+
+.app-label {
+  font-size: 0.875rem;
+  color: var(--theme-primary-text, #000000);
+  text-align: center;
+  font-weight: 500;
+}
