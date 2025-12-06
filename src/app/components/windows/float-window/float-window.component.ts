@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, ViewChild, signal, effect } from '@angular/core';
+import { Component, ViewChild, signal, effect, input, output } from '@angular/core';
 import { DraggableDirective } from '../../../directives/draggable.directive';
 import { ResizableDirective, ResizeEvent } from '../../../directives/resizable.directive';
 
@@ -14,31 +14,36 @@ export class FloatWindow {
 
   @ViewChild(DraggableDirective) draggableDirective!: DraggableDirective;
 
-  // TODO: Inconsistent API - mixing @Input decorators with signal-based state
-  // Consider migrating to input() function for all inputs for consistency with Angular modern practices
-
   // Use signals for reactive width and height
   width = signal<number>(400);
   height = signal<number>(300);
 
-  @Input() title: string = 'Floating Window';
-  @Input() initialPosition?: { x: number; y: number };
+  // Modern input/output functions (Angular 20 best practice)
+  title = input<string>('Floating Window');
+  initialPosition = input<{ x: number; y: number } | undefined>(undefined);
+  initialWidth = input<number | undefined>(undefined);
+  initialHeight = input<number | undefined>(undefined);
 
-  // Input setters to allow parent components to set initial dimensions
-  // TODO: These setters aren't used - child components set width/height directly via .set() in constructor
-  @Input() set initialWidth(value: number) {
-    this.width.set(value);
-  }
-
-  @Input() set initialHeight(value: number) {
-    this.height.set(value);
-  }
+  closeEvent = output<void>();
 
   isDragging = false; // Track dragging state for cursor style
 
-  @Output() closeEvent = new EventEmitter<void>();
+  constructor() {
+    // Set dimensions if provided via inputs
+    effect(() => {
+      const width = this.initialWidth();
+      if (width !== undefined) {
+        this.width.set(width);
+      }
+    });
 
-  constructor() {}
+    effect(() => {
+      const height = this.initialHeight();
+      if (height !== undefined) {
+        this.height.set(height);
+      }
+    });
+  }
 
   bringWindowToFront() {
     this.draggableDirective?.increaseZIndex();

@@ -1,14 +1,14 @@
-import { Directive, ElementRef, HostListener, inject, Input, OnInit } from '@angular/core';
+import { Directive, ElementRef, inject, Input, OnInit, OnDestroy } from '@angular/core';
 import { ZIndexManagerService } from '../services/general/z-index-manager.service';
-
-// TODO: Inconsistent with ResizableDirective - this uses @HostListener while ResizableDirective uses addEventListener
-// Consider standardizing on one approach for better maintainability
 
 @Directive({
   selector: '[appDraggable]',
   standalone: true,
+  host: {
+    '(mousedown)': 'onMouseDown($event)'
+  }
 })
-export class DraggableDirective implements OnInit {
+export class DraggableDirective implements OnInit, OnDestroy {
   @Input('appDraggableInitialPosition') initialPosition?: { x: number; y: number };
 
   private isDragging = false;
@@ -22,6 +22,10 @@ export class DraggableDirective implements OnInit {
 
   // The element that will be dragged
   private draggableElement: HTMLElement;
+
+  // Event listeners for cleanup
+  private mouseMoveListener: ((e: MouseEvent) => void) | null = null;
+  private mouseUpListener: (() => void) | null = null;
 
   constructor(
     private zIndexManager: ZIndexManagerService,
@@ -48,7 +52,6 @@ export class DraggableDirective implements OnInit {
     this.increaseZIndex()
   }
 
-  @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent) {
     // Check if the mousedown event is on a resize handle - if so, don't drag
     const target = event.target as HTMLElement;
@@ -76,11 +79,17 @@ export class DraggableDirective implements OnInit {
       this.initialY = parseInt(translateMatch[2], 10);
     }
 
+    // Set up document-level event listeners
+    this.mouseMoveListener = (e: MouseEvent) => this.onMouseMove(e);
+    this.mouseUpListener = () => this.onMouseUp();
+
+    document.addEventListener('mousemove', this.mouseMoveListener);
+    document.addEventListener('mouseup', this.mouseUpListener);
+
     // this.draggableElement.style.cursor = 'grabbing';
     event.preventDefault();
   }
 
-  @HostListener('document:mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
     if (!this.isDragging) return;
 
@@ -90,7 +99,6 @@ export class DraggableDirective implements OnInit {
   }
 
   // Called when mouse is released anywhere in the document
-  @HostListener('document:mouseup')
   onMouseUp() {
     if (this.isDragging) {
       this.constrainToViewport();
@@ -98,6 +106,9 @@ export class DraggableDirective implements OnInit {
 
     this.isDragging = false;
     // this.draggableElement.style.cursor = 'grab';
+
+    // Clean up event listeners
+    this.removeEventListeners();
   }
 
   /**
@@ -154,5 +165,20 @@ export class DraggableDirective implements OnInit {
 
   increaseZIndex() {
     this.draggableElement.style.zIndex = this.zIndexManager.getNextZIndex().toString();
+  }
+
+  ngOnDestroy() {
+    this.removeEventListeners();
+  }
+
+  private removeEventListeners() {
+    if (this.mouseMoveListener) {
+      document.removeEventListener('mousemove', this.mouseMoveListener);
+      this.mouseMoveListener = null;
+    }
+    if (this.mouseUpListener) {
+      document.removeEventListener('mouseup', this.mouseUpListener);
+      this.mouseUpListener = null;
+    }
   }
 }

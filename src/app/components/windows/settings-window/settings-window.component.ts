@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { FloatWindow } from '../float-window/float-window.component';
 import { DraggableDirective } from '../../../directives/draggable.directive';
 import { CommonModule } from '@angular/common';
@@ -11,10 +11,11 @@ import { ThemeSwitcherComponent } from "../../theme-switcher/theme-switcher.comp
   styleUrls: ['settings-window.component.scss']
 })
 export class SettingsWindowComponent extends FloatWindow implements OnInit {
+  override title = input<string>('Settings');
+
   constructor() {
     super();
 
-    this.title = 'Settings';
     this.width.set(600);
     this.height.set(400);
   }

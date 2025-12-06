@@ -1,4 +1,4 @@
 <div>
-  <img [src]="imageUrl" alt="{{ title }}" class="image-card-img" />
-  <p class="image-card-title">{{ title }}</p>
+  <img [src]="imageUrl()" alt="{{ title() }}" class="image-card-img" />
+  <p class="image-card-title">{{ title() }}</p>
 </div>

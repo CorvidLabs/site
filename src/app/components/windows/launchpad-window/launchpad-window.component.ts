@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { FloatWindow } from '../float-window/float-window.component';
 import { DraggableDirective } from '../../../directives/draggable.directive';
 import { CommonModule } from '@angular/common';
@@ -20,6 +20,7 @@ interface AppIcon {
   styleUrls: ['launchpad-window.component.scss']
 })
 export class LaunchpadWindowComponent extends FloatWindow {
+  override title = input<string>('Launch Pad');
   apps: AppIcon[] = [
     {
       type: WindowTypes.GALLERY,
@@ -48,7 +49,6 @@ export class LaunchpadWindowComponent extends FloatWindow {
 
   constructor() {
     super();
-    this.title = 'Launch Pad';
     this.width.set(500);
     this.height.set(400);
   }

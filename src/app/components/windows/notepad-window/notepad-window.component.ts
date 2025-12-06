@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
+import { Component, OnInit, signal, computed, input } from '@angular/core';
 import { FloatWindow } from '../float-window/float-window.component';
 import { DraggableDirective } from '../../../directives/draggable.directive';
 import { CommonModule } from '@angular/common';
@@ -15,6 +15,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   styleUrls: ['notepad-window.component.scss']
 })
 export class NotepadWindowComponent extends FloatWindow implements OnInit {
+  override title = input<string>('Markdown Notepad');
   noteContent = signal<string>('# Welcome to Markdown Notepad\n\nStart typing your markdown here...\n\n## Features\n- **Bold** text with `**text**`\n- *Italic* text with `*text*`\n- Lists and more!');
   isPreviewMode = signal<boolean>(false);
 
@@ -26,7 +27,6 @@ export class NotepadWindowComponent extends FloatWindow implements OnInit {
   constructor(private sanitizer: DomSanitizer) {
     super();
 
-    this.title = 'Markdown Notepad';
     this.width.set(600);
     this.height.set(500);
   }

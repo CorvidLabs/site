@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, signal, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, HostListener, input } from '@angular/core';
 import { FloatWindow } from '../float-window/float-window.component';
 import { DraggableDirective } from '../../../directives/draggable.directive';
 import { CommonModule } from '@angular/common';
@@ -37,6 +37,7 @@ const COLORS = {
   styleUrls: ['tetris-window.component.scss']
 })
 export class TetrisWindowComponent extends FloatWindow implements OnInit, OnDestroy {
+  override title = input<string>('Tetris');
   private readonly BOARD_WIDTH = 10;
   private readonly BOARD_HEIGHT = 20;
   private readonly CELL_SIZE = 25;
@@ -53,7 +54,6 @@ export class TetrisWindowComponent extends FloatWindow implements OnInit, OnDest
 
   constructor() {
     super();
-    this.title = 'Tetris';
     this.width.set(380);
     this.height.set(750);
     this.initBoard();

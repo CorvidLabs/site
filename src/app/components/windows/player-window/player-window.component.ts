@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { DraggableDirective } from '../../../directives/draggable.directive';
 import { FloatWindow } from '../float-window/float-window.component';
 import { SoundcloudPlayerComponent } from "../../soundcloud-player/soundcloud-player.component";
@@ -11,11 +11,10 @@ import { SoundcloudPlayerComponent } from "../../soundcloud-player/soundcloud-pl
   styleUrls: ['./player-window.component.scss']
 })
 export class PlayerWindowComponent extends FloatWindow implements OnInit {
+  override title = input<string>('ASMR Radio');
 
   constructor() {
     super();
-
-    this.title = 'ASMR Radio';
 
     this.width.set(600);
     this.height.set(400);

@@ -158,7 +158,7 @@ export class MainViewComponent {
 
     // Set a cascading initial position for new windows
     const offset = this.openedWindows.length * 30;
-    componentRef.instance.initialPosition = { x: 50 + offset, y: 50 + offset };
+    componentRef.setInput('initialPosition', { x: 50 + offset, y: 50 + offset });
 
     const closeSub = componentRef.instance.closeEvent.subscribe(() => {
       this.closeWindow(componentRef);
@@ -181,7 +181,7 @@ export class MainViewComponent {
 
     // Set a cascading initial position for new windows
     const offset = this.openedWindows.length * 30;
-    componentRef.instance.initialPosition = { x: 50 + offset, y: 50 + offset };
+    componentRef.setInput('initialPosition', { x: 50 + offset, y: 50 + offset });
 
     const closeSub = componentRef.instance.closeEvent.subscribe(() => {
       this.closeWindow(componentRef);

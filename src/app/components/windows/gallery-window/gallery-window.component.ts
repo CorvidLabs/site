@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, input } from '@angular/core';
 import { debounceTime, Subject, Subscription } from 'rxjs';
 import { DraggableDirective } from '../../../directives/draggable.directive';
 import { ResizableDirective } from '../../../directives/resizable.directive';
@@ -15,6 +15,7 @@ import { FloatWindow } from '../float-window/float-window.component';
   styleUrls: ['gallery-window.component.scss']
 })
 export class GalleryWindowComponent extends FloatWindow implements OnInit, OnDestroy {
+  override title = input<string>('Gallery');
   @ViewChild('scrollableElement') scrollableElement!: ElementRef<HTMLDivElement>;
 
   private scrollSubject = new Subject<void>();
@@ -29,7 +30,6 @@ export class GalleryWindowComponent extends FloatWindow implements OnInit, OnDes
     private nodelyService: NodelyService
   ) {
     super();
-    this.title = 'Gallery';
 
     if (window.innerWidth >= 1920) { // Assuming 1920px is a common "bigger" screen width
       this.width.set(1000);
