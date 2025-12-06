@@ -167,6 +167,42 @@ export class DraggableDirective implements OnInit, OnDestroy {
     this.draggableElement.style.zIndex = this.zIndexManager.getNextZIndex().toString();
   }
 
+  /**
+   * Sets the position to absolute values.
+   * Used by ResizableDirective when resizing from west/north directions.
+   *
+   * @param posX New absolute X position (undefined = keep current)
+   * @param posY New absolute Y position (undefined = keep current)
+   */
+  adjustPosition(posX?: number, posY?: number): void {
+    if (posX === undefined && posY === undefined) {
+      return; // No adjustment needed
+    }
+
+    // Parse current transform to get current values
+    const transform = this.draggableElement.style.transform;
+    const translateMatch = transform.match(/translate\(([^,]+)px, ([^,]+)px\)/);
+
+    let currentX = 0;
+    let currentY = 0;
+
+    if (translateMatch) {
+      currentX = parseInt(translateMatch[1], 10);
+      currentY = parseInt(translateMatch[2], 10);
+    }
+
+    // Use provided values or keep current
+    const newX = posX !== undefined ? posX : currentX;
+    const newY = posY !== undefined ? posY : currentY;
+
+    // Update transform
+    this.draggableElement.style.transform = `translate(${newX}px, ${newY}px)`;
+
+    // Update internal state to keep consistent with new position
+    this.initialX = newX;
+    this.initialY = newY;
+  }
+
   ngOnDestroy() {
     this.removeEventListeners();
   }

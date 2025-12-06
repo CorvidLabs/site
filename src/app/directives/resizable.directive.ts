@@ -3,6 +3,10 @@ import { Directive, ElementRef, OnDestroy, OnInit, output } from '@angular/core'
 export interface ResizeEvent {
   width: number;
   height: number;
+  // Absolute position for west/north resizing (optional for backwards compat)
+  // These are the new translate values, not deltas to add
+  deltaX?: number;  // New absolute X position (for west resize)
+  deltaY?: number;  // New absolute Y position (for north resize)
 }
 
 @Directive({
@@ -17,6 +21,8 @@ export class ResizableDirective implements OnInit, OnDestroy {
   private startY = 0;
   private startWidth = 0;
   private startHeight = 0;
+  private startPositionX = 0;  // Starting position when resize begins
+  private startPositionY = 0;  // Starting position when resize begins
   private minWidth = 300;
   private minHeight = 200;
   private currentHandle: string | null = null;
@@ -147,6 +153,17 @@ export class ResizableDirective implements OnInit, OnDestroy {
     this.startWidth = element.offsetWidth;
     this.startHeight = element.offsetHeight;
 
+    // Store starting position by parsing transform
+    const transform = element.style.transform;
+    const translateMatch = transform.match(/translate\(([^,]+)px, ([^,]+)px\)/);
+    if (translateMatch) {
+      this.startPositionX = parseInt(translateMatch[1], 10);
+      this.startPositionY = parseInt(translateMatch[2], 10);
+    } else {
+      this.startPositionX = 0;
+      this.startPositionY = 0;
+    }
+
     this.mouseMoveListener = (e: MouseEvent) => this.onMouseMove(e);
     this.mouseUpListener = (e: MouseEvent) => this.onMouseUp(e);
 
@@ -162,6 +179,8 @@ export class ResizableDirective implements OnInit, OnDestroy {
 
     let newWidth = this.startWidth;
     let newHeight = this.startHeight;
+    let newPositionX: number | undefined;
+    let newPositionY: number | undefined;
 
     const position = this.currentHandle;
 
@@ -170,17 +189,44 @@ export class ResizableDirective implements OnInit, OnDestroy {
       newWidth = Math.max(this.minWidth, this.startWidth + deltaX);
     }
     if (position.includes('w')) {
-      newWidth = Math.max(this.minWidth, this.startWidth - deltaX);
+      // Calculate new width
+      const calculatedWidth = this.startWidth - deltaX;
+      newWidth = Math.max(this.minWidth, calculatedWidth);
+
+      // Calculate new ABSOLUTE position (startPosition + delta)
+      // When dragging left (deltaX negative), position moves left (decreases)
+      if (calculatedWidth >= this.minWidth) {
+        newPositionX = this.startPositionX + deltaX;
+      } else {
+        // Hit minimum width - position moves by how much width actually changed
+        newPositionX = this.startPositionX - (newWidth - this.startWidth);
+      }
     }
     if (position.includes('s')) {
       newHeight = Math.max(this.minHeight, this.startHeight + deltaY);
     }
     if (position.includes('n')) {
-      newHeight = Math.max(this.minHeight, this.startHeight - deltaY);
+      // Calculate new height
+      const calculatedHeight = this.startHeight - deltaY;
+      newHeight = Math.max(this.minHeight, calculatedHeight);
+
+      // Calculate new ABSOLUTE position (startPosition + delta)
+      // When dragging up (deltaY negative), position moves up (decreases)
+      if (calculatedHeight >= this.minHeight) {
+        newPositionY = this.startPositionY + deltaY;
+      } else {
+        // Hit minimum height - position moves by how much height actually changed
+        newPositionY = this.startPositionY - (newHeight - this.startHeight);
+      }
     }
 
-    // Emit resize event
-    this.windowResize.emit({ width: newWidth, height: newHeight });
+    // Emit resize event with absolute positions
+    this.windowResize.emit({
+      width: newWidth,
+      height: newHeight,
+      deltaX: newPositionX,
+      deltaY: newPositionY
+    });
   }
 
   private onMouseUp(event: MouseEvent): void {

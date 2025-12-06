@@ -57,7 +57,14 @@ export class FloatWindow {
   onResize(event: any) {
     // Type assertion since Angular's event binding may not correctly infer the custom event type
     const resizeEvent = event as ResizeEvent;
+
+    // Update dimensions
     this.width.set(resizeEvent.width);
     this.height.set(resizeEvent.height);
+
+    // Adjust position if resizing from west/north directions
+    if (resizeEvent.deltaX !== undefined || resizeEvent.deltaY !== undefined) {
+      this.draggableDirective?.adjustPosition(resizeEvent.deltaX, resizeEvent.deltaY);
+    }
   }
 }
