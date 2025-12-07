@@ -1,0 +1,109 @@
+<div appDraggable appResizable #elementWithDrag [style.width.px]="width()" [style.height.px]="height()" (windowResize)="onResize($event)" [appDraggableInitialPosition]="initialPosition" class="float-window">
+
+  <!-- Header acts as the drag handle -->
+  <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging" (mousedown)="isDragging = true" (mouseup)="isDragging = false">
+    <label>{{ title }}</label>
+    <button (click)="close()" class="drag-handle-close">
+      &times;
+    </button>
+  </div>
+
+  <!-- Game Content -->
+  <div class="game-content">
+    <!-- Game Stats -->
+    <div class="game-stats">
+      <div class="stat">
+        <span class="stat-label">Score</span>
+        <span class="stat-value">{{ score() }}</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">High Score</span>
+        <span class="stat-value">{{ highScore() }}</span>
+      </div>
+    </div>
+
+    <!-- Game Board Container -->
+    <div class="game-board-container">
+      @if (gameState() === 'ready') {
+        <div class="overlay ready-overlay">
+          <app-pixel-icon name="pest_control" class="game-icon" />
+          <h2>Snake</h2>
+          <p>Use arrow keys to move</p>
+          <button class="nes-btn is-primary" type="button" (click)="startGame()">
+            <app-pixel-icon name="play_arrow" />
+            Start Game
+          </button>
+        </div>
+      }
+
+      @if (gameState() === 'paused') {
+        <div class="overlay pause-overlay">
+          <app-pixel-icon name="pause" />
+          <h2>Paused</h2>
+          <button class="nes-btn is-primary" type="button" (click)="togglePause()">
+            <app-pixel-icon name="play_arrow" />
+            Resume
+          </button>
+        </div>
+      }
+
+      @if (gameState() === 'gameover') {
+        <div class="overlay gameover-overlay">
+          <app-pixel-icon name="sentiment_very_dissatisfied" />
+          <h2>Game Over!</h2>
+          <p>Final Score: <strong>{{ score() }}</strong></p>
+          @if (score() === highScore() && score() > 0) {
+            <p class="new-high">New High Score!</p>
+          }
+          <button class="nes-btn is-primary" type="button" (click)="startGame()">
+            <app-pixel-icon name="replay" />
+            Play Again
+          </button>
+        </div>
+      }
+
+      <!-- Game Grid -->
+      <div class="game-board" [style.width.px]="GRID_SIZE * CELL_SIZE" [style.height.px]="GRID_SIZE * CELL_SIZE">
+        @for (y of gridArray(); track y) {
+          @for (x of gridArray(); track x) {
+            <div
+              class="cell"
+              [style.width.px]="CELL_SIZE"
+              [style.height.px]="CELL_SIZE"
+              [class.snake]="isSnakeCell(x, y)"
+              [class.head]="isSnakeHead(x, y)"
+              [class.food]="isFoodCell(x, y)"
+            ></div>
+          }
+        }
+      </div>
+    </div>
+
+    <!-- Touch Controls -->
+    @if (gameState() === 'playing') {
+      <div class="touch-controls">
+        <div class="touch-row">
+          <button class="nes-btn" type="button" (click)="moveUp()">
+            <app-pixel-icon name="keyboard_arrow_up" />
+          </button>
+        </div>
+        <div class="touch-row">
+          <button class="nes-btn" type="button" (click)="moveLeft()">
+            <app-pixel-icon name="keyboard_arrow_left" />
+          </button>
+          <button class="nes-btn" type="button" (click)="togglePause()">
+            <app-pixel-icon name="pause" />
+          </button>
+          <button class="nes-btn" type="button" (click)="moveRight()">
+            <app-pixel-icon name="keyboard_arrow_right" />
+          </button>
+        </div>
+        <div class="touch-row">
+          <button class="nes-btn" type="button" (click)="moveDown()">
+            <app-pixel-icon name="keyboard_arrow_down" />
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</div>

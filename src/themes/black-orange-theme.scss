@@ -1,0 +1,36 @@
+// Black & Orange Theme
+// Modern theme with black backgrounds, white text, and vibrant orange accents
+// Perfect for bold, high-contrast designs
+
+@mixin theme() {
+  // Custom theme variables - Black & Orange aesthetic
+  --theme-primary-bg: #000000;        // Pure black
+  --theme-secondary-bg: #1a1a1a;      // Very dark gray (almost black)
+  --theme-section-bg: #2a2a2a;        // Dark gray
+  --theme-primary-text: #ffffff;      // Pure white
+  --theme-secondary-text: #b3b3b3;    // Light gray
+  --theme-primary-accent: #ff6b35;    // Vibrant orange
+  --theme-secondary-accent: #ff8c61;  // Lighter orange
+  --theme-border-color: #404040;      // Medium gray
+  --theme-player-bg: #1a1a1a;         // Very dark gray
+  --theme-shadow-color: #000000b3;
+
+  // Status colors
+  --theme-success: #92cc41;
+  --theme-warning: #f7d51d;
+  --theme-error: #e76e55;
+
+  scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
+
+  *:focus-visible {
+    outline-color: var(--theme-primary-accent);
+  }
+
+  .main-view {
+    background: linear-gradient(var(--theme-primary-accent, #a84d19) 0%, var(--theme-secondary-bg, #303030) 100%);
+  }
+
+  .login-container {
+    background: linear-gradient(var(--theme-primary-accent, #a84d19) 0%, var(--theme-secondary-bg, #303030) 100%);
+  }
+}

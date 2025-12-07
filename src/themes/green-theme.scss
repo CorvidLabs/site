@@ -1,0 +1,31 @@
+// Green Theme - Green Matrix
+// Forest/eco theme with green accents
+
+@mixin theme() {
+  // Custom CSS variables for a forest/eco theme
+  --theme-primary-bg: #1b2e1f;        // Dark forest background
+  --theme-secondary-bg: #243328;      // Slightly lighter forest
+  --theme-section-bg: #2a3d2f;        // Section backgrounds
+  --theme-primary-text: #e8f5e9;      // Light green-tinted text
+  --theme-secondary-text: #a5d6a7;    // Muted green text
+  --theme-primary-accent: #66bb6a;    // Bright green accent
+  --theme-secondary-accent: #81c784;  // Lighter green accent
+  --theme-border-color: #2e7d32;      // Forest green border
+  --theme-player-bg: #1e2e22;         // Dark green player background
+  --theme-shadow-color: #000000b3;
+
+  // Status colors
+  --theme-success: #92cc41;
+  --theme-warning: #f7d51d;
+  --theme-error: #e76e55;
+
+  scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
+
+  .main-view {
+    background: linear-gradient(var(--theme-primary-accent) 0%, var(--theme-secondary-bg) 100%);
+  }
+
+  .login-container {
+    background: linear-gradient(var(--theme-primary-accent) 0%, var(--theme-secondary-bg) 100%);
+  }
+}

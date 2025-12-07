@@ -1,0 +1,126 @@
+<div appDraggable [style.width.px]="width()" [style.height.px]="height()" [appDraggableInitialPosition]="initialPosition" class="float-window">
+
+  <!-- Header acts as the drag handle -->
+  <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging" (mousedown)="isDragging = true" (mouseup)="isDragging = false">
+    <label>{{ title }}</label>
+    <button (click)="close()" class="drag-handle-close">
+      &times;
+    </button>
+  </div>
+
+  <!-- Game Content -->
+  <div class="game-content">
+    <!-- Score Display -->
+    <div class="score-display">
+      <div class="player-score">
+        <span class="player-label">P1</span>
+        <span class="score">{{ player1Score() }}</span>
+      </div>
+      <div class="vs">vs</div>
+      <div class="player-score">
+        <span class="score">{{ player2Score() }}</span>
+        <span class="player-label">{{ gameMode() === 'ai' ? 'AI' : 'P2' }}</span>
+      </div>
+    </div>
+
+    <!-- Game Canvas Container -->
+    <div class="canvas-container">
+      <canvas #gameCanvas></canvas>
+
+      @if (gameState() === 'ready') {
+        <div class="overlay">
+          <app-pixel-icon name="sports_esports" class="game-icon" />
+          <h2>Pong</h2>
+
+          <div class="mode-selector">
+            <button
+              class="nes-btn"
+              type="button"
+              [class.is-primary]="gameMode() === 'ai'"
+              (click)="setGameMode('ai')"
+            >
+              <app-pixel-icon name="smart_toy" />
+              vs AI
+            </button>
+            <button
+              class="nes-btn"
+              type="button"
+              [class.is-primary]="gameMode() === 'two-player'"
+              (click)="setGameMode('two-player')"
+            >
+              <app-pixel-icon name="group" />
+              2 Player
+            </button>
+          </div>
+
+          <p class="controls-hint">
+            @if (gameMode() === 'ai') {
+              <span>P1: W/S keys</span>
+            } @else {
+              <span>P1: W/S &nbsp;|&nbsp; P2: ↑/↓</span>
+            }
+          </p>
+
+          <button class="nes-btn is-primary" type="button" (click)="startGame()">
+            <app-pixel-icon name="play_arrow" />
+            Start Game
+          </button>
+        </div>
+      }
+
+      @if (gameState() === 'paused') {
+        <div class="overlay">
+          <app-pixel-icon name="pause" />
+          <h2>Paused</h2>
+          <button class="nes-btn is-primary" type="button" (click)="togglePause()">
+            <app-pixel-icon name="play_arrow" />
+            Resume
+          </button>
+        </div>
+      }
+
+      @if (gameState() === 'gameover') {
+        <div class="overlay">
+          <app-pixel-icon name="emoji_events" class="winner-icon" />
+          <h2>{{ winner() }} Wins!</h2>
+          <p>Final Score: {{ player1Score() }} - {{ player2Score() }}</p>
+          <button class="nes-btn is-primary" type="button" (click)="startGame()">
+            <app-pixel-icon name="replay" />
+            Play Again
+          </button>
+        </div>
+      }
+    </div>
+
+    <!-- Touch Controls -->
+    @if (gameState() === 'playing') {
+      <div class="touch-controls">
+        <div class="player-controls">
+          <span class="control-label">P1</span>
+          <button class="nes-btn" type="button" (click)="movePaddle1Up()">
+            <app-pixel-icon name="keyboard_arrow_up" />
+          </button>
+          <button class="nes-btn" type="button" (click)="movePaddle1Down()">
+            <app-pixel-icon name="keyboard_arrow_down" />
+          </button>
+        </div>
+
+        <button class="nes-btn" type="button" (click)="togglePause()">
+          <app-pixel-icon name="pause" />
+        </button>
+
+        @if (gameMode() === 'two-player') {
+          <div class="player-controls">
+            <span class="control-label">P2</span>
+            <button class="nes-btn" type="button" (click)="movePaddle2Up()">
+              <app-pixel-icon name="keyboard_arrow_up" />
+            </button>
+            <button class="nes-btn" type="button" (click)="movePaddle2Down()">
+              <app-pixel-icon name="keyboard_arrow_down" />
+            </button>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

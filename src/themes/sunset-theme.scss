@@ -1,0 +1,36 @@
+// Sunset Theme
+// Warm theme with soft sunset colors, evoking a calm and inviting atmosphere
+// Ideal for designs that aim to be soothing yet vibrant
+
+@mixin theme() {
+  // Custom theme variables - Sunset aesthetic
+  --theme-primary-bg: #fef9ef;        // Soft off-white
+  --theme-secondary-bg: #ffe5d9;      // Light peach
+  --theme-section-bg: #ffd7ba;        // Warm apricot
+  --theme-primary-text: #6d2d07;      // Deep brown
+  --theme-secondary-text: #9c4a1a;    // Rich terracotta
+  --theme-primary-accent: #ff6b35;    // Vibrant orange
+  --theme-secondary-accent: #f7931e;  // Bright orange
+  --theme-border-color: #6d2d07;      // Deep brown
+  --theme-player-bg: #ffffff;         // Pure white
+  --theme-shadow-color: #ff6b354d;
+
+  // Status colors
+  --theme-success: #22c55e;
+  --theme-warning: #f59e0b;
+  --theme-error: #ef4444;
+
+  scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
+
+  *:focus-visible {
+    outline-color: var(--theme-primary-accent);
+  }
+
+  .main-view {
+    background: linear-gradient(var(--theme-primary-accent, #ff6b35) 0%, var(--theme-secondary-bg, #ffe5d9) 100%);
+  }
+
+  .login-container {
+    background: linear-gradient(var(--theme-primary-accent, #ff6b35) 0%, var(--theme-secondary-bg, #ffe5d9) 100%);
+  }
+}

@@ -1,0 +1,77 @@
+<div appDraggable [style.width.px]="width()" [style.height.px]="height()" [appDraggableInitialPosition]="initialPosition" class="float-window">
+
+  <!-- Header acts as the drag handle -->
+  <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging" (mousedown)="isDragging = true" (mouseup)="isDragging = false">
+    <label>{{ title }}</label>
+    <button (click)="close()" class="drag-handle-close">
+      &times;
+    </button>
+  </div>
+
+  <!-- Poll Content -->
+  <div class="poll-content">
+    <!-- Poll Header -->
+    <div class="poll-header">
+      <app-pixel-icon name="how_to_vote" />
+      <h2>{{ poll().question }}</h2>
+    </div>
+
+    <!-- Vote Count -->
+    <div class="vote-count">
+      <span>{{ totalVotes() }} votes</span>
+      @if (hasVoted()) {
+        <span class="voted-badge">
+          <app-pixel-icon name="check_circle" />
+          You voted
+        </span>
+      }
+    </div>
+
+    <!-- Poll Options -->
+    <div class="poll-options">
+      @for (option of optionsWithPercentage(); track option.id) {
+        <button
+          class="poll-option"
+          [class.selected]="isSelected(option.id)"
+          [class.voted]="hasVoted()"
+          [disabled]="hasVoted()"
+          (click)="vote(option.id)"
+        >
+          <div class="option-content">
+            <span class="option-text">{{ option.text }}</span>
+            @if (hasVoted()) {
+              <span class="option-votes">{{ option.votes }} votes</span>
+            }
+          </div>
+
+          @if (hasVoted()) {
+            <div class="progress-container">
+              <div class="progress-bar" [style.width.%]="option.percentage"></div>
+            </div>
+            <span class="percentage">{{ option.percentage }}%</span>
+          }
+
+          @if (isSelected(option.id)) {
+            <app-pixel-icon name="check_circle" class="check-icon" />
+          }
+        </button>
+      }
+    </div>
+
+    <!-- Reset Vote Option -->
+    @if (hasVoted()) {
+      <div class="poll-actions">
+        <button type="button" class="nes-btn is-error" (click)="resetVote()">
+          <app-pixel-icon name="undo" />
+          Change Vote
+        </button>
+      </div>
+    }
+
+    <!-- Footer Info -->
+    <div class="poll-footer">
+      <app-pixel-icon name="info_outline" />
+      <span>Votes are stored locally on your device</span>
+    </div>
+  </div>
+</div>

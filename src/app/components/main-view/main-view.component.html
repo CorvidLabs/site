@@ -1,0 +1,40 @@
+<!-- Show login prompt if not authenticated -->
+@if (!isAuthenticated()) {
+  <app-login-prompt [peraInstance]="peraWalletConnect" (userAccountAddress)="onLoginSuccess($event)"></app-login-prompt>
+} @else {
+  <!-- We use Tailwind classes directly for styling -->
+  <!-- The main container is now a flex column to position the window area and the dock -->
+  <div class="main-view">
+    <!-- <img src="wallpapers/space-gradient-background.png" class="absolute top-0 left-0 w-full h-full object-cover -z-100" alt="BackgroundImage"> -->
+
+    <!-- This div will be the area where floating windows can exist, positioned above the dock -->
+    <div class="main-view-content">
+      <!-- Button to disconnect wallet, should be fixed on top right corner and can be behind windows -->
+      <button class="nes-btn is-error logout-btn absolute top-4 right-4 z-50" type="button" (click)="handleDisconnectWallet($event)" title="Disconnect Wallet">
+        <app-pixel-icon name="logout" size="md" />
+      </button>
+
+      <!--
+        This is the magic part!
+        It's an invisible anchor in your template.
+        The #windowHost is a template reference variable that we use in the .ts file.
+      -->
+      <ng-template #windowHost></ng-template>
+    </div>
+
+    <!-- This is the macOS-style dock -->
+    <div class="main-view-dock-region">
+      <div class="main-view-dock-bar pixel-corners">
+        <!-- Dynamic dock icons -->
+        @for (item of dockItems(); track item.type) {
+          <div class="main-view-dock-item pixel-corners-sm"
+            (click)="openWindowByType(item.type)"
+            [title]="item.label">
+            <app-pixel-icon [name]="item.icon" size="lg" class="item-icon" />
+          </div>
+        }
+      </div>
+    </div>
+
+  </div>
+}

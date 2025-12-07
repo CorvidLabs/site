@@ -1,23 +1,383 @@
-/* You can add global styles to this file, and also import other style files */
+// ============================================
+// CorvidLabs Global Styles
+// NES.css + Custom Theme System
+// ============================================
 
-// Raven's Shadow - Dark theme color palette
-$primary-bg: #111827;        // Deep Indigo
-$section-bg: #1f2937;        // Dark Slate
-$primary-text: #f9fafb;      // Off-white
-$secondary-text: #d1d5db;    // Light Gray
-$primary-accent: #8b5cf6;    // Vibrant Violet
-$secondary-accent: #14b8a6;  // Rich Teal
-$border-color: #374151;      // Charcoal
+// Import CorvidLabs base variables
+@use 'themes/nes-variables';
 
-$text-color: #111827;
+// Import theme files
+@use 'themes/dark-theme';
+@use 'themes/light-theme';
+@use 'themes/corvid-theme';
+@use 'themes/green-theme';
+@use 'themes/black-orange-theme';
+@use 'themes/arcade-theme';
+@use 'themes/sunset-theme';
+@use 'themes/cyberpunk-theme';
+@use 'themes/nes-pixel';
 
-body {
-  font-family: 'Inter', sans-serif;
-  background-color: $primary-bg;
-  color: $primary-text;
+// Set up color-scheme for light/dark mode support
+html {
+  color-scheme: light dark;
 }
+
+// Apply themes based on body class
+body.light-theme {
+  @include light-theme.theme();
+}
+
+body.dark-theme {
+  @include dark-theme.theme();
+}
+
+body.corvid-theme {
+  @include corvid-theme.theme();
+}
+
+body.green-theme {
+  @include green-theme.theme();
+}
+
+body.black-orange-theme {
+  @include black-orange-theme.theme();
+}
+
+body.arcade-theme {
+  @include arcade-theme.theme();
+}
+
+body.sunset-theme {
+  @include sunset-theme.theme();
+}
+
+body.cyberpunk-theme {
+  @include cyberpunk-theme.theme();
+}
+
+// ============================================
+// Global Body Styles
+// ============================================
+body {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  line-height: 1.8;
+  background: var(--theme-primary-bg, var(--bg-primary));
+  color: var(--theme-primary-text, var(--text-primary));
+  margin: 0;
+  padding: 0;
+
+  // macOS-style scrollbar
+  scrollbar-width: thin;
+  scrollbar-color: var(--theme-primary-accent, var(--accent-primary)) var(--theme-primary-bg, var(--bg-primary));
+}
+
+// ============================================
+// Chart Container (for Chart.js)
+// ============================================
 @media (min-width: 768px) {
   .chart-container {
-      height: 400px;
+    height: 400px;
   }
+}
+
+// ============================================
+// Float Window Styles (NES Container)
+// ============================================
+.float-window {
+  background-color: var(--theme-secondary-bg, var(--bg-container));
+  border: 4px solid var(--theme-border-color, var(--border-color));
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 5rem;
+  left: 5rem;
+
+  // NES-style pixel border effect
+  box-shadow:
+    4px 0 0 var(--theme-border-color, var(--border-color)),
+    -4px 0 0 var(--theme-border-color, var(--border-color)),
+    0 4px 0 var(--theme-border-color, var(--border-color)),
+    0 -4px 0 var(--theme-border-color, var(--border-color));
+
+  // Ensure no transparency
+  opacity: 1 !important;
+}
+
+.float-window-content {
+  flex-grow: 1;
+  padding: 0.5rem;
+  overflow: auto;
+  background-color: var(--theme-secondary-bg, var(--bg-container));
+}
+
+.drag-handle {
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 4px solid var(--theme-border-color, var(--border-color));
+  background-color: var(--theme-primary-bg, var(--bg-primary));
+
+  // Ensure no transparency
+  opacity: 1 !important;
+
+  > label {
+    color: var(--theme-primary-accent, var(--accent-primary));
+    font-size: 0.75rem;
+    font-weight: normal;
+    margin: 0;
+    font-family: 'Press Start 2P', cursive;
+  }
+}
+
+.drag-handle-close {
+  color: var(--theme-primary-text, var(--text-primary));
+  font-weight: bold;
+  font-size: 1rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: var(--theme-error, var(--color-error));
+  border: 2px solid var(--theme-border-color, var(--border-color));
+  font-family: 'Press Start 2P', cursive;
+
+  &:hover {
+    filter: brightness(1.2);
+  }
+}
+
+// ============================================
+// NES.css Overrides for Theme Integration
+// ============================================
+.nes-container {
+  background-color: var(--theme-section-bg, var(--bg-container));
+  border-color: var(--theme-border-color, var(--border-color));
+  color: var(--theme-primary-text, var(--text-primary));
+}
+
+.nes-container.is-dark {
+  background-color: var(--theme-section-bg, var(--bg-container));
+  border-color: var(--theme-border-color, var(--border-color));
+  color: var(--theme-primary-text, var(--text-primary));
+}
+
+.nes-container.is-dark.with-title > .title {
+  background-color: var(--theme-primary-bg, var(--bg-primary));
+  color: var(--theme-primary-text, var(--text-primary));
+}
+
+.nes-btn {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.65rem;
+  color: var(--theme-primary-text, var(--text-primary));
+  background-color: var(--theme-secondary-bg, var(--bg-container));
+  border-color: var(--theme-border-color, var(--border-color));
+}
+
+.nes-btn.is-primary {
+  color: var(--theme-primary-bg, var(--bg-primary)) !important;
+  background-color: var(--theme-primary-accent, var(--accent-primary)) !important;
+}
+
+.nes-btn.is-success {
+  color: var(--theme-primary-bg, var(--bg-primary)) !important;
+  background-color: var(--theme-success, var(--color-success)) !important;
+}
+
+.nes-btn.is-warning {
+  color: var(--theme-primary-bg, var(--bg-primary)) !important;
+  background-color: var(--theme-warning, var(--color-warning)) !important;
+}
+
+.nes-btn.is-error {
+  color: var(--theme-primary-text, var(--text-primary)) !important;
+  background-color: var(--theme-error, var(--color-error)) !important;
+}
+
+.nes-input,
+.nes-textarea {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.65rem;
+  background-color: var(--theme-player-bg, var(--bg-container));
+  border-color: var(--theme-border-color, var(--border-color));
+  color: var(--theme-primary-text, var(--text-primary));
+}
+
+.nes-input.is-dark,
+.nes-textarea.is-dark {
+  background-color: var(--theme-player-bg, var(--bg-container));
+  border-color: var(--theme-border-color, var(--border-color));
+  color: var(--theme-primary-text, var(--text-primary));
+}
+
+.nes-select select,
+.nes-select.is-dark select {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.65rem;
+  background-color: var(--theme-player-bg, var(--bg-container));
+  border-color: var(--theme-border-color, var(--border-color));
+  color: var(--theme-primary-text, var(--text-primary));
+}
+
+.nes-table {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.65rem;
+  color: var(--theme-primary-text, var(--text-primary));
+  border-color: var(--theme-border-color, var(--border-color));
+}
+
+.nes-table.is-dark {
+  color: var(--theme-primary-text, var(--text-primary));
+}
+
+.nes-table.is-dark th,
+.nes-table.is-dark td {
+  border-color: var(--theme-border-color, var(--border-color));
+}
+
+.nes-table thead {
+  background-color: var(--theme-secondary-bg, var(--bg-container));
+}
+
+.nes-table tbody tr {
+  background-color: var(--theme-section-bg, var(--bg-container));
+}
+
+.nes-table tbody tr:nth-child(even) {
+  background-color: var(--theme-player-bg, var(--bg-container));
+}
+
+// ============================================
+// Checkbox and Radio Overrides
+// ============================================
+.nes-checkbox,
+.nes-radio {
+  color: var(--theme-primary-text, var(--text-primary));
+}
+
+// ============================================
+// Progress Bar Override
+// ============================================
+.nes-progress {
+  border-color: var(--theme-border-color, var(--border-color));
+}
+
+.nes-progress.is-primary {
+  background-color: var(--theme-player-bg, var(--bg-container));
+}
+
+// Fix .nes-table.is-dark overlay blocking clicks
+// NES.CSS CDN creates a full-size ::before pseudo-element that covers the entire table
+.nes-table.is-dark::before {
+  pointer-events: none;
+}
+
+// Also fix table cell pseudo-elements for non-dark tables
+.nes-table td::before,
+.nes-table td::after,
+.nes-table th::before,
+.nes-table th::after {
+  pointer-events: none;
+}
+
+// ============================================
+// Utility Classes
+// ============================================
+.cursor-pointer { cursor: pointer; }
+.cursor-grab { cursor: grab; }
+.cursor-grabbing { cursor: grabbing; }
+
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+.min-h-screen { min-height: 100vh; }
+
+.overflow-auto { overflow: auto; }
+.overflow-hidden { overflow: hidden; }
+
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed { position: fixed; }
+
+.inset-0 {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.z-10 { z-index: 10; }
+.z-20 { z-index: 20; }
+.z-50 { z-index: 50; }
+
+// ============================================
+// Animation Utilities
+// ============================================
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+// ============================================
+// Action Button Styling (for window headers)
+// ============================================
+.action-btn {
+  padding: 4px 8px !important;
+  background-color: var(--bg-container, #1a1a1a) !important;
+
+  app-pixel-icon {
+    color: #ffffff;
+  }
+
+  &:hover {
+    background-color: var(--bg-primary, #212529) !important;
+  }
+}
+
+// ============================================
+// Pixel Corner Utilities (NES-style corners)
+// ============================================
+.pixel-corners {
+  clip-path: polygon(
+    0px 4px,
+    4px 4px,
+    4px 0px,
+    calc(100% - 4px) 0px,
+    calc(100% - 4px) 4px,
+    100% 4px,
+    100% calc(100% - 4px),
+    calc(100% - 4px) calc(100% - 4px),
+    calc(100% - 4px) 100%,
+    4px 100%,
+    4px calc(100% - 4px),
+    0px calc(100% - 4px)
+  );
+}
+
+.pixel-corners-sm {
+  clip-path: polygon(
+    0px 2px,
+    2px 2px,
+    2px 0px,
+    calc(100% - 2px) 0px,
+    calc(100% - 2px) 2px,
+    100% 2px,
+    100% calc(100% - 2px),
+    calc(100% - 2px) calc(100% - 2px),
+    calc(100% - 2px) 100%,
+    2px 100%,
+    2px calc(100% - 2px),
+    0px calc(100% - 2px)
+  );
 }

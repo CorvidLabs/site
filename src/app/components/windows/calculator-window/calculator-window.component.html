@@ -1,0 +1,105 @@
+<div appDraggable appResizable #elementWithDrag [style.width.px]="width()" [style.height.px]="height()" (windowResize)="onResize($event)" [appDraggableInitialPosition]="initialPosition" class="float-window">
+
+  <!-- Header acts as the drag handle -->
+  <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging" (mousedown)="isDragging = true" (mouseup)="isDragging = false">
+    <label>{{ title }}</label>
+    <button (click)="close()" class="drag-handle-close">
+      &times;
+    </button>
+  </div>
+
+  <!-- Calculator Content -->
+  <div class="calculator-content">
+    <!-- Current Price Section -->
+    <div class="price-section">
+      <div class="price-header">
+        <span class="label">ALGO Price</span>
+        <button class="nes-btn is-small" type="button" (click)="fetchPrice()" [disabled]="isLoading()" title="Refresh">
+          <app-pixel-icon name="refresh" [class.spinning]="isLoading()" />
+        </button>
+      </div>
+
+      @if (error()) {
+        <div class="price-error">
+          <app-pixel-icon name="error" />
+          <span>{{ error() }}</span>
+        </div>
+      } @else {
+        <div class="price-value">
+          @if (isLoading() && !algoPrice()) {
+            <span class="loading">Loading...</span>
+          } @else {
+            <span class="usd">${{ algoPrice()?.toFixed(4) ?? '--' }}</span>
+            <span class="change" [class]="priceChangeClass()">{{ priceChangeFormatted() }}</span>
+          }
+        </div>
+        @if (lastUpdated()) {
+          <span class="last-updated">Updated {{ lastUpdated()?.toLocaleTimeString() }}</span>
+        }
+      }
+    </div>
+
+    <!-- Converter Section -->
+    <div class="converter-section">
+      <div class="converter-header">
+        <span class="section-title">Converter</span>
+        <button class="nes-btn is-small" type="button" (click)="toggleMode()" title="Swap conversion direction">
+          <app-pixel-icon name="swap_vert" />
+        </button>
+      </div>
+
+      @if (conversionMode() === 'algoToUsd') {
+        <!-- ALGO to USD -->
+        <div class="input-group">
+          <label>ALGO</label>
+          <input type="number" [value]="algoAmount()" (input)="onAlgoInput($event)" min="0" step="0.01" />
+        </div>
+        <div class="arrow-divider">
+          <app-pixel-icon name="arrow_downward" />
+        </div>
+        <div class="result-group">
+          <label>USD</label>
+          <span class="result">${{ calculatedUsd().toFixed(2) }}</span>
+        </div>
+      } @else {
+        <!-- USD to ALGO -->
+        <div class="input-group">
+          <label>USD</label>
+          <input type="number" [value]="usdAmount()" (input)="onUsdInput($event)" min="0" step="0.01" />
+        </div>
+        <div class="arrow-divider">
+          <app-pixel-icon name="arrow_downward" />
+        </div>
+        <div class="result-group">
+          <label>ALGO</label>
+          <span class="result">{{ calculatedAlgo().toFixed(4) }}</span>
+        </div>
+      }
+
+      <!-- Quick Presets -->
+      <div class="presets">
+        <button class="nes-btn" type="button" (click)="setPresetAlgo(10)">10 ALGO</button>
+        <button class="nes-btn" type="button" (click)="setPresetAlgo(100)">100 ALGO</button>
+        <button class="nes-btn" type="button" (click)="setPresetAlgo(1000)">1K ALGO</button>
+      </div>
+    </div>
+
+    <!-- Transaction Info Section -->
+    <div class="info-section">
+      <div class="info-item">
+        <app-pixel-icon name="receipt" />
+        <div class="info-text">
+          <span class="info-label">Min Transaction Fee</span>
+          <span class="info-value">{{ MIN_TXN_FEE }} ALGO (~${{ txnFeeUsd().toFixed(4) }})</span>
+        </div>
+      </div>
+      <div class="info-item">
+        <app-pixel-icon name="info" />
+        <div class="info-text">
+          <span class="info-label">Network</span>
+          <span class="info-value">Algorand MainNet</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

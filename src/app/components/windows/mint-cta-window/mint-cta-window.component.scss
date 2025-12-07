@@ -1,0 +1,228 @@
+.cta-content {
+  padding: 1rem;
+  height: calc(100% - 40px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.showcase-section {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  max-height: 180px;
+  background: var(--theme-primary-bg, #111827);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.showcase-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--theme-text-secondary, #9ca3af);
+
+  mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.carousel {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap: 0.5rem;
+  padding: 0 0.25rem;
+}
+
+.carousel-btn {
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+  flex-shrink: 0;
+  transition: background 0.2s;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.carousel-image {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0.5rem;
+
+  img {
+    max-height: 120px;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 2px solid var(--theme-border-color, #374151);
+  }
+
+  .nft-name {
+    margin-top: 0.25rem;
+    font-size: 0.8rem;
+    color: var(--theme-text-secondary, #9ca3af);
+    text-align: center;
+  }
+}
+
+.carousel-dots {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &.active {
+      background: var(--theme-accent, #8b5cf6);
+    }
+  }
+}
+
+.title-section {
+  text-align: center;
+
+  h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--theme-text-primary, #f3f4f6);
+    margin: 0 0 0.25rem 0;
+  }
+
+  .tagline {
+    font-size: 0.9rem;
+    color: var(--theme-text-secondary, #9ca3af);
+    margin: 0;
+  }
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.benefit-item {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: var(--theme-primary-bg, #111827);
+  border-radius: 8px;
+
+  mat-icon {
+    color: var(--theme-accent, #8b5cf6);
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  .benefit-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .benefit-title {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--theme-text-primary, #f3f4f6);
+  }
+
+  .benefit-desc {
+    font-size: 0.7rem;
+    color: var(--theme-text-secondary, #9ca3af);
+    line-height: 1.2;
+  }
+}
+
+.marketplace-section {
+  margin-top: auto;
+  text-align: center;
+
+  .section-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--theme-text-secondary, #9ca3af);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.marketplace-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.marketplace-btn {
+  display: flex !important;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.75rem !important;
+  border-color: var(--theme-border-color, #374151) !important;
+  color: var(--theme-text-primary, #f3f4f6) !important;
+  transition: all 0.2s;
+
+  &:hover {
+    background: var(--theme-accent, #8b5cf6) !important;
+    border-color: var(--theme-accent, #8b5cf6) !important;
+  }
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  span {
+    font-size: 0.85rem;
+  }
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

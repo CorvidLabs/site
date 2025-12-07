@@ -1,0 +1,31 @@
+// Dark Theme - Simple Blue
+// Dark theme with violet/purple accents
+
+@mixin theme() {
+  // Custom theme variables
+  --theme-primary-bg: #111827;
+  --theme-secondary-bg: #253142;
+  --theme-section-bg: #1f2937;
+  --theme-primary-text: #f9fafb;
+  --theme-secondary-text: #d1d5db;
+  --theme-primary-accent: #8b5cf6;
+  --theme-secondary-accent: #14b8a6;
+  --theme-border-color: #374151;
+  --theme-player-bg: #a6a9ad;
+  --theme-shadow-color: #000000b3;
+
+  // Status colors
+  --theme-success: #22c55e;
+  --theme-warning: #f59e0b;
+  --theme-error: #ef4444;
+
+  scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
+
+  .main-view {
+    background: linear-gradient(var(--theme-primary-accent) 0%, var(--theme-secondary-bg) 100%);
+  }
+
+  .login-container {
+    background: linear-gradient(var(--theme-primary-accent) 0%, var(--theme-secondary-bg) 100%);
+  }
+}

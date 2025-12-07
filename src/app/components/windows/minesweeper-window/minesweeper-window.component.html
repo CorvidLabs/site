@@ -1,0 +1,120 @@
+<div appDraggable [style.width.px]="width()" [style.height.px]="height()" appResizable [appDraggableInitialPosition]="initialPosition" class="float-window">
+
+  <!-- Header acts as the drag handle -->
+  <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging" (mousedown)="isDragging = true" (mouseup)="isDragging = false">
+    <label>{{ title }}</label>
+    <button (click)="close()" class="drag-handle-close">
+      &times;
+    </button>
+  </div>
+
+  <!-- Game Content -->
+  <div class="game-content">
+    <!-- Game Stats -->
+    <div class="game-stats">
+      <div class="stat">
+        <app-pixel-icon name="flag" />
+        <span>{{ flagsRemaining() }}</span>
+      </div>
+      <div class="stat timer">
+        <app-pixel-icon name="timer" />
+        <span>{{ formatTime(timer()) }}</span>
+      </div>
+      @if (bestTimes()[difficulty()]) {
+        <div class="stat best">
+          <app-pixel-icon name="emoji_events" />
+          <span>{{ formatTime(bestTimes()[difficulty()]!) }}</span>
+        </div>
+      }
+    </div>
+
+    <!-- Difficulty Selector -->
+    @if (gameState() === 'ready') {
+      <div class="difficulty-selector">
+        <button
+          class="nes-btn"
+          type="button"
+          [class.is-primary]="difficulty() === 'easy'"
+          (click)="setDifficulty('easy')"
+        >Easy</button>
+        <button
+          class="nes-btn"
+          type="button"
+          [class.is-primary]="difficulty() === 'medium'"
+          (click)="setDifficulty('medium')"
+        >Medium</button>
+        <button
+          class="nes-btn"
+          type="button"
+          [class.is-primary]="difficulty() === 'hard'"
+          (click)="setDifficulty('hard')"
+        >Hard</button>
+      </div>
+    }
+
+    <!-- Game Board Container -->
+    <div class="board-container">
+      @if (gameState() === 'ready') {
+        <div class="overlay">
+          <app-pixel-icon name="grid_3x3" class="game-icon" />
+          <h2>Minesweeper</h2>
+          <p>{{ config().rows }}×{{ config().cols }} • {{ config().mines }} mines</p>
+          <p class="hint">Left-click to reveal, right-click to flag</p>
+          <button class="nes-btn is-primary" type="button" (click)="startGame()">
+            <app-pixel-icon name="play_arrow" />
+            Start Game
+          </button>
+        </div>
+      }
+
+      @if (gameState() === 'won') {
+        <div class="overlay win">
+          <app-pixel-icon name="emoji_events" class="game-icon" />
+          <h2>You Win!</h2>
+          <p>Time: {{ formatTime(timer()) }}</p>
+          @if (timer() === bestTimes()[difficulty()]) {
+            <p class="new-record">New Best Time!</p>
+          }
+          <button class="nes-btn is-primary" type="button" (click)="resetGame()">
+            <app-pixel-icon name="replay" />
+            Play Again
+          </button>
+        </div>
+      }
+
+      @if (gameState() === 'lost') {
+        <div class="overlay lose">
+          <app-pixel-icon name="sentiment_very_dissatisfied" class="game-icon" />
+          <h2>Game Over</h2>
+          <p>Time: {{ formatTime(timer()) }}</p>
+          <button class="nes-btn is-primary" type="button" (click)="resetGame()">
+            <app-pixel-icon name="replay" />
+            Try Again
+          </button>
+        </div>
+      }
+
+      <!-- Game Grid -->
+      <div class="game-board" [style.grid-template-columns]="'repeat(' + cols() + ', 1fr)'">
+        @for (row of grid(); track $index; let rowIdx = $index) {
+          @for (cell of row; track $index; let colIdx = $index) {
+            <button
+              class="cell"
+              [class]="getCellClass(cell)"
+              (click)="onCellClick(rowIdx, colIdx)"
+              (contextmenu)="onCellRightClick($event, rowIdx, colIdx)"
+            >{{ getCellContent(cell) }}</button>
+          }
+        }
+      </div>
+    </div>
+
+    <!-- Reset Button -->
+    @if (gameState() === 'playing') {
+      <button class="nes-btn" type="button" (click)="resetGame()">
+        <app-pixel-icon name="refresh" />
+        Reset
+      </button>
+    }
+  </div>
+</div>

@@ -1,0 +1,128 @@
+<div class="float-window rarity-checker-window" appDraggable>
+  <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging"
+       (mousedown)="isDragging = true" (mouseup)="isDragging = false">
+    <label>{{ title }}</label>
+    <div class="header-actions"></div>
+    <button (click)="close()" class="drag-handle-close">&times;</button>
+  </div>
+
+  <div class="window-content">
+    <!-- Search Input -->
+    <div class="search-section">
+      <div class="search-bar">
+        <app-pixel-icon name="search" />
+        <input
+          type="text"
+          placeholder="Enter Algorand Asset ID..."
+          [value]="assetIdInput()"
+          (input)="assetIdInput.set($any($event.target).value)"
+          (keyup.enter)="checkRarity()"
+        >
+        @if (assetIdInput()) {
+          <button type="button" class="clear-btn" (click)="clearInput()">
+            <app-pixel-icon name="close" />
+          </button>
+        }
+      </div>
+      <button
+        type="button"
+        class="nes-btn is-primary check-btn"
+        (click)="checkRarity()"
+        [disabled]="isLoading() || !assetIdInput()"
+      >
+        @if (isLoading()) {
+          <app-pixel-icon name="autorenew" class="spinning" />
+        } @else {
+          Check Rarity
+        }
+      </button>
+    </div>
+
+    <!-- Error State -->
+    @if (error()) {
+      <div class="error-state">
+        <app-pixel-icon name="warning" />
+        <span>{{ error() }}</span>
+      </div>
+    }
+
+    <!-- Result Display -->
+    @if (result(); as r) {
+      <div class="result-card">
+        <div class="result-header">
+          <div class="asset-image">
+            <img [src]="r.imageUrl || ''" [alt]="r.assetName || 'NFT'">
+          </div>
+          <div class="asset-info">
+            <h3>{{ r.assetName || 'Asset #' + r.assetId }}</h3>
+            <span class="asset-id">ID: {{ r.assetId }}</span>
+          </div>
+        </div>
+
+        <div class="rarity-display" [style.--tier-color]="getTierColor(r.rarityTier)">
+          <div class="tier-badge">
+            <app-pixel-icon [name]="getTierIcon(r.rarityTier)" />
+            <span>{{ r.rarityTier }}</span>
+          </div>
+          <div class="score-display">
+            <span class="score-label">Rarity Score</span>
+            <span class="score-value">{{ r.rarityScore.toFixed(1) }}</span>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-value">#{{ r.rarityRank }}</span>
+            <span class="stat-label">Rank</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">{{ r.totalInCollection }}</span>
+            <span class="stat-label">Collection Size</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">Top {{ ((r.rarityRank / r.totalInCollection) * 100).toFixed(1) }}%</span>
+            <span class="stat-label">Percentile</span>
+          </div>
+        </div>
+
+        <!-- Rarity Bar -->
+        <div class="rarity-bar">
+          <div class="bar-track">
+            <div class="bar-fill" [style.width.%]="r.rarityScore"></div>
+            <div class="bar-marker" [style.left.%]="r.rarityScore"></div>
+          </div>
+          <div class="bar-labels">
+            <span>Common</span>
+            <span>Legendary</span>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Recent Checks -->
+    @if (recentChecks().length > 0 && !result()) {
+      <div class="recent-section">
+        <h4>Recent Checks</h4>
+        <div class="recent-list">
+          @for (check of recentChecks(); track check.assetId) {
+            <button type="button" class="nes-btn recent-item" (click)="selectRecentCheck(check)">
+              <span class="recent-name">{{ check.assetName || 'Asset #' + check.assetId }}</span>
+              <span class="recent-tier" [style.color]="getTierColor(check.rarityTier)">
+                {{ check.rarityTier }}
+              </span>
+            </button>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Empty State -->
+    @if (!result() && recentChecks().length === 0 && !isLoading() && !error()) {
+      <div class="empty-state">
+        <app-pixel-icon name="stars" />
+        <span>Check NFT Rarity</span>
+        <small>Enter an Algorand asset ID to see its rarity score and ranking</small>
+      </div>
+    }
+  </div>
+</div>

@@ -31,6 +31,8 @@
     "@angular/router": "^20.3.0",
     "algosdk": "^3.5.2",
     "multiformats": "^13.4.1",
+    "nes.css": "^2.3.0",
+    "pixelarticons": "^1.8.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

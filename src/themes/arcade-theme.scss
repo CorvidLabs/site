@@ -1,0 +1,36 @@
+// Arcade Theme
+// Vibrant theme with bright colors on dark backgrounds, inspired by classic arcade games
+// Ideal for playful and energetic designs
+
+@mixin theme() {
+  // Custom theme variables - Arcade aesthetic
+  --theme-primary-bg: #000000;        // Pure black
+  --theme-secondary-bg: #1a1a1a;      // Very dark gray
+  --theme-section-bg: #2a2a2a;        // Dark gray
+  --theme-primary-text: #00ffea;      // Bright cyan
+  --theme-secondary-text: #66ffe0;    // Light cyan
+  --theme-primary-accent: #ff00ff;    // Vibrant magenta
+  --theme-secondary-accent: #ff66ff;  // Light magenta
+  --theme-border-color: #404040;      // Medium gray
+  --theme-player-bg: #1a1a1a;         // Very dark gray
+  --theme-shadow-color: #000000b3;
+
+  // Status colors
+  --theme-success: #92cc41;
+  --theme-warning: #f7d51d;
+  --theme-error: #e76e55;
+
+  scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
+
+  *:focus-visible {
+    outline-color: var(--theme-primary-accent);
+  }
+
+  .main-view {
+    background: linear-gradient(var(--theme-primary-accent, #ff00ff) 0%, var(--theme-secondary-bg, #1a1a1a) 100%);
+  }
+
+  .login-container {
+    background: linear-gradient(var(--theme-primary-accent, #ff00ff) 0%, var(--theme-secondary-bg, #1a1a1a) 100%);
+  }
+}

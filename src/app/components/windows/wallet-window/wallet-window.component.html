@@ -1,0 +1,90 @@
+<div appDraggable appResizable #elementWithDrag [style.width.px]="width()" [style.height.px]="height()" (windowResize)="onResize($event)" [appDraggableInitialPosition]="initialPosition" class="float-window">
+
+  <!-- Header acts as the drag handle -->
+  <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging" (mousedown)="isDragging = true" (mouseup)="isDragging = false">
+    <label>{{ title }}</label>
+    <button (click)="close()" class="drag-handle-close">
+      &times;
+    </button>
+  </div>
+
+  <!-- Wallet Content -->
+  <div class="wallet-content">
+    @if (!walletAddress()) {
+      <div class="not-connected">
+        <app-pixel-icon name="account_balance_wallet" size="xl" />
+        <p>No wallet connected</p>
+        <span class="hint">Connect your wallet using the login prompt to view your dashboard</span>
+      </div>
+    } @else {
+      <!-- Wallet Address Section -->
+      <div class="wallet-address-section">
+        <div class="address-row">
+          <span class="address">{{ truncatedAddress() }}</span>
+          <div class="address-actions">
+            <button class="nes-btn is-small" type="button" (click)="copyAddress()" [class.copied]="copiedToClipboard()" [title]="copiedToClipboard() ? 'Copied!' : 'Copy address'">
+              <app-pixel-icon [name]="copiedToClipboard() ? 'check' : 'content_copy'" />
+            </button>
+            <button class="nes-btn is-small" type="button" (click)="openExplorer()" title="Open in explorer">
+              <app-pixel-icon name="open_in_new" />
+            </button>
+            <button class="nes-btn is-small" type="button" (click)="refreshData()" [disabled]="isLoading()" title="Refresh">
+              <app-pixel-icon name="refresh" [class.spinning]="isLoading()" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Balance Section -->
+      <div class="balance-section">
+        <div class="balance-label">Balance</div>
+        <div class="balance-value">
+          @if (isLoading() && !accountInfo()) {
+            <span class="loading-text">Loading...</span>
+          } @else {
+            <span class="algo-amount">{{ algoBalance() }}</span>
+            <span class="algo-symbol">ALGO</span>
+          }
+        </div>
+      </div>
+
+      <!-- Error Message -->
+      @if (error()) {
+        <div class="error-message">
+          <app-pixel-icon name="error" />
+          <span>{{ error() }}</span>
+        </div>
+      }
+
+      <!-- Owned Corvid NFTs Section -->
+      <div class="nfts-section">
+        <div class="section-header">
+          <span class="section-title">Your Corvid NFTs</span>
+          <span class="nft-count">{{ ownedCorvidNfts().length }}</span>
+        </div>
+
+        @if (isLoading()) {
+          <div class="loading-nfts">
+            <app-pixel-icon name="autorenew" class="spinning" />
+            <span>Loading NFTs...</span>
+          </div>
+        } @else if (ownedCorvidNfts().length === 0) {
+          <div class="no-nfts">
+            <app-pixel-icon name="collections" size="lg" />
+            <p>No Corvid NFTs found</p>
+            <span class="hint">Browse the Gallery to discover Nevermore NFTs</span>
+          </div>
+        } @else {
+          <div class="nfts-grid">
+            @for (nft of ownedCorvidNfts(); track nft.assetId) {
+              <div class="nft-card">
+                <img [src]="nft.imageUrl" [alt]="nft.name" loading="lazy" />
+                <span class="nft-name">{{ nft.name }}</span>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

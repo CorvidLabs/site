@@ -1,0 +1,155 @@
+<div appDraggable [style.width.px]="width()" [style.height.px]="height()" [appDraggableInitialPosition]="initialPosition" class="float-window">
+
+  <!-- Header acts as the drag handle -->
+  <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging" (mousedown)="isDragging = true" (mouseup)="isDragging = false">
+    <label>{{ title }}</label>
+    <button (click)="close()" class="drag-handle-close">
+      &times;
+    </button>
+  </div>
+
+  <!-- Slot Machine Content -->
+  <div class="slot-content">
+    <!-- Credits Display -->
+    <div class="credits-bar">
+      <div class="credits">
+        <span class="label">Credits</span>
+        <span class="value">{{ credits() }}</span>
+      </div>
+      <div class="bet">
+        <span class="label">Bet</span>
+        <span class="value">{{ betAmount() }}</span>
+      </div>
+      @if (lastWin() > 0) {
+        <div class="win" [class.jackpot]="jackpot()">
+          <span class="label">Win!</span>
+          <span class="value">+{{ lastWin() }}</span>
+        </div>
+      }
+    </div>
+
+    <!-- Slot Machine -->
+    <div class="machine-container">
+      <div class="machine">
+        <!-- Reel 1 -->
+        <div class="reel" [class.spinning]="reel1Spinning()">
+          @for (symbol of reel1(); track $index) {
+            <div class="symbol" [class.middle]="$index === 1">
+              <span class="emoji">{{ symbol.icon }}</span>
+            </div>
+          }
+        </div>
+
+        <!-- Reel 2 -->
+        <div class="reel" [class.spinning]="reel2Spinning()">
+          @for (symbol of reel2(); track $index) {
+            <div class="symbol" [class.middle]="$index === 1">
+              <span class="emoji">{{ symbol.icon }}</span>
+            </div>
+          }
+        </div>
+
+        <!-- Reel 3 -->
+        <div class="reel" [class.spinning]="reel3Spinning()">
+          @for (symbol of reel3(); track $index) {
+            <div class="symbol" [class.middle]="$index === 1">
+              <span class="emoji">{{ symbol.icon }}</span>
+            </div>
+          }
+        </div>
+
+        <!-- Win Line Indicator -->
+        <div class="win-line"></div>
+      </div>
+    </div>
+
+    <!-- Jackpot Banner -->
+    @if (jackpot()) {
+      <div class="jackpot-banner">
+        <app-pixel-icon name="celebration" />
+        <span>JACKPOT!</span>
+        <app-pixel-icon name="celebration" />
+      </div>
+    }
+
+    <!-- Bet Controls -->
+    <div class="bet-controls">
+      <span class="bet-label">Bet Amount:</span>
+      <div class="bet-buttons">
+        <button
+          class="nes-btn"
+          type="button"
+          [class.is-primary]="betAmount() === 5"
+          [disabled]="isSpinning()"
+          (click)="setBet(5)"
+        >5</button>
+        <button
+          class="nes-btn"
+          type="button"
+          [class.is-primary]="betAmount() === 10"
+          [disabled]="isSpinning()"
+          (click)="setBet(10)"
+        >10</button>
+        <button
+          class="nes-btn"
+          type="button"
+          [class.is-primary]="betAmount() === 25"
+          [disabled]="isSpinning() || credits() < 25"
+          (click)="setBet(25)"
+        >25</button>
+        <button
+          class="nes-btn"
+          type="button"
+          [class.is-primary]="betAmount() === 50"
+          [disabled]="isSpinning() || credits() < 50"
+          (click)="setBet(50)"
+        >50</button>
+      </div>
+    </div>
+
+    <!-- Spin Button -->
+    <button
+      class="nes-btn is-primary spin-button"
+      type="button"
+      [disabled]="!canSpin()"
+      (click)="spin()"
+    >
+      @if (isSpinning()) {
+        <app-pixel-icon name="sync" class="spinning-icon" />
+        Spinning...
+      } @else {
+        <app-pixel-icon name="casino" />
+        SPIN
+      }
+    </button>
+
+    <!-- Out of Credits -->
+    @if (credits() < 10) {
+      <button class="nes-btn free-credits" type="button" (click)="addFreeCredits()">
+        <app-pixel-icon name="card_giftcard" />
+        Get 50 Free Credits
+      </button>
+    }
+
+    <!-- Paytable -->
+    <div class="paytable">
+      <span class="paytable-title">Paytable</span>
+      <div class="paytable-row">
+        <span>🐦‍⬛🐦‍⬛🐦‍⬛</span>
+        <span>100x</span>
+      </div>
+      <div class="paytable-row">
+        <span>💎💎💎</span>
+        <span>50x</span>
+      </div>
+      <div class="paytable-row">
+        <span>Any 3 match</span>
+        <span>5-25x</span>
+      </div>
+      <div class="paytable-row">
+        <span>Any 2 match</span>
+        <span>1-5x</span>
+      </div>
+    </div>
+  </div>
+</div>

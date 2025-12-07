@@ -1,0 +1,252 @@
+<div class="float-window styleguide-window" appDraggable [appDraggableInitialPosition]="initialPosition" [style.width.px]="width()" [style.height.px]="height()">
+  <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging"
+       (mousedown)="isDragging = true" (mouseup)="isDragging = false">
+    <label>{{ title }}</label>
+    <div class="header-actions"></div>
+    <button (click)="close()" class="drag-handle-close">&times;</button>
+  </div>
+
+  <div class="float-window-content">
+    <!-- Section Tabs -->
+    <div class="section-tabs">
+      @for (section of sections; track section.id) {
+        <button class="nes-btn"
+                [class.is-primary]="activeSection() === section.id"
+                (click)="activeSection.set(section.id)">
+          <app-pixel-icon [name]="section.icon" size="sm" />
+        </button>
+      }
+    </div>
+
+    <!-- Section Content -->
+    <div class="section-content">
+      @switch (activeSection()) {
+        <!-- BUTTONS -->
+        @case ('buttons') {
+          <h3 class="section-title">Buttons</h3>
+          <div class="showcase-row">
+            <div class="showcase-item">
+              <button class="nes-btn">Default</button>
+              <code>.nes-btn</code>
+            </div>
+            <div class="showcase-item">
+              <button class="nes-btn is-primary">Primary</button>
+              <code>.is-primary</code>
+            </div>
+            <div class="showcase-item">
+              <button class="nes-btn is-success">Success</button>
+              <code>.is-success</code>
+            </div>
+            <div class="showcase-item">
+              <button class="nes-btn is-warning">Warning</button>
+              <code>.is-warning</code>
+            </div>
+            <div class="showcase-item">
+              <button class="nes-btn is-error">Error</button>
+              <code>.is-error</code>
+            </div>
+          </div>
+          <div class="showcase-row">
+            <div class="showcase-item">
+              <button class="nes-btn is-small">Small</button>
+              <code>.is-small</code>
+            </div>
+            <div class="showcase-item">
+              <button class="nes-btn" disabled>Disabled</button>
+              <code>disabled</code>
+            </div>
+            <div class="showcase-item">
+              <button class="nes-btn is-small action-btn">
+                <app-pixel-icon name="settings" size="sm" />
+              </button>
+              <code>.action-btn</code>
+            </div>
+          </div>
+        }
+
+        <!-- FORMS -->
+        @case ('forms') {
+          <h3 class="section-title">Form Elements</h3>
+          <div class="form-showcase">
+            <div class="form-group">
+              <label>Text Input</label>
+              <input type="text" class="nes-input" placeholder="Enter text...">
+              <code>.nes-input</code>
+            </div>
+            <div class="form-group">
+              <label>Textarea</label>
+              <textarea class="nes-textarea" placeholder="Enter multiline text..."></textarea>
+              <code>.nes-textarea</code>
+            </div>
+            <div class="form-group">
+              <label>Select</label>
+              <div class="nes-select">
+                <select>
+                  <option value="">Choose...</option>
+                  <option value="1">Option 1</option>
+                  <option value="2">Option 2</option>
+                </select>
+              </div>
+              <code>.nes-select</code>
+            </div>
+            <div class="form-group inline-group">
+              <label>
+                <input type="checkbox" class="nes-checkbox">
+                <span>Checkbox</span>
+              </label>
+              <code>.nes-checkbox</code>
+            </div>
+            <div class="form-group inline-group">
+              <label>
+                <input type="radio" class="nes-radio" name="sample" checked>
+                <span>Radio A</span>
+              </label>
+              <label>
+                <input type="radio" class="nes-radio" name="sample">
+                <span>Radio B</span>
+              </label>
+              <code>.nes-radio</code>
+            </div>
+          </div>
+        }
+
+        <!-- CONTAINERS -->
+        @case ('containers') {
+          <h3 class="section-title">Containers</h3>
+          <div class="container-showcase">
+            <div class="nes-container with-title">
+              <p class="title">With Title</p>
+              <p>Content inside .nes-container.with-title</p>
+            </div>
+            <code>.nes-container.with-title</code>
+
+            <div class="nes-container is-dark with-title" style="margin-top: 12px;">
+              <p class="title">Dark Container</p>
+              <p>Content inside .nes-container.is-dark</p>
+            </div>
+            <code>.nes-container.is-dark</code>
+
+            <div class="pixel-corners-demo" style="margin-top: 12px;">
+              <div class="pixel-box pixel-corners">
+                .pixel-corners
+              </div>
+              <div class="pixel-box pixel-corners-sm">
+                .pixel-corners-sm
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- TABLES -->
+        @case ('tables') {
+          <h3 class="section-title">Tables</h3>
+          <table class="nes-table is-bordered is-dark">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Player</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Player One</td>
+                <td>9,999</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Player Two</td>
+                <td>8,500</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Player Three</td>
+                <td>7,200</td>
+              </tr>
+            </tbody>
+          </table>
+          <code>.nes-table.is-bordered.is-dark</code>
+
+          <h4 style="margin-top: 16px;">Progress Bar</h4>
+          <progress class="nes-progress is-primary" value="70" max="100"></progress>
+          <code>.nes-progress.is-primary</code>
+        }
+
+        <!-- ICONS -->
+        @case ('icons') {
+          <h3 class="section-title">Icons ({{ filteredIcons().length }})</h3>
+          <div class="icon-search">
+            <input type="text" class="nes-input"
+                   placeholder="Search icons..."
+                   [value]="iconSearch()"
+                   (input)="iconSearch.set($any($event.target).value)">
+          </div>
+          <div class="icon-grid">
+            @for (icon of filteredIcons(); track icon) {
+              <div class="icon-item" (click)="copyIconName(icon)" title="Click to copy">
+                <app-pixel-icon [name]="icon" size="md" />
+                <span class="icon-name">{{ icon }}</span>
+              </div>
+            }
+          </div>
+        }
+
+        <!-- THEMES -->
+        @case ('themes') {
+          <h3 class="section-title">Themes</h3>
+          <div class="theme-buttons">
+            @for (theme of themes; track theme.id) {
+              <button class="nes-btn"
+                      [class.is-primary]="getCurrentTheme() === theme.id"
+                      (click)="switchTheme(theme.id)">
+                {{ theme.displayName }}
+              </button>
+            }
+          </div>
+
+          <h4 style="margin-top: 16px;">CSS Variables</h4>
+          <div class="variable-list">
+            @for (variable of themeVariables; track variable) {
+              <div class="variable-item">
+                <div class="color-swatch" [style.background]="getComputedColor(variable)"></div>
+                <code>{{ variable }}</code>
+              </div>
+            }
+          </div>
+        }
+
+        <!-- TYPOGRAPHY -->
+        @case ('typography') {
+          <h3 class="section-title">Typography</h3>
+          <div class="typography-showcase">
+            <div class="type-item">
+              <h1 style="margin: 0;">Heading 1</h1>
+              <code>h1</code>
+            </div>
+            <div class="type-item">
+              <h2 style="margin: 0;">Heading 2</h2>
+              <code>h2</code>
+            </div>
+            <div class="type-item">
+              <h3 style="margin: 0;">Heading 3</h3>
+              <code>h3</code>
+            </div>
+            <div class="type-item">
+              <h4 style="margin: 0;">Heading 4</h4>
+              <code>h4</code>
+            </div>
+            <div class="type-item">
+              <p style="margin: 0;">Body text - Press Start 2P font at 12px</p>
+              <code>p, body</code>
+            </div>
+            <div class="type-item">
+              <small>Small text for captions</small>
+              <code>small</code>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  </div>
+</div>

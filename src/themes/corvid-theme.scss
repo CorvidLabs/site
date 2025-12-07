@@ -1,0 +1,31 @@
+// Corvid Theme (Default)
+// Deep space aesthetic with cream/violet accents
+
+@mixin theme() {
+  // Custom Corvid theme variables - Deep space aesthetic
+  --theme-primary-bg: #11111b;        // Deep Space Black
+  --theme-secondary-bg: #171a30;      // Extra Dark Navy
+  --theme-section-bg: #232338;        // Slightly Lighter Dark
+  --theme-primary-text: #f9e9c8;      // Cream Highlight
+  --theme-secondary-text: #a8a9ad;    // Muted Gray
+  --theme-primary-accent: #f9e9c8;    // Cream Highlight
+  --theme-secondary-accent: #0c0f18;  // Shadow Accent
+  --theme-border-color: #0d1019;      // Dark Border
+  --theme-player-bg: #12121c;         // Player Background
+  --theme-shadow-color: #000000b3;
+
+  // Status colors
+  --theme-success: #92cc41;
+  --theme-warning: #f7d51d;
+  --theme-error: #e76e55;
+
+  scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
+
+  .main-view {
+    background: linear-gradient(var(--theme-primary-accent) 0%, var(--theme-secondary-bg) 100%);
+  }
+
+  .login-container {
+    background: linear-gradient(var(--theme-primary-accent) 0%, var(--theme-secondary-bg) 100%);
+  }
+}

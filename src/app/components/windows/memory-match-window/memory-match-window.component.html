@@ -1,0 +1,109 @@
+<div appDraggable appResizable #elementWithDrag [style.width.px]="width()" [style.height.px]="height()" (windowResize)="onResize($event)" [appDraggableInitialPosition]="initialPosition" class="float-window">
+
+  <!-- Header acts as the drag handle -->
+  <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging" (mousedown)="isDragging = true" (mouseup)="isDragging = false">
+    <label>{{ title }}</label>
+    <button (click)="close()" class="drag-handle-close">
+      &times;
+    </button>
+  </div>
+
+  <!-- Game Content -->
+  <div class="game-content">
+    @switch (gameState()) {
+      @case ('loading') {
+        <div class="loading-state">
+          <app-pixel-icon name="autorenew" class="spinning" />
+          <p>Loading NFTs...</p>
+        </div>
+      }
+
+      @case ('ready') {
+        <div class="ready-state">
+          <div class="game-icon">
+            <app-pixel-icon name="grid_view" />
+          </div>
+          <h2>Memory Match</h2>
+          <p>Match pairs of Corvid NFTs!</p>
+          <p class="instructions">Flip cards to find matching pairs. Try to complete in the fewest moves!</p>
+          <button class="nes-btn is-primary start-btn" type="button" (click)="startGame()">
+            <app-pixel-icon name="play_arrow" />
+            Start Game
+          </button>
+        </div>
+      }
+
+      @case ('playing') {
+        <!-- Game Stats -->
+        <div class="game-stats">
+          <div class="stat">
+            <app-pixel-icon name="touch_app" />
+            <span>{{ moves() }} moves</span>
+          </div>
+          <div class="stat">
+            <app-pixel-icon name="timer" />
+            <span>{{ formattedTime() }}</span>
+          </div>
+          <div class="stat">
+            <app-pixel-icon name="check_circle" />
+            <span>{{ matchedPairs() }}/{{ totalPairs() }}</span>
+          </div>
+        </div>
+
+        <!-- Card Grid -->
+        <div class="card-grid">
+          @for (card of cards(); track card.id) {
+            <div
+              class="card"
+              [class.flipped]="card.isFlipped || card.isMatched"
+              [class.matched]="card.isMatched"
+              (click)="flipCard(card)"
+            >
+              <div class="card-inner">
+                <div class="card-front">
+                  <app-pixel-icon name="help_outline" />
+                </div>
+                <div class="card-back">
+                  <img [src]="card.imageUrl" [alt]="card.nftName" loading="lazy" />
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Restart Button -->
+        <div class="game-actions">
+          <button class="nes-btn" type="button" (click)="restartGame()">
+            <app-pixel-icon name="refresh" />
+            Restart
+          </button>
+        </div>
+      }
+
+      @case ('won') {
+        <div class="won-state">
+          <div class="celebration">
+            <app-pixel-icon name="celebration" />
+          </div>
+          <h2>You Won!</h2>
+          <div class="final-stats">
+            <p><strong>{{ moves() }}</strong> moves</p>
+            <p><strong>{{ formattedTime() }}</strong> time</p>
+          </div>
+          <button class="nes-btn is-primary play-again-btn" type="button" (click)="restartGame()">
+            <app-pixel-icon name="replay" />
+            Play Again
+          </button>
+        </div>
+      }
+    }
+
+    @if (error()) {
+      <div class="error-state">
+        <app-pixel-icon name="error" />
+        <p>{{ error() }}</p>
+        <button class="nes-btn" type="button" (click)="loadNftsAndSetup()">Try Again</button>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,122 @@
+<div class="float-window nft-showcase-window" appDraggable>
+  <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging"
+       (mousedown)="isDragging = true" (mouseup)="isDragging = false">
+    <label>{{ title }}</label>
+    <div class="header-actions">
+      <button type="button" class="nes-btn is-small action-btn" (click)="toggleViewMode()" [title]="viewMode() === 'grid' ? 'List View' : 'Grid View'">
+        <app-pixel-icon [name]="viewMode() === 'grid' ? 'view_list' : 'grid_view'" size="sm" />
+      </button>
+      <button type="button" class="nes-btn is-small action-btn" (click)="refresh()" title="Refresh">
+        <app-pixel-icon name="refresh" size="sm" />
+      </button>
+    </div>
+    <button (click)="close()" class="drag-handle-close">&times;</button>
+  </div>
+
+  <div class="window-content">
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input
+        type="text"
+        placeholder="Enter wallet address to view NFTs..."
+        [value]="searchAddress()"
+        (input)="searchAddress.set($any($event.target).value)"
+        (keyup.enter)="onSearch()"
+      >
+      <button type="button" class="nes-btn is-primary" (click)="onSearch()" [disabled]="isLoading()">
+        <app-pixel-icon name="search" />
+      </button>
+    </div>
+
+    <!-- Loading State -->
+    @if (isLoading()) {
+      <div class="loading-state">
+        <app-pixel-icon name="autorenew" class="spinning" />
+        <span>Loading NFTs...</span>
+      </div>
+    }
+
+    <!-- Error State -->
+    @if (error()) {
+      <div class="error-state">
+        <app-pixel-icon name="warning" />
+        <span>{{ error() }}</span>
+      </div>
+    }
+
+    <!-- NFT Grid/List -->
+    @if (!isLoading() && !selectedAsset()) {
+      <div class="nft-container" [class.grid-view]="viewMode() === 'grid'" [class.list-view]="viewMode() === 'list'">
+        @if (displayAssets().length === 0) {
+          <div class="empty-state">
+            <app-pixel-icon name="collections" />
+            <span>No NFTs found</span>
+            <small>Enter a wallet address to view NFTs</small>
+          </div>
+        } @else {
+          @for (asset of displayAssets(); track asset.assetId) {
+            <div class="nft-card" (click)="selectAsset(asset)">
+              <div class="nft-image">
+                <img [src]="asset.imageUrl" [alt]="asset.name || 'NFT'" loading="lazy">
+              </div>
+              <div class="nft-info">
+                <span class="nft-name">{{ asset.name || 'Unnamed NFT' }}</span>
+                <span class="nft-id">#{{ asset.assetId }}</span>
+              </div>
+            </div>
+          }
+        }
+      </div>
+    }
+
+    <!-- Asset Detail View -->
+    @if (selectedAsset(); as asset) {
+      <div class="asset-detail">
+        <button type="button" class="nes-btn back-button" (click)="closeDetail()">
+          <app-pixel-icon name="arrow_back" />
+          <span>Back to Gallery</span>
+        </button>
+
+        <div class="detail-content">
+          <div class="detail-image">
+            <img [src]="asset.imageUrl" [alt]="asset.name || 'NFT'">
+          </div>
+
+          <div class="detail-info">
+            <h2>{{ asset.name || 'Unnamed NFT' }}</h2>
+
+            <div class="info-row">
+              <span class="label">Asset ID</span>
+              <span class="value">{{ asset.assetId }}</span>
+            </div>
+
+            <div class="info-row">
+              <span class="label">Unit Name</span>
+              <span class="value">{{ asset.unitName || 'N/A' }}</span>
+            </div>
+
+            <div class="info-row">
+              <span class="label">Creator</span>
+              <span class="value" title="{{ asset.creator }}">{{ formatAddress(asset.creator) }}</span>
+            </div>
+
+            <div class="info-row">
+              <span class="label">Total Supply</span>
+              <span class="value">{{ asset.total }}</span>
+            </div>
+
+            @if (asset.url) {
+              <div class="info-row">
+                <span class="label">Metadata</span>
+                <a class="value link" [href]="asset.url" target="_blank" rel="noopener">
+                  View on IPFS
+                  <app-pixel-icon name="open_in_new" />
+                </a>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

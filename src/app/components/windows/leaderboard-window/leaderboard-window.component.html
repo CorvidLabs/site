@@ -1,0 +1,108 @@
+<div class="float-window leaderboard-window" appDraggable>
+  <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging"
+       (mousedown)="isDragging = true" (mouseup)="isDragging = false">
+    <label>{{ title }}</label>
+    <div class="header-actions">
+      <button type="button" class="nes-btn is-small action-btn" (click)="refresh()" title="Refresh" [disabled]="isLoading()">
+        <app-pixel-icon name="refresh" size="sm" [class.spinning]="isLoading()" />
+      </button>
+    </div>
+    <button (click)="close()" class="drag-handle-close">&times;</button>
+  </div>
+
+  <div class="window-content">
+    <!-- Game Selector -->
+    <div class="game-tabs">
+      @for (game of games; track game.name) {
+        <button
+          type="button"
+          class="game-tab"
+          [class.active]="selectedGame() === game.name"
+          [style.--game-color]="game.color"
+          (click)="selectGame(game.name)"
+          [title]="game.displayName"
+        >
+          <app-pixel-icon [name]="game.icon" />
+        </button>
+      }
+    </div>
+
+    <!-- Current Game Header -->
+    <div class="game-header" [style.--accent-color]="currentGameConfig().color">
+      <app-pixel-icon [name]="currentGameConfig().icon" />
+      <span>{{ currentGameConfig().displayName }}</span>
+    </div>
+
+    <!-- User Stats -->
+    @if (userRank() || userBestScore()) {
+      <div class="user-stats">
+        @if (userRank()) {
+          <div class="stat">
+            <span class="label">Your Rank</span>
+            <span class="value">#{{ userRank() }}</span>
+          </div>
+        }
+        @if (userBestScore()) {
+          <div class="stat">
+            <span class="label">Best Score</span>
+            <span class="value">{{ formatScore(userBestScore()!) }}</span>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Loading State -->
+    @if (isLoading()) {
+      <div class="loading-state">
+        <app-pixel-icon name="autorenew" class="spinning" />
+        <span>Loading scores...</span>
+      </div>
+    }
+
+    <!-- Error State -->
+    @if (error()) {
+      <div class="error-state">
+        <app-pixel-icon name="warning" />
+        <span>{{ error() }}</span>
+      </div>
+    }
+
+    <!-- Leaderboard Table -->
+    @if (!isLoading()) {
+      <div class="leaderboard-container">
+        @if (currentLeaderboard().length === 0) {
+          <div class="empty-state">
+            <app-pixel-icon name="emoji_events" />
+            <span>No scores yet!</span>
+            <small>Be the first to set a high score</small>
+          </div>
+        } @else {
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th class="rank-col">Rank</th>
+                <th class="player-col">Player</th>
+                <th class="score-col">Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (entry of currentLeaderboard(); track entry.rank) {
+                <tr [class.current-user]="isCurrentUser(entry)" [class.top-three]="entry.rank <= 3">
+                  <td class="rank-col">
+                    <span class="rank-emoji">{{ getRankEmoji(entry.rank) }}</span>
+                    <span class="rank-number">{{ entry.rank }}</span>
+                  </td>
+                  <td class="player-col">
+                    <span class="player-name">{{ entry.playerName || 'Anonymous' }}</span>
+                    <span class="wallet-address">{{ formatAddress(entry.walletAddress) }}</span>
+                  </td>
+                  <td class="score-col">{{ formatScore(entry.score) }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      </div>
+    }
+  </div>
+</div>

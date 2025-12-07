@@ -1,0 +1,166 @@
+// ============================================
+// CorvidLabs NES Theme Variables
+// Base variables for all NES-styled themes
+// ============================================
+
+// ============================================
+// CorvidLabs Base Colors
+// Dark theme with white as primary accent
+// ============================================
+:root {
+  // Background colors
+  --bg-primary: #212529;
+  --bg-container: #1a1a1a;
+
+  // Text colors
+  --text-primary: #ffffff;
+  --text-muted: #8c8c8c;
+
+  // Accent colors
+  --accent-primary: #ffffff;
+  --accent-hover: #e0e0e0;
+
+  // Border color
+  --border-color: #ffffff;
+
+  // Status colors (NES.css standard)
+  --color-success: #92cc41;
+  --color-error: #e76e55;
+  --color-warning: #f7d51d;
+  --color-info: #209cee;
+}
+
+// ============================================
+// Text Size Utilities
+// ============================================
+.text-xs { font-size: 0.65rem; }
+.text-sm { font-size: 0.75rem; }
+.text-base { font-size: 0.875rem; }
+.text-lg { font-size: 1rem; }
+.text-xl { font-size: 1.25rem; }
+
+// ============================================
+// Text Color Utilities
+// ============================================
+.text-muted { color: var(--text-muted); }
+.text-success { color: var(--color-success); }
+.text-error { color: var(--color-error); }
+.text-warning { color: var(--color-warning); }
+.text-info { color: var(--color-info); }
+
+// ============================================
+// Border Color Utilities (for status indication)
+// ============================================
+.border-success { border-color: var(--color-success) !important; }
+.border-error { border-color: var(--color-error) !important; }
+.border-warning { border-color: var(--color-warning) !important; }
+.border-info { border-color: var(--color-info) !important; }
+
+// ============================================
+// Layout Utilities
+// ============================================
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-wrap { flex-wrap: wrap; }
+.items-center { align-items: center; }
+.items-start { align-items: flex-start; }
+.items-end { align-items: flex-end; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.justify-start { justify-content: flex-start; }
+.justify-end { justify-content: flex-end; }
+
+.grid { display: grid; }
+.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+// ============================================
+// Spacing Utilities
+// ============================================
+.gap-1 { gap: 0.25rem; }
+.gap-2 { gap: 0.5rem; }
+.gap-3 { gap: 0.75rem; }
+.gap-4 { gap: 1rem; }
+.gap-6 { gap: 1.5rem; }
+
+.p-1 { padding: 0.25rem; }
+.p-2 { padding: 0.5rem; }
+.p-3 { padding: 0.75rem; }
+.p-4 { padding: 1rem; }
+
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 0.75rem; }
+.mb-4 { margin-bottom: 1rem; }
+
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 0.75rem; }
+.mt-4 { margin-top: 1rem; }
+
+// ============================================
+// Pixel Art Icons (via pixelarticons)
+// ============================================
+.pixelicon {
+  font-family: 'pixelarticons';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.5rem;
+  line-height: 1;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+// ============================================
+// NES.css Dark Theme Overrides
+// ============================================
+.nes-container.is-dark {
+  background-color: var(--bg-container);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.nes-container.is-dark.with-title > .title {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.nes-btn {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.65rem;
+}
+
+.nes-input.is-dark,
+.nes-textarea.is-dark {
+  background-color: var(--bg-container);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.nes-select.is-dark select {
+  background-color: var(--bg-container);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.nes-table.is-dark {
+  color: var(--text-primary);
+}
+
+.nes-table.is-dark th,
+.nes-table.is-dark td {
+  border-color: var(--border-color);
+}
+
+// ============================================
+// Animation Utilities
+// ============================================
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}

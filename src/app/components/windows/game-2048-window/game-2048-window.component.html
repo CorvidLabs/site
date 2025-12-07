@@ -1,0 +1,83 @@
+<div appDraggable [style.width.px]="width()" [style.height.px]="height()" [appDraggableInitialPosition]="initialPosition" class="float-window">
+
+  <!-- Header acts as the drag handle -->
+  <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging" (mousedown)="isDragging = true" (mouseup)="isDragging = false">
+    <label>{{ title }}</label>
+    <button (click)="close()" class="drag-handle-close">
+      &times;
+    </button>
+  </div>
+
+  <!-- Game Content -->
+  <div class="game-content">
+    <!-- Header with scores -->
+    <div class="game-header">
+      <div class="title-section">
+        <h1>2048</h1>
+      </div>
+      <div class="scores">
+        <div class="score-box">
+          <span class="label">SCORE</span>
+          <span class="value">{{ score() }}</span>
+        </div>
+        <div class="score-box best">
+          <span class="label">BEST</span>
+          <span class="value">{{ bestScore() }}</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="instructions">Use arrow keys or WASD to move tiles</p>
+
+    <!-- Game Board Container -->
+    <div class="board-container">
+      @if (gameState() === 'won') {
+        <div class="overlay win">
+          <app-pixel-icon name="emoji_events" class="game-icon" />
+          <h2>You Win!</h2>
+          <p>You reached 2048!</p>
+          <div class="button-group">
+            <button class="nes-btn is-primary" type="button" (click)="continueGame()">
+              Keep Going
+            </button>
+            <button class="nes-btn" type="button" (click)="initGame()">
+              <app-pixel-icon name="replay" />
+              New Game
+            </button>
+          </div>
+        </div>
+      }
+
+      @if (gameState() === 'lost') {
+        <div class="overlay lose">
+          <app-pixel-icon name="sentiment_very_dissatisfied" class="game-icon" />
+          <h2>Game Over!</h2>
+          <p>Final Score: {{ score() }}</p>
+          <button class="nes-btn is-primary" type="button" (click)="initGame()">
+            <app-pixel-icon name="replay" />
+            Try Again
+          </button>
+        </div>
+      }
+
+      <!-- Game Grid -->
+      <div class="game-board">
+        @for (row of grid(); track $index; let rowIdx = $index) {
+          @for (cell of row; track $index; let colIdx = $index) {
+            <div class="cell" [class]="getTileClass(cell)">
+              @if (cell > 0) {
+                <span>{{ cell }}</span>
+              }
+            </div>
+          }
+        }
+      </div>
+    </div>
+
+    <!-- New Game Button -->
+    <button class="nes-btn new-game-btn" type="button" (click)="initGame()">
+      <app-pixel-icon name="refresh" />
+      New Game
+    </button>
+  </div>
+</div>

@@ -1,0 +1,237 @@
+.wallet-content {
+  padding: 1rem;
+  height: calc(100% - 40px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.not-connected {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  color: var(--theme-text-secondary, #9ca3af);
+
+  .wallet-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+
+  p {
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem 0;
+    color: var(--theme-text-primary, #f3f4f6);
+  }
+
+  .hint {
+    font-size: 0.85rem;
+    opacity: 0.7;
+  }
+}
+
+.wallet-address-section {
+  background: var(--theme-primary-bg, #111827);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+
+  .address-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .address {
+    font-family: monospace;
+    font-size: 1rem;
+    color: var(--theme-text-primary, #f3f4f6);
+  }
+
+  .address-actions {
+    display: flex;
+    gap: 0.25rem;
+
+    button {
+      color: var(--theme-text-secondary, #9ca3af);
+
+      &:hover {
+        color: var(--theme-accent, #8b5cf6);
+      }
+
+      &.copied {
+        color: #10b981;
+      }
+
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+}
+
+.balance-section {
+  background: var(--theme-primary-bg, #111827);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+
+  .balance-label {
+    font-size: 0.85rem;
+    color: var(--theme-text-secondary, #9ca3af);
+    margin-bottom: 0.25rem;
+  }
+
+  .balance-value {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.5rem;
+
+    .algo-amount {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--theme-text-primary, #f3f4f6);
+    }
+
+    .algo-symbol {
+      font-size: 1rem;
+      color: var(--theme-text-secondary, #9ca3af);
+    }
+
+    .loading-text {
+      color: var(--theme-text-secondary, #9ca3af);
+    }
+  }
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  color: #ef4444;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.nfts-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+
+    .section-title {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--theme-text-primary, #f3f4f6);
+    }
+
+    .nft-count {
+      background: var(--theme-accent, #8b5cf6);
+      color: white;
+      font-size: 0.75rem;
+      padding: 0.125rem 0.5rem;
+      border-radius: 9999px;
+    }
+  }
+}
+
+.loading-nfts,
+.no-nfts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  color: var(--theme-text-secondary, #9ca3af);
+  text-align: center;
+
+  mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+    margin-bottom: 0.5rem;
+    opacity: 0.5;
+  }
+
+  p {
+    margin: 0 0 0.25rem 0;
+  }
+
+  .hint {
+    font-size: 0.8rem;
+    opacity: 0.7;
+  }
+}
+
+.nfts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 0.75rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.nft-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+
+  img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid var(--theme-border-color, #374151);
+    transition: border-color 0.2s;
+
+    &:hover {
+      border-color: var(--theme-accent, #8b5cf6);
+    }
+  }
+
+  .nft-name {
+    font-size: 0.7rem;
+    color: var(--theme-text-secondary, #9ca3af);
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+  }
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

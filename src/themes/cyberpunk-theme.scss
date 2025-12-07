@@ -1,0 +1,36 @@
+// Cyberpunk Theme
+// Futuristic theme with neon colors on dark backgrounds, inspired by cyberpunk aesthetics
+// Ideal for designs that aim to be edgy and visually striking
+
+@mixin theme() {
+  // Custom theme variables - Cyberpunk aesthetic
+  --theme-primary-bg: #0a0e27;        // Dark navy
+  --theme-secondary-bg: #16213e;      // Deep blue
+  --theme-section-bg: #1a1a2e;        // Very dark blue
+  --theme-primary-text: #00fff9;      // Neon cyan
+  --theme-secondary-text: #00d9ff;    // Bright cyan
+  --theme-primary-accent: #ff00ff;    // Neon magenta
+  --theme-secondary-accent: #00fff9;  // Neon cyan
+  --theme-border-color: #ff00ff;      // Neon magenta
+  --theme-player-bg: #16213e;         // Deep blue
+  --theme-shadow-color: rgba(255, 0, 255, 0.5);
+
+  // Status colors
+  --theme-success: #92cc41;
+  --theme-warning: #f7d51d;
+  --theme-error: #e76e55;
+
+  scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
+
+  *:focus-visible {
+    outline-color: var(--theme-primary-accent);
+  }
+
+  .main-view {
+    background: linear-gradient(var(--theme-primary-accent, #ff00ff) 0%, var(--theme-secondary-bg, #16213e) 100%);
+  }
+
+  .login-container {
+    background: linear-gradient(var(--theme-primary-accent, #ff00ff) 0%, var(--theme-secondary-bg, #16213e) 100%);
+  }
+}

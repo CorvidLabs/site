@@ -1,0 +1,84 @@
+<div appDraggable [style.width.px]="width()" [style.height.px]="height()" [appDraggableInitialPosition]="initialPosition" class="float-window">
+
+  <!-- Header acts as the drag handle -->
+  <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging" (mousedown)="isDragging = true" (mouseup)="isDragging = false">
+    <label>{{ title }}</label>
+    <button (click)="close()" class="drag-handle-close">
+      &times;
+    </button>
+  </div>
+
+  <!-- Game Content -->
+  <div class="game-content">
+    <!-- Game Stats -->
+    <div class="game-stats">
+      <div class="stat">
+        <app-pixel-icon name="stars" />
+        <span>{{ score() }}</span>
+      </div>
+      <div class="stat">
+        <app-pixel-icon name="favorite" />
+        <span>{{ lives() }}</span>
+      </div>
+      @if (bestScore() > 0) {
+        <div class="stat best">
+          <app-pixel-icon name="emoji_events" />
+          <span>{{ bestScore() }}</span>
+        </div>
+      }
+    </div>
+
+    <!-- Game Canvas Container -->
+    <div class="canvas-container">
+      @if (gameState() === 'ready') {
+        <div class="overlay">
+          <app-pixel-icon name="sports_esports" class="game-icon" />
+          <h2>Breakout</h2>
+          <p>Use arrow keys or A/D to move paddle</p>
+          <p class="hint">Press P to pause</p>
+          <button class="nes-btn is-primary" type="button" (click)="startGame()">
+            <app-pixel-icon name="play_arrow" />
+            Start Game
+          </button>
+        </div>
+      }
+
+      @if (gameState() === 'paused') {
+        <div class="overlay">
+          <app-pixel-icon name="pause_circle" class="game-icon" />
+          <h2>Paused</h2>
+          <button class="nes-btn is-primary" type="button" (click)="togglePause()">
+            <app-pixel-icon name="play_arrow" />
+            Resume
+          </button>
+        </div>
+      }
+
+      @if (gameState() === 'won') {
+        <div class="overlay win">
+          <app-pixel-icon name="emoji_events" class="game-icon" />
+          <h2>You Win!</h2>
+          <p>Final Score: {{ score() }}</p>
+          <button class="nes-btn is-primary" type="button" (click)="startGame()">
+            <app-pixel-icon name="replay" />
+            Play Again
+          </button>
+        </div>
+      }
+
+      @if (gameState() === 'lost') {
+        <div class="overlay lose">
+          <app-pixel-icon name="sentiment_very_dissatisfied" class="game-icon" />
+          <h2>Game Over</h2>
+          <p>Score: {{ score() }}</p>
+          <button class="nes-btn is-primary" type="button" (click)="startGame()">
+            <app-pixel-icon name="replay" />
+            Try Again
+          </button>
+        </div>
+      }
+
+      <canvas #gameCanvas></canvas>
+    </div>
+  </div>
+</div>

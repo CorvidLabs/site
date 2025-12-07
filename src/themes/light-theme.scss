@@ -1,0 +1,31 @@
+// Light Theme - Light Purple
+// Light theme with violet/purple accents
+
+@mixin theme() {
+  // Custom theme variables
+  --theme-primary-bg: #ffffff;
+  --theme-secondary-bg: #f9fafb;
+  --theme-section-bg: #f3f4f6;
+  --theme-primary-text: #111827;
+  --theme-secondary-text: #6b7280;
+  --theme-primary-accent: #8b5cf6;
+  --theme-secondary-accent: #14b8a6;
+  --theme-border-color: #e5e7eb;
+  --theme-player-bg: #ffffff;
+  --theme-shadow-color: #000000b3;
+
+  // Status colors
+  --theme-success: #22c55e;
+  --theme-warning: #f59e0b;
+  --theme-error: #ef4444;
+
+  scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
+
+  .main-view {
+    background: linear-gradient(var(--theme-primary-accent) 0%, var(--theme-secondary-bg) 100%);
+  }
+
+  .login-container {
+    background: linear-gradient(var(--theme-primary-accent) 0%, var(--theme-secondary-bg) 100%);
+  }
+}

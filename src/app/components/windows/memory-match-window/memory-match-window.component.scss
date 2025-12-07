@@ -1,0 +1,222 @@
+.game-content {
+  padding: 1rem;
+  height: calc(100% - 40px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.loading-state,
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 1rem;
+  color: var(--theme-text-secondary, #9ca3af);
+
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+  }
+
+  p {
+    margin: 0;
+    font-size: 1rem;
+  }
+}
+
+.ready-state,
+.won-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  text-align: center;
+  gap: 0.75rem;
+
+  .game-icon,
+  .celebration {
+    background: var(--theme-primary-bg, #111827);
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    mat-icon {
+      font-size: 40px;
+      width: 40px;
+      height: 40px;
+      color: var(--theme-accent, #8b5cf6);
+    }
+  }
+
+  .celebration mat-icon {
+    color: #f59e0b;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--theme-text-primary, #f3f4f6);
+  }
+
+  p {
+    margin: 0;
+    color: var(--theme-text-secondary, #9ca3af);
+  }
+
+  .instructions {
+    font-size: 0.85rem;
+    max-width: 280px;
+  }
+
+  .start-btn,
+  .play-again-btn {
+    margin-top: 0.5rem;
+
+    mat-icon {
+      margin-right: 0.25rem;
+    }
+  }
+
+  .final-stats {
+    display: flex;
+    gap: 1.5rem;
+
+    p {
+      margin: 0;
+      font-size: 1rem;
+
+      strong {
+        color: var(--theme-accent, #8b5cf6);
+        font-size: 1.25rem;
+      }
+    }
+  }
+}
+
+.game-stats {
+  display: flex;
+  justify-content: space-around;
+  padding: 0.75rem;
+  background: var(--theme-primary-bg, #111827);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+
+  .stat {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--theme-text-secondary, #9ca3af);
+    font-size: 0.9rem;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      color: var(--theme-accent, #8b5cf6);
+    }
+  }
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  flex: 1;
+  min-height: 0;
+}
+
+.card {
+  aspect-ratio: 1;
+  perspective: 1000px;
+  cursor: pointer;
+
+  &.matched {
+    cursor: default;
+
+    .card-back {
+      border-color: #10b981;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+    }
+  }
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.4s ease;
+}
+
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-front {
+  background: linear-gradient(135deg, var(--theme-primary-bg, #111827), var(--theme-secondary-bg, #1f2937));
+  border: 2px solid var(--theme-border-color, #374151);
+
+  mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+    color: var(--theme-text-secondary, #9ca3af);
+    opacity: 0.5;
+  }
+}
+
+.card-back {
+  background: var(--theme-secondary-bg, #1f2937);
+  border: 2px solid var(--theme-accent, #8b5cf6);
+  transform: rotateY(180deg);
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.game-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+
+  button mat-icon {
+    margin-right: 0.25rem;
+  }
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
