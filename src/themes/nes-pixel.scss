@@ -6,8 +6,14 @@
 // ============================================
 // SCSS Variables (static values)
 // ============================================
-$nes-font: 'Press Start 2P', cursive;
-$nes-pixel-size: 4px;
+// $nes-font: 'Press Start 2P', cursive;
+// $nes-pixel-size: 3px;
+
+// Define CSS custom properties for global use
+:root {
+  --nes-pixel-size: 3px;
+  --nes-font: 'Press Start 2P', cursive;
+}
 
 // ============================================
 // Mixins
@@ -16,20 +22,20 @@ $nes-pixel-size: 4px;
 // Pixel Border Mixin (creates 8-bit style borders using box-shadow)
 @mixin pixel-border($color: var(--theme-border-color)) {
   box-shadow:
-    $nes-pixel-size 0 0 $color,
-    calc($nes-pixel-size * -1) 0 0 $color,
-    0 $nes-pixel-size 0 $color,
-    0 calc($nes-pixel-size * -1) 0 $color,
-    0 0 0 $nes-pixel-size $color;
+    var(--nes-pixel-size) 0 0 $color,
+    calc(var(--nes-pixel-size) * -1) 0 0 $color,
+    0 var(--nes-pixel-size) 0 $color,
+    0 calc(var(--nes-pixel-size) * -1) 0 $color,
+    0 0 0 var(--nes-pixel-size) $color;
 }
 
 // Inset Pixel Border (for inputs and pressed states)
 @mixin pixel-border-inset($color: var(--theme-border-color)) {
   box-shadow:
-    inset $nes-pixel-size 0 0 $color,
-    inset calc($nes-pixel-size * -1) 0 0 $color,
-    inset 0 $nes-pixel-size 0 $color,
-    inset 0 calc($nes-pixel-size * -1) 0 $color;
+    inset var(--nes-pixel-size) 0 0 $color,
+    inset calc(var(--nes-pixel-size) * -1) 0 0 $color,
+    inset 0 var(--nes-pixel-size) 0 $color,
+    inset 0 calc(var(--nes-pixel-size) * -1) 0 $color;
 }
 
 // ============================================
@@ -42,7 +48,7 @@ $nes-pixel-size: 4px;
 }
 
 html, body {
-  font-family: $nes-font;
+  font-family: var(--nes-font);
   font-size: 16px;
   line-height: 1.5;
   color: var(--theme-primary-text);
@@ -52,22 +58,37 @@ html, body {
 
 // Custom scrollbar styles (WebKit)
 ::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
 }
 
 ::-webkit-scrollbar-track {
   background: var(--theme-primary-bg);
-  border: $nes-pixel-size solid var(--theme-border-color);
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
+  // border-radius: 0; // Squared corners for pixel art style
 }
 
 ::-webkit-scrollbar-thumb {
   background: var(--theme-primary-accent);
-  border: $nes-pixel-size solid var(--theme-border-color);
-  
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
+  // border-radius: 0; // Squared corners for pixel art style
+
+  @include pixel-border(var(--theme-border-color));
+
   &:hover {
     background: var(--theme-secondary-accent);
+    filter: brightness(1.1);
   }
+
+  &:active {
+    background: var(--theme-primary-accent);
+    filter: brightness(0.9);
+  }
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--theme-primary-bg);
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
 }
 
 // ============================================
@@ -106,10 +127,6 @@ p {
   color: var(--theme-primary-text);
 }
 
-.text-secondary {
-  color: var(--theme-secondary-text);
-}
-
 // ============================================
 // Buttons
 // ============================================
@@ -118,11 +135,11 @@ p {
   display: inline-block;
   padding: 0.5rem 1rem;
   margin: 0.5rem;
-  font-family: $nes-font;
+  font-family: var(--nes-font);
   font-size: 1rem;
   color: var(--theme-primary-text);
   background-color: var(--theme-secondary-bg);
-  border: $nes-pixel-size solid var(--theme-border-color);
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
   cursor: pointer;
   text-align: center;
   text-decoration: none;
@@ -135,32 +152,32 @@ p {
   &:hover {
     background-color: var(--theme-section-bg);
     box-shadow:
-      $nes-pixel-size 0 0 var(--theme-border-color),
-      calc($nes-pixel-size * -1) 0 0 var(--theme-border-color),
-      0 $nes-pixel-size 0 var(--theme-border-color),
-      0 calc($nes-pixel-size * -1) 0 var(--theme-border-color),
-      0 0 0 $nes-pixel-size var(--theme-border-color),
-      0 0 0 calc($nes-pixel-size * 2) var(--theme-primary-accent);
+      var(--nes-pixel-size) 0 0 var(--theme-border-color),
+      calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+      0 var(--nes-pixel-size) 0 var(--theme-border-color),
+      0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color),
+      0 0 0 var(--nes-pixel-size) var(--theme-border-color),
+      0 0 0 calc(var(--nes-pixel-size) * 2) var(--theme-primary-accent);
   }
   
   &:active, &.is-pressed {
     box-shadow:
-      inset $nes-pixel-size 0 0 var(--theme-border-color),
-      inset calc($nes-pixel-size * -1) 0 0 var(--theme-border-color),
-      inset 0 $nes-pixel-size 0 var(--theme-border-color),
-      inset 0 calc($nes-pixel-size * -1) 0 var(--theme-border-color);
+      inset var(--nes-pixel-size) 0 0 var(--theme-border-color),
+      inset calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+      inset 0 var(--nes-pixel-size) 0 var(--theme-border-color),
+      inset 0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color);
     transform: translate(2px, 2px);
   }
   
   &:focus {
     outline: none;
     box-shadow: 
-      $nes-pixel-size 0 0 var(--theme-border-color),
-      calc($nes-pixel-size * -1) 0 0 var(--theme-border-color),
-      0 $nes-pixel-size 0 var(--theme-border-color),
-      0 calc($nes-pixel-size * -1) 0 var(--theme-border-color),
-      0 0 0 $nes-pixel-size var(--theme-border-color),
-      0 0 0 calc($nes-pixel-size * 2) var(--theme-primary-accent);
+      var(--nes-pixel-size) 0 0 var(--theme-border-color),
+      calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+      0 var(--nes-pixel-size) 0 var(--theme-border-color),
+      0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color),
+      0 0 0 var(--nes-pixel-size) var(--theme-border-color),
+      0 0 0 calc(var(--nes-pixel-size) * 2) var(--theme-primary-accent);
   }
   
   &:disabled, &.is-disabled {
@@ -172,21 +189,21 @@ p {
     &:hover {
       background-color: var(--theme-section-bg);
       box-shadow: 
-        $nes-pixel-size 0 0 var(--theme-border-color),
-        calc($nes-pixel-size * -1) 0 0 var(--theme-border-color),
-        0 $nes-pixel-size 0 var(--theme-border-color),
-        0 calc($nes-pixel-size * -1) 0 var(--theme-border-color),
-        0 0 0 $nes-pixel-size var(--theme-border-color);
+        var(--nes-pixel-size) 0 0 var(--theme-border-color),
+        calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+        0 var(--nes-pixel-size) 0 var(--theme-border-color),
+        0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color),
+        0 0 0 var(--nes-pixel-size) var(--theme-border-color);
     }
     
     &:active {
       transform: none;
       box-shadow: 
-        $nes-pixel-size 0 0 var(--theme-border-color),
-        calc($nes-pixel-size * -1) 0 0 var(--theme-border-color),
-        0 $nes-pixel-size 0 var(--theme-border-color),
-        0 calc($nes-pixel-size * -1) 0 var(--theme-border-color),
-        0 0 0 $nes-pixel-size var(--theme-border-color);
+        var(--nes-pixel-size) 0 0 var(--theme-border-color),
+        calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+        0 var(--nes-pixel-size) 0 var(--theme-border-color),
+        0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color),
+        0 0 0 var(--nes-pixel-size) var(--theme-border-color);
     }
   }
   
@@ -244,23 +261,23 @@ p {
   display: block;
   width: 100%;
   padding: 0.5rem;
-  font-family: $nes-font;
+  font-family: var(--nes-font);
   font-size: 1rem;
   color: var(--theme-primary-text);
-  background-color: var(--theme-player-bg);
-  border: $nes-pixel-size solid var(--theme-border-color);
-  
+  background-color: var(--theme-secondary-bg);
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
+
   @include pixel-border(var(--theme-border-color));
   
   &:focus {
     outline: none;
     box-shadow: 
-      $nes-pixel-size 0 0 var(--theme-border-color),
-      calc($nes-pixel-size * -1) 0 0 var(--theme-border-color),
-      0 $nes-pixel-size 0 var(--theme-border-color),
-      0 calc($nes-pixel-size * -1) 0 var(--theme-border-color),
-      0 0 0 $nes-pixel-size var(--theme-border-color),
-      0 0 0 calc($nes-pixel-size * 2) var(--theme-primary-accent);
+      var(--nes-pixel-size) 0 0 var(--theme-border-color),
+      calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+      0 var(--nes-pixel-size) 0 var(--theme-border-color),
+      0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color),
+      0 0 0 var(--nes-pixel-size) var(--theme-border-color),
+      0 0 0 calc(var(--nes-pixel-size) * 2) var(--theme-primary-accent);
   }
   
   &::placeholder {
@@ -270,31 +287,31 @@ p {
   &.is-error {
     border-color: var(--theme-error);
     box-shadow: 
-      $nes-pixel-size 0 0 var(--theme-error),
-      calc($nes-pixel-size * -1) 0 0 var(--theme-error),
-      0 $nes-pixel-size 0 var(--theme-error),
-      0 calc($nes-pixel-size * -1) 0 var(--theme-error),
-      0 0 0 $nes-pixel-size var(--theme-error);
+      var(--nes-pixel-size) 0 0 var(--theme-error),
+      calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-error),
+      0 var(--nes-pixel-size) 0 var(--theme-error),
+      0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-error),
+      0 0 0 var(--nes-pixel-size) var(--theme-error);
     
     &:focus {
       box-shadow: 
-        $nes-pixel-size 0 0 var(--theme-error),
-        calc($nes-pixel-size * -1) 0 0 var(--theme-error),
-        0 $nes-pixel-size 0 var(--theme-error),
-        0 calc($nes-pixel-size * -1) 0 var(--theme-error),
-        0 0 0 $nes-pixel-size var(--theme-error),
-        0 0 0 calc($nes-pixel-size * 2) var(--theme-error);
+        var(--nes-pixel-size) 0 0 var(--theme-error),
+        calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-error),
+        0 var(--nes-pixel-size) 0 var(--theme-error),
+        0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-error),
+        0 0 0 var(--nes-pixel-size) var(--theme-error),
+        0 0 0 calc(var(--nes-pixel-size) * 2) var(--theme-error);
     }
   }
   
   &.is-success {
     border-color: var(--theme-success);
     box-shadow: 
-      $nes-pixel-size 0 0 var(--theme-success),
-      calc($nes-pixel-size * -1) 0 0 var(--theme-success),
-      0 $nes-pixel-size 0 var(--theme-success),
-      0 calc($nes-pixel-size * -1) 0 var(--theme-success),
-      0 0 0 $nes-pixel-size var(--theme-success);
+      var(--nes-pixel-size) 0 0 var(--theme-success),
+      calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-success),
+      0 var(--nes-pixel-size) 0 var(--theme-success),
+      0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-success),
+      0 0 0 var(--nes-pixel-size) var(--theme-success);
   }
 }
 
@@ -311,12 +328,12 @@ textarea.nes-input {
   padding: 1.5rem;
   margin: 1rem 0;
   background-color: var(--theme-section-bg);
-  border: $nes-pixel-size solid var(--theme-border-color);
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
   
   @include pixel-border(var(--theme-border-color));
   
   &.is-rounded {
-    border-radius: $nes-pixel-size;
+    border-radius: var(--nes-pixel-size);
   }
   
   &.is-primary-bg {
@@ -355,12 +372,72 @@ textarea.nes-input {
   
   // Shadow effect
   &.has-shadow {
-    box-shadow: 
-      $nes-pixel-size 0 0 var(--theme-border-color),
-      calc($nes-pixel-size * -1) 0 0 var(--theme-border-color),
-      0 $nes-pixel-size 0 var(--theme-border-color),
-      0 calc($nes-pixel-size * -1) 0 var(--theme-border-color),
-      0 0 0 $nes-pixel-size var(--theme-border-color),
+    box-shadow:
+      var(--nes-pixel-size) 0 0 var(--theme-border-color),
+      calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+      0 var(--nes-pixel-size) 0 var(--theme-border-color),
+      0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color),
+      0 0 0 var(--nes-pixel-size) var(--theme-border-color),
+      8px 8px 0 var(--theme-shadow-color);
+  }
+}
+
+// Flush title variant - title stays inside the border
+.nes-container-f {
+  position: relative;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  background-color: var(--theme-section-bg);
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
+
+  @include pixel-border(var(--theme-border-color));
+
+  &.is-rounded {
+    border-radius: var(--nes-pixel-size);
+  }
+
+  &.is-primary-bg {
+    background-color: var(--theme-primary-bg);
+  }
+
+  &.is-secondary-bg {
+    background-color: var(--theme-secondary-bg);
+  }
+
+  &.is-player-bg {
+    background-color: var(--theme-player-bg);
+  }
+
+  &.with-title {
+    padding-top: 2.5rem;  // Standard padding + .5rem for title space
+
+    > .title {
+      position: absolute;
+      top: 0.5rem;  // POSITIVE value - stays inside border
+      left: 1rem;
+      padding: 0 0.5rem 0 0.25rem;
+      background-color: var(--theme-section-bg);
+      color: var(--theme-primary-text);
+      font-size: 1rem;
+    }
+
+    &.is-primary-bg > .title {
+      background-color: var(--theme-primary-bg);
+    }
+
+    &.is-secondary-bg > .title {
+      background-color: var(--theme-secondary-bg);
+    }
+  }
+
+  // Shadow effect
+  &.has-shadow {
+    box-shadow:
+      var(--nes-pixel-size) 0 0 var(--theme-border-color),
+      calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+      0 var(--nes-pixel-size) 0 var(--theme-border-color),
+      0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color),
+      0 0 0 var(--nes-pixel-size) var(--theme-border-color),
       8px 8px 0 var(--theme-shadow-color);
   }
 }
@@ -375,7 +452,7 @@ textarea.nes-input {
   font-size: 0.875rem;
   color: var(--theme-primary-text);
   background-color: var(--theme-secondary-bg);
-  border: $nes-pixel-size solid var(--theme-border-color);
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
   
   @include pixel-border(var(--theme-border-color));
   
@@ -420,26 +497,27 @@ textarea.nes-input {
 // Checkboxes & Radio Buttons
 // ============================================
 .nes-checkbox {
-  display: inline-flex;
+  display: inline-flex !important;
   align-items: center;
   cursor: pointer;
   user-select: none;
-  
-  input[type="checkbox"] {
+  color: var(--theme-primary-text);
+
+  > input[type="checkbox"] {
     display: none;
-    
+
     & + span {
       position: relative;
       display: inline-block;
       width: 1.5rem;
       height: 1.5rem;
       margin-right: 0.5rem;
-      background-color: var(--theme-player-bg);
-      border: $nes-pixel-size solid var(--theme-border-color);
+      background-color: var(--theme-secondary-bg);
+      border: var(--nes-pixel-size) solid var(--theme-border-color);
       vertical-align: middle;
       
       @include pixel-border(var(--theme-border-color));
-      
+
       &::before {
         content: '';
         position: absolute;
@@ -451,7 +529,7 @@ textarea.nes-input {
         background-color: transparent;
       }
     }
-    
+
     &:checked + span::before {
       background-color: var(--theme-primary-accent);
       box-shadow:
@@ -461,31 +539,85 @@ textarea.nes-input {
         2px -2px 0 2px var(--theme-primary-accent),
         -2px 2px 0 2px var(--theme-primary-accent);
     }
-    
+
     &:disabled + span {
       background-color: var(--theme-section-bg);
       cursor: not-allowed;
       opacity: 0.6;
     }
   }
-  
-  label {
-    color: var(--theme-primary-text);
+}
+
+// ============================================
+// Radio Button Container
+// ============================================
+.nes-radio-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  &.is-vertical {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  &.has-background {
+    padding: 1rem;
+    background-color: var(--theme-section-bg);
+    border: var(--nes-pixel-size) solid var(--theme-border-color);
+
+    @include pixel-border(var(--theme-border-color));
   }
 }
 
+// ============================================
+// Radio Buttons
+// ============================================
 .nes-radio {
-  @extend .nes-checkbox;
-  
-  input[type="radio"] {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  color: var(--theme-primary-text);
+
+  > input[type="radio"] {
     display: none;
-    
+
     & + span {
+      position: relative;
+      display: inline-block;
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-right: 0.5rem;
+      background-color: var(--theme-secondary-bg);
+      border: var(--nes-pixel-size) solid var(--theme-border-color);
       border-radius: 50%;
+      vertical-align: middle;
+
+      @include pixel-border(var(--theme-border-color));
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0.75rem;
+        height: 0.75rem;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        background-color: transparent;
+      }
     }
-    
+
     &:checked + span::before {
-      border-radius: 50%;
+      background-color: var(--theme-primary-accent);
+    }
+
+    &:disabled + span {
+      background-color: var(--theme-section-bg);
+      cursor: not-allowed;
+      opacity: 0.6;
     }
   }
 }
@@ -498,10 +630,10 @@ textarea.nes-input {
   width: 100%;
   height: 2rem;
   margin: 1rem 0;
-  background-color: var(--theme-player-bg);
-  border: $nes-pixel-size solid var(--theme-border-color);
+  background-color: var(--theme-section-bg);
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
   overflow: hidden;
-  
+
   @include pixel-border(var(--theme-border-color));
   
   &-bar {
@@ -548,32 +680,48 @@ textarea.nes-input {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  border: $nes-pixel-size solid var(--theme-border-color);
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
   color: var(--theme-primary-text);
   
   @include pixel-border(var(--theme-border-color));
   
   thead {
     background-color: var(--theme-secondary-bg);
+    
+    > tr {
+      th {
+        font-weight: bold;
+      }
+    }
+
+    &.is-big {
+      > tr {
+        th {
+          font-weight: bold;
+          font-size: 1.25rem;
+          padding: 1rem 0.75rem;
+        }
+      }
+    }
   }
   
   tbody tr {
     background-color: var(--theme-section-bg);
-    
+
     &:nth-child(even) {
-      background-color: var(--theme-player-bg);
-    }
-    
-    &:hover {
       background-color: var(--theme-secondary-bg);
+    }
+
+    &:hover {
+      background-color: var(--theme-primary-bg);
     }
   }
   
   th, td {
     padding: 0.75rem;
     text-align: left;
-    border-right: $nes-pixel-size solid var(--theme-border-color);
-    border-bottom: $nes-pixel-size solid var(--theme-border-color);
+    border-right: var(--nes-pixel-size) solid var(--theme-border-color);
+    border-bottom: var(--nes-pixel-size) solid var(--theme-border-color);
     
     &:last-child {
       border-right: none;
@@ -588,7 +736,7 @@ textarea.nes-input {
   
   &.is-bordered {
     td, th {
-      border: $nes-pixel-size solid var(--theme-border-color);
+      border: var(--nes-pixel-size) solid var(--theme-border-color);
     }
   }
 }
@@ -602,18 +750,18 @@ textarea.nes-input {
   padding: 1rem 1.5rem;
   margin: 1rem;
   color: var(--theme-primary-text);
-  background-color: var(--theme-player-bg);
-  border: $nes-pixel-size solid var(--theme-border-color);
-  
+  background-color: var(--theme-section-bg);
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
+
   @include pixel-border(var(--theme-border-color));
-  
+
   &::before {
     content: '';
     position: absolute;
     width: 1.5rem;
     height: 1.5rem;
-    background-color: var(--theme-player-bg);
-    border: $nes-pixel-size solid var(--theme-border-color);
+    background-color: var(--theme-section-bg);
+    border: var(--nes-pixel-size) solid var(--theme-border-color);
   }
   
   // Balloon pointing from bottom
@@ -623,9 +771,9 @@ textarea.nes-input {
     border-top: none;
     border-right: none;
     box-shadow:
-      calc($nes-pixel-size * -1) 0 0 var(--theme-border-color),
-      0 $nes-pixel-size 0 var(--theme-border-color),
-      calc($nes-pixel-size * -1) $nes-pixel-size 0 var(--theme-border-color);
+      calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+      0 var(--nes-pixel-size) 0 var(--theme-border-color),
+      calc(var(--nes-pixel-size) * -1) var(--nes-pixel-size) 0 var(--theme-border-color);
   }
   
   &.from-right::before {
@@ -634,9 +782,9 @@ textarea.nes-input {
     border-top: none;
     border-left: none;
     box-shadow:
-      $nes-pixel-size 0 0 var(--theme-border-color),
-      0 $nes-pixel-size 0 var(--theme-border-color),
-      $nes-pixel-size $nes-pixel-size 0 var(--theme-border-color);
+      var(--nes-pixel-size) 0 0 var(--theme-border-color),
+      0 var(--nes-pixel-size) 0 var(--theme-border-color),
+      var(--nes-pixel-size) var(--nes-pixel-size) 0 var(--theme-border-color);
   }
   
   &.from-top::before {
@@ -645,9 +793,9 @@ textarea.nes-input {
     border-bottom: none;
     border-right: none;
     box-shadow:
-      calc($nes-pixel-size * -1) 0 0 var(--theme-border-color),
-      0 calc($nes-pixel-size * -1) 0 var(--theme-border-color),
-      calc($nes-pixel-size * -1) calc($nes-pixel-size * -1) 0 var(--theme-border-color);
+      calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+      0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color),
+      calc(var(--nes-pixel-size) * -1) calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color);
   }
 }
 
@@ -686,25 +834,25 @@ textarea.nes-input {
   select {
     width: 100%;
     padding: 0.5rem 2rem 0.5rem 0.5rem;
-    font-family: $nes-font;
+    font-family: var(--nes-font);
     font-size: 1rem;
     color: var(--theme-primary-text);
-    background-color: var(--theme-player-bg);
-    border: $nes-pixel-size solid var(--theme-border-color);
+    background-color: var(--theme-secondary-bg);
+    border: var(--nes-pixel-size) solid var(--theme-border-color);
     cursor: pointer;
     appearance: none;
-    
+
     @include pixel-border(var(--theme-border-color));
     
     &:focus {
       outline: none;
       box-shadow: 
-        $nes-pixel-size 0 0 var(--theme-border-color),
-        calc($nes-pixel-size * -1) 0 0 var(--theme-border-color),
-        0 $nes-pixel-size 0 var(--theme-border-color),
-        0 calc($nes-pixel-size * -1) 0 var(--theme-border-color),
-        0 0 0 $nes-pixel-size var(--theme-border-color),
-        0 0 0 calc($nes-pixel-size * 2) var(--theme-primary-accent);
+        var(--nes-pixel-size) 0 0 var(--theme-border-color),
+        calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+        0 var(--nes-pixel-size) 0 var(--theme-border-color),
+        0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color),
+        0 0 0 var(--nes-pixel-size) var(--theme-border-color),
+        0 0 0 calc(var(--nes-pixel-size) * 2) var(--theme-primary-accent);
     }
   }
   
@@ -750,7 +898,7 @@ textarea.nes-input {
 }
 
 .text-secondary {
-  color: var(--theme-secondary-text);
+  color: var(--theme-secondary-text) !important;
 }
 
 .text-accent {

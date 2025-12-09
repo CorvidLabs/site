@@ -3,10 +3,12 @@ import { FloatWindow } from '../float-window/float-window.component';
 import { DraggableDirective } from '../../../directives/draggable.directive';
 import { CommonModule } from '@angular/common';
 import { ThemeSwitcherComponent } from "../../theme-switcher/theme-switcher.component";
+import { PixelIconComponent } from '../../shared/pixel-icon/pixel-icon.component';
+import { WindowTypes } from '../../../enums/window-types.enum';
 
 @Component({
   selector: 'app-settings-window',
-  imports: [CommonModule, DraggableDirective, ThemeSwitcherComponent],
+  imports: [CommonModule, DraggableDirective, ThemeSwitcherComponent, PixelIconComponent],
   templateUrl: 'settings-window.component.html',
   styleUrls: ['settings-window.component.scss']
 })
@@ -21,4 +23,9 @@ export class SettingsWindowComponent extends FloatWindow implements OnInit {
   }
 
   ngOnInit() { }
+
+  onChangeUser() {
+    // Emit the LOGIN window type through the close event emitter
+    this.closeEvent.emit(WindowTypes.LOGIN as any);
+  }
 }

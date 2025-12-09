@@ -8,3 +8,24 @@
   // Force solid background for header
   background-color: var(--theme-primary-bg, #111827) !important;
 }
+
+.settings-section {
+  margin-bottom: 2rem;
+
+  .section-title {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    color: var(--theme-primary-text, var(--mat-sys-on-surface));
+  }
+
+  .nes-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    app-pixel-icon {
+      margin-right: 0.25rem;
+    }
+  }
+}

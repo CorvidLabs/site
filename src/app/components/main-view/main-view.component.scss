@@ -67,3 +67,32 @@
     transform: scale(1.5);
   }
 }
+
+// ============================================
+// Z-Index Hierarchy
+// ============================================
+// 10000 - Dock (always on top)
+// 9000  - Launchpad drawer (defined in launchpad-window.component.scss)
+// 8000  - Launchpad backdrop
+// 100+  - Floating windows (managed by ZIndexManagerService)
+
+// ============================================
+// Launchpad Backdrop
+// ============================================
+.launchpad-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 8000; // Below drawer, above windows
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+
+  &.backdrop-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}

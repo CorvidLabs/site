@@ -35,7 +35,10 @@ $cyberpunk-theme: mat.define-theme((
   --theme-border-color: #ff00ff;      // Neon magenta
   --theme-player-bg: #16213e;         // Deep blue
   --theme-shadow-color: rgba(255, 0, 255, 0.5); // Neon shadow for depth
-  
+  --theme-success: #00ff88;   // Neon green-cyan
+  --theme-warning: #ffcc00;   // Neon yellow-orange
+  --theme-error: #ff0066;     // Neon pink-red
+
   // Optional: Custom scrollbar for this theme
   scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
   

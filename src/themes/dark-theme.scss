@@ -31,6 +31,9 @@ $dark-theme: mat.define-theme((
   --theme-border-color: #374151;
   --theme-player-bg: #a6a9ad;
   --theme-shadow-color: #000000b3; // Dark shadow for depth
+  --theme-success: #10b981;   // Emerald-500
+  --theme-warning: #f59e0b;   // Amber-500
+  --theme-error: #ef4444;     // Red-500
 
   scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
 

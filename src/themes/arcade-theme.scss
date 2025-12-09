@@ -35,6 +35,9 @@ $arcade-theme: mat.define-theme((
   --theme-border-color: #404040;      // Medium gray
   --theme-player-bg: #1a1a1a;         // Very dark gray
   --theme-shadow-color: #000000b3; // Dark shadow for depth
+  --theme-success: #00ff00;   // Classic neon green
+  --theme-warning: #ffff00;   // Neon yellow
+  --theme-error: #ff0000;     // Neon red
 
   scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
 

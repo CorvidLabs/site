@@ -5,5 +5,7 @@ export enum WindowTypes {
   SETTINGS = 'SETTINGS',
   ABOUT = 'ABOUT',
   NOTEPAD = 'NOTEPAD',
-  TETRIS = 'TETRIS'
+  TETRIS = 'TETRIS',
+  STYLE_GUIDE = 'STYLE_GUIDE',
+  LOGIN = 'LOGIN'
 }

@@ -31,6 +31,9 @@ $corvid-theme: mat.define-theme((
   --theme-border-color: #0d1019;      // Dark Border
   --theme-player-bg: #12121c;         // Player Background
   --theme-shadow-color: #000000b3; // Dark shadow for depth
+  --theme-success: #66bb6a;   // Material green-400
+  --theme-warning: #ffa726;   // Material orange-400
+  --theme-error: #ef5350;     // Material red-400
 
   scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
 

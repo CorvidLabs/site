@@ -1,0 +1,68 @@
+// Style Guide specific styles
+.style-guide-content {
+  > div {
+    margin-bottom: 1.5rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.button-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.nes-btn {
+  margin: 0;
+}
+
+.input-section {
+  margin-bottom: 1rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.65rem;
+    color: var(--theme-primary-text);
+  }
+
+  .nes-input,
+  .nes-textarea {
+    margin-bottom: 0;
+  }
+}
+
+.icon-showcase {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 1rem;
+}
+
+.icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border: 2px solid var(--theme-border-color);
+  background-color: var(--theme-secondary-bg, var(--mat-sys-surface-container));
+
+  .icon-name {
+    font-size: 0.5rem;
+    text-align: center;
+    word-break: break-word;
+    color: var(--theme-secondary-text);
+  }
+}
+
+.nes-checkbox {
+  display: block;
+  margin-bottom: 0.5rem;
+}

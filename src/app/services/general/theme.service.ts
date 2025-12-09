@@ -20,9 +20,9 @@ export interface ThemeConfig {
  * This is the ONLY place you need to modify when adding/removing themes
  */
 export const THEME_REGISTRY: readonly ThemeConfig[] = [
-  { id: 'light', displayName: 'Light Purple', type: 'light', cssClass: 'light-theme' },
-  { id: 'dark', displayName: 'Simple Blue', type: 'dark', cssClass: 'dark-theme' },
-  { id: 'corvid', displayName: 'Corvid (Default)', type: 'dark', cssClass: 'corvid-theme' },
+  { id: 'light', displayName: 'Light', type: 'light', cssClass: 'light-theme' },
+  { id: 'dark', displayName: 'Dark (Default)', type: 'dark', cssClass: 'dark-theme' },
+  { id: 'corvid', displayName: 'Corvid', type: 'dark', cssClass: 'corvid-theme' },
   { id: 'green', displayName: 'Green Matrix', type: 'dark', cssClass: 'green-theme' },
   { id: 'black-orange', displayName: 'Black & Orange', type: 'dark', cssClass: 'black-orange-theme' },
   { id: 'arcade', displayName: 'Arcade', type: 'dark', cssClass: 'arcade-theme' },
@@ -45,7 +45,7 @@ export class ThemeService {
   private readonly themeMap = new Map(this.themes.map(theme => [theme.id, theme]));
 
   // Use a signal to hold the current theme state
-  theme = signal<ThemeId>('corvid');
+  theme = signal<ThemeId>('dark');
 
   constructor() {
     this.initializeTheme();

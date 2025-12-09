@@ -1,5 +1,5 @@
 import { Component, ComponentRef, ViewChild, ViewContainerRef, signal } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { PixelIconComponent } from '../shared/pixel-icon/pixel-icon.component';
 import { WindowTypes } from '../../enums/window-types.enum';
 import { FloatWindow } from '../windows/float-window/float-window.component';
 import { GalleryWindowComponent } from '../windows/gallery-window/gallery-window.component';
@@ -8,7 +8,8 @@ import { SettingsWindowComponent } from '../windows/settings-window/settings-win
 import { NotepadWindowComponent } from '../windows/notepad-window/notepad-window.component';
 import { TetrisWindowComponent } from '../windows/tetris-window/tetris-window.component';
 import { LaunchpadWindowComponent } from '../windows/launchpad-window/launchpad-window.component';
-import { LoginPromptComponent } from '../login-prompt/login-prompt.component';
+import { StyleGuideWindowComponent } from '../windows/style-guide-window/style-guide-window.component';
+import { LoginWindowComponent } from '../windows/login-window/login-window.component';
 import { PeraWalletConnect } from '@perawallet/connect';
 import { AlgorandChainIDs, PeraWalletConnectOptions } from '../../interfaces/pera-wallet-connect-options';
 import { CommonModule } from '@angular/common';
@@ -23,13 +24,18 @@ interface DockItem {
   selector: 'app-main-view',
   templateUrl: 'main-view.component.html',
   styleUrls: ['main-view.component.scss'],
-  imports: [MatIconModule, LoginPromptComponent, CommonModule]
+  imports: [PixelIconComponent, CommonModule]
 })
 export class MainViewComponent {
   // 1. Get a reference to the template element where we will host our dynamic components.
   @ViewChild('windowHost', { read: ViewContainerRef, static: false }) windowHost!: ViewContainerRef;
+  @ViewChild('launchpadDrawerHost', { read: ViewContainerRef, static: false }) launchpadDrawerHost!: ViewContainerRef;
 
   openedWindows: ComponentRef<FloatWindow>[] = [];
+
+  // Launchpad drawer state
+  launchpadDrawerOpen = signal<boolean>(false);
+  launchpadDrawerRef: ComponentRef<LaunchpadWindowComponent> | null = null;
 
   // Dock items - starts with only LaunchPad and Settings
   dockItems = signal<DockItem[]>([
@@ -125,7 +131,9 @@ export class MainViewComponent {
     if (componentRef.instance instanceof NotepadWindowComponent) return WindowTypes.NOTEPAD;
     if (componentRef.instance instanceof TetrisWindowComponent) return WindowTypes.TETRIS;
     if (componentRef.instance instanceof SettingsWindowComponent) return WindowTypes.SETTINGS;
-    if (componentRef.instance instanceof LaunchpadWindowComponent) return WindowTypes.LAUNCHPAD;
+    // LAUNCHPAD is now a drawer, not a window
+    if (componentRef.instance instanceof StyleGuideWindowComponent) return WindowTypes.STYLE_GUIDE;
+    if (componentRef.instance instanceof LoginWindowComponent) return WindowTypes.LOGIN;
     return null;
   }
 
@@ -137,7 +145,9 @@ export class MainViewComponent {
       [WindowTypes.TETRIS]: { icon: 'videogame_asset', label: 'Tetris' },
       [WindowTypes.SETTINGS]: { icon: 'settings', label: 'Settings' },
       [WindowTypes.SOUNDCLOUD_PLAYER]: { icon: 'music_note', label: 'Music' },
-      [WindowTypes.ABOUT]: { icon: 'info', label: 'About' }
+      [WindowTypes.ABOUT]: { icon: 'info', label: 'About' },
+      [WindowTypes.STYLE_GUIDE]: { icon: 'colors-swatch', label: 'Styles' },
+      [WindowTypes.LOGIN]: { icon: 'login', label: 'Login' }
     };
 
     const config = iconMap[type];
@@ -199,27 +209,36 @@ export class MainViewComponent {
   openWindowByType(type: string) {
     switch (type) {
       case WindowTypes.LAUNCHPAD:
-        const launchpadRef = this.openOrCreateWindowAdvanced<LaunchpadWindowComponent>(LaunchpadWindowComponent);
-        // Handle app selection from the Launch Pad
-        // We need to hook into the event emitter differently since LaunchPad emits app types
-        launchpadRef.instance.closeEvent.subscribe((appType: any) => {
-          if (appType && typeof appType === 'string') {
-            // This is an app selection event from LaunchPad
-            this.openWindowByType(appType);
-          }
-        });
+        this.toggleLaunchpadDrawer();
         break;
       case WindowTypes.GALLERY:
         this.openOrCreateWindowAdvanced<GalleryWindowComponent>(GalleryWindowComponent);
         break;
       case WindowTypes.SETTINGS:
-        this.openOrCreateWindowAdvanced<SettingsWindowComponent>(SettingsWindowComponent);
+        const settingsRef = this.openOrCreateWindowAdvanced<SettingsWindowComponent>(SettingsWindowComponent);
+        // Handle Change User button from Settings
+        settingsRef.instance.closeEvent.subscribe((windowType: any) => {
+          if (windowType && typeof windowType === 'string' && windowType === WindowTypes.LOGIN) {
+            this.openWindowByType(windowType);
+          }
+        });
         break;
       case WindowTypes.NOTEPAD:
         this.openWindowAdvanced<NotepadWindowComponent>(NotepadWindowComponent);
         break;
       case WindowTypes.TETRIS:
         this.openWindowAdvanced<TetrisWindowComponent>(TetrisWindowComponent);
+        break;
+      case WindowTypes.STYLE_GUIDE:
+        this.openOrCreateWindowAdvanced<StyleGuideWindowComponent>(StyleGuideWindowComponent);
+        break;
+      case WindowTypes.LOGIN:
+        const loginRef = this.openOrCreateWindowAdvanced<LoginWindowComponent>(LoginWindowComponent);
+        loginRef.setInput('peraInstance', this.peraWalletConnect);
+        // Handle login success
+        loginRef.instance.userAccountAddress.subscribe((address: string | null) => {
+          this.onLoginSuccess(address);
+        });
         break;
 
       // case WindowTypes.ABOUT:
@@ -228,6 +247,57 @@ export class MainViewComponent {
       // case WindowTypes.SOUNDCLOUD_PLAYER:  // NOTE: Removed till a new music api is implemented
       //   this.openOrCreateWindowAdvanced<PlayerWindowComponent>(PlayerWindowComponent);
       //   break;
+    }
+  }
+
+  // MARK: - Launchpad Drawer Management
+  toggleLaunchpadDrawer() {
+    if (!this.launchpadDrawerRef) {
+      // Create the drawer component
+      this.launchpadDrawerRef = this.launchpadDrawerHost.createComponent(LaunchpadWindowComponent);
+
+      // Subscribe to close events
+      this.launchpadDrawerRef.instance.closeEvent.subscribe((appType?: WindowTypes | void) => {
+        if (appType && typeof appType === 'string') {
+          // User selected an app - close drawer and open the app window
+          this.closeLaunchpadDrawer();
+          setTimeout(() => {
+            this.openWindowByType(appType);
+          }, 100); // Small delay to allow drawer to close first
+        } else {
+          // User clicked close button or pressed Escape
+          this.closeLaunchpadDrawer();
+        }
+      });
+
+      // Open the drawer with a small delay to trigger animation
+      setTimeout(() => {
+        if (this.launchpadDrawerRef) {
+          this.launchpadDrawerRef.instance.isOpen.set(true);
+          this.launchpadDrawerOpen.set(true);
+        }
+      }, 10);
+    } else {
+      // Drawer exists - toggle its state
+      const currentState = this.launchpadDrawerRef.instance.isOpen();
+      this.launchpadDrawerRef.instance.isOpen.set(!currentState);
+      this.launchpadDrawerOpen.set(!currentState);
+    }
+  }
+
+  closeLaunchpadDrawer() {
+    if (this.launchpadDrawerRef) {
+      // Set isOpen to false to trigger slide-down animation
+      this.launchpadDrawerRef.instance.isOpen.set(false);
+      this.launchpadDrawerOpen.set(false);
+
+      // Destroy the component after animation completes (300ms)
+      setTimeout(() => {
+        if (this.launchpadDrawerRef) {
+          this.launchpadDrawerRef.destroy();
+          this.launchpadDrawerRef = null;
+        }
+      }, 300);
     }
   }
 }

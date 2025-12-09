@@ -31,6 +31,9 @@ $light-theme: mat.define-theme((
   --theme-border-color: #e5e7eb;
   --theme-player-bg: #ffffff;
   --theme-shadow-color: #000000b3; // Dark shadow for depth
+  --theme-success: #16a34a;   // Green-600 (darker for light bg)
+  --theme-warning: #ea580c;   // Orange-600
+  --theme-error: #dc2626;     // Red-600
 
   scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
 

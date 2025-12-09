@@ -1,33 +1,34 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input, OnInit, output, signal } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
+import { FloatWindow } from '../float-window/float-window.component';
+import { DraggableDirective } from '../../../directives/draggable.directive';
 import { PeraWalletConnect } from '@perawallet/connect';
-import { UtilsService } from '../../services/general/utils.service';
-import { environment } from '../../../environments/environment.local';
+import { environment } from '../../../../environments/environment.local';
 
 @Component({
-  selector: 'app-login-prompt',
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatCardModule
-  ],
-  templateUrl: './login-prompt.component.html',
-  styleUrl: './login-prompt.component.scss',
+  selector: 'app-login-window',
+  imports: [CommonModule, DraggableDirective],
+  templateUrl: './login-window.component.html',
+  styleUrl: './login-window.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoginPromptComponent implements OnInit {
+export class LoginWindowComponent extends FloatWindow implements OnInit {
+  override title = input<string>('Login');
   currentEnvironment: string = environment.environment_name;
   peraInstance = input.required<PeraWalletConnect>();
   peraWallet!: PeraWalletConnect;
 
-  // loginSuccess = output<boolean>();
   loginError = signal<string | null>(null);
   userAccountAddress = output<string | null>();
 
+  constructor() {
+    super();
+    this.width.set(450);
+    this.height.set(350);
+  }
+
   ngOnInit(): void {
-    // Call the peraInstance to get the instance from the input signal, should always use ngOnInit cause 
+    // Call the peraInstance to get the instance from the input signal
     // input signals are not available in the constructor
     this.peraWallet = this.peraInstance();
   }
@@ -36,6 +37,7 @@ export class LoginPromptComponent implements OnInit {
     this.peraWallet.reconnectSession().then(accounts => {
       if (accounts.length > 0) {
         this.userAccountAddress.emit(accounts[0]);
+        this.close();
       } else {
         this.userAccountAddress.emit(null);
         this.loginError.set('Failed to reconnect to Pera Wallet. Please try again.');
@@ -52,8 +54,9 @@ export class LoginPromptComponent implements OnInit {
         this.loginError.set('No accounts found. Please connect your Pera Wallet.');
         return;
       }
-      
+
       this.userAccountAddress.emit(accounts[0]);
+      this.close();
     }).catch(error => {
       console.error('Error connecting to Pera Wallet:', error);
       this.loginError.set('Failed to connect to Pera Wallet. Please try again.');
@@ -64,5 +67,6 @@ export class LoginPromptComponent implements OnInit {
   onBypassLogin(): void {
     const development = environment.development_wallet;
     this.userAccountAddress.emit(development);
+    this.close();
   }
 }

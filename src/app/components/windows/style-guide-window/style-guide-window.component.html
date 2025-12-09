@@ -1,0 +1,163 @@
+<div appDraggable appResizable #elementWithDrag [style.width.px]="width()" [style.height.px]="height()" (windowResize)="onResize($event)" class="float-window">
+
+  <!-- Header acts as the drag handle -->
+  <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging" (mousedown)="isDragging = true" (mouseup)="isDragging = false">
+    <h2>{{ title() }}</h2>
+    <button (click)="close()" class="drag-handle-close">
+      &times;
+    </button>
+  </div>
+
+  <!-- Style Guide Content -->
+  <div class="float-window-content style-guide-content">
+
+    <!-- Typography Section -->
+    <div class="nes-container with-title">
+      <p class="title">Typography</p>
+      <h1>Heading 1</h1>
+      <h2>Heading 2</h2>
+      <h3>Heading 3</h3>
+      <h4>Heading 4</h4>
+      <p>Regular paragraph text with Press Start 2P font</p>
+      <p class="text-secondary">Secondary text color</p>
+    </div>
+
+    <!-- Buttons Section -->
+    <div class="nes-container with-title">
+      <p class="title">Buttons</p>
+      <div class="button-grid gap-4">
+        <button class="nes-btn">Default</button>
+        <button class="nes-btn is-primary">Primary</button>
+        <button class="nes-btn is-success">Success</button>
+        <button class="nes-btn is-warning">Warning</button>
+        <button class="nes-btn is-error">Error</button>
+        <button class="nes-btn is-disabled">Disabled</button>
+      </div>
+    </div>
+
+    <!-- Inputs Section -->
+    <div class="nes-container with-title">
+      <p class="title">Inputs</p>
+      <div class="input-section">
+        <label>Normal Input:</label>
+        <input type="text" class="nes-input" placeholder="Enter text..." />
+      </div>
+      <div class="input-section">
+        <label>Success State:</label>
+        <input type="text" class="nes-input is-success" value="Valid input" />
+      </div>
+      <div class="input-section">
+        <label>Error State:</label>
+        <input type="text" class="nes-input is-error" value="Invalid input" />
+      </div>
+      <div class="input-section">
+        <label>Textarea:</label>
+        <textarea class="nes-textarea" placeholder="Enter multiple lines..."></textarea>
+      </div>
+    </div>
+
+    <!-- Containers Section -->
+    <div class="nes-container with-title">
+      <p class="title">Containers</p>
+      <div class="nes-container" style="margin-bottom: 1rem;">
+        <p>Basic Container</p>
+      </div>
+      <div class="nes-container-f with-title" style="margin-bottom: 1rem;">
+        <p class="title">Container With Flushed Title</p>
+        <p>Container with the title inside</p>
+      </div>
+      <div class="nes-container with-title" style="margin-bottom: 1rem;">
+        <p class="title">Container with Title</p>
+        <p>Content inside titled container</p>
+      </div>
+    </div>
+
+    <!-- Table Section -->
+    <div class="nes-container with-title">
+      <p class="title">Tables</p>
+      <table class="nes-table is-bordered is-centered">
+        <thead>
+          <tr>
+            <th>Column 1</th>
+            <th>Column 2</th>
+            <th>Column 3</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Row 1</td>
+            <td>Data A</td>
+            <td>Value 1</td>
+          </tr>
+          <tr>
+            <td>Row 2</td>
+            <td>Data B</td>
+            <td>Value 2</td>
+          </tr>
+          <tr>
+            <td>Row 3</td>
+            <td>Data C</td>
+            <td>Value 3</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Checkboxes & Radios Section -->
+    <div class="nes-container with-title">
+      <p class="title">Checkboxes & Radios</p>
+      <cvd-checkbox [(checked)]="myValue" label="Enable feature" />
+      
+      <div class="nes-radio-container is-vertical">
+        <label class="nes-radio">
+          <input type="radio" name="radio-group" checked value="option1" /><span></span>Radio option 1
+        </label>
+        <label class="nes-radio">
+          <input type="radio" name="radio-group" value="option2" /><span></span>Radio option 2
+        </label>
+      </div>
+
+    </div>
+
+    <!-- Progress Bars Section -->
+    <div class="nes-container with-title">
+      <p class="title">Progress Bars</p>
+      <div style="margin-bottom: 0.5rem;">
+        <progress class="nes-progress is-primary" value="50" max="100"></progress>
+      </div>
+      <div style="margin-bottom: 0.5rem;">
+        <progress class="nes-progress is-success" value="75" max="100"></progress>
+      </div>
+      <div>
+        <progress class="nes-progress is-error" value="30" max="100"></progress>
+      </div>
+    </div>
+
+    <!-- Select Dropdown Section TODO: Make this a component later -->
+    <div class="nes-container with-title">
+      <p class="title">Select Dropdown</p>
+      <div class="nes-select">
+        <select>
+          <option value="" disabled selected>Choose an option...</option>
+          <option value="1">Option 1</option>
+          <option value="2">Option 2</option>
+          <option value="3">Option 3</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Pixel Icons Section -->
+    <div class="nes-container with-title">
+      <p class="title">Pixel Icons</p>
+      <div class="icon-showcase">
+        @for (icon of sampleIcons; track icon) {
+          <div class="icon-item">
+            <app-pixel-icon [name]="icon" size="lg" />
+            <span class="icon-name">{{ icon }}</span>
+          </div>
+        }
+      </div>
+    </div>
+
+  </div>
+</div>

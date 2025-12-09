@@ -35,7 +35,10 @@ $sunset-theme: mat.define-theme((
   --theme-border-color: #6d2d07;      // Deep brown
   --theme-player-bg: #ffffff;         // Pure white
   --theme-shadow-color: #ff6b354d; // Soft shadow for depth
-  
+  --theme-success: #689f38;   // Olive green (warm)
+  --theme-warning: #f57c00;   // Deep orange (matches theme)
+  --theme-error: #d32f2f;     // Deep red
+
   // Optional: Custom scrollbar for this theme
   scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
   

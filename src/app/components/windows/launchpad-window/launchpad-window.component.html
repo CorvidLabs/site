@@ -1,20 +1,22 @@
-<div appDraggable appResizable #elementWithDrag [style.width.px]="width()" [style.height.px]="height()" (windowResize)="onResize($event)" class="float-window">
+<div class="launchpad-drawer"
+     [class.drawer-open]="isOpen()"
+     [class.drawer-closed]="!isOpen()">
 
-  <!-- Header acts as the drag handle -->
-  <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging" (mousedown)="isDragging = true" (mouseup)="isDragging = false">
+  <!-- Header -->
+  <div class="launchpad-drawer-header">
     <h2>{{ title() }}</h2>
-    <button (click)="close()" class="drag-handle-close">
+    <button (click)="close()" class="drawer-close-btn">
       &times;
     </button>
   </div>
 
-  <!-- Launch Pad Content -->
-  <div class="launchpad-content">
+  <!-- Scrollable Content -->
+  <div class="launchpad-drawer-content">
     <div class="apps-grid">
       @for (app of apps; track app.type) {
         <div class="app-icon" (click)="onAppClick(app.type)">
           <div class="app-icon-circle" [style.background-color]="app.color">
-            <mat-icon class="app-icon-mat">{{ app.icon }}</mat-icon>
+            <app-pixel-icon [name]="app.icon" size="xl" class="app-icon-pixel" />
           </div>
           <span class="app-label">{{ app.label }}</span>
         </div>

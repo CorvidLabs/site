@@ -1,10 +1,8 @@
-import { Component, input } from '@angular/core';
-import { FloatWindow } from '../float-window/float-window.component';
-import { DraggableDirective } from '../../../directives/draggable.directive';
+import { Component, input, signal, output, ChangeDetectionStrategy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { PixelIconComponent } from '../../shared/pixel-icon/pixel-icon.component';
 import { WindowTypes } from '../../../enums/window-types.enum';
+import { environment } from '../../../../environments/environment.local';
 
 interface AppIcon {
   type: WindowTypes;
@@ -15,12 +13,19 @@ interface AppIcon {
 
 @Component({
   selector: 'app-launchpad-window',
-  imports: [CommonModule, DraggableDirective, MatIconModule, MatButtonModule],
+  imports: [CommonModule, PixelIconComponent],
   templateUrl: 'launchpad-window.component.html',
-  styleUrls: ['launchpad-window.component.scss']
+  styleUrls: ['launchpad-window.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LaunchpadWindowComponent extends FloatWindow {
-  override title = input<string>('Launch Pad');
+export class LaunchpadWindowComponent {
+  // Inputs/Outputs
+  title = input<string>('Launch Pad');
+  closeEvent = output<WindowTypes | void>();
+
+  // State
+  isOpen = signal<boolean>(false);
+
   apps: AppIcon[] = [
     {
       type: WindowTypes.GALLERY,
@@ -39,17 +44,30 @@ export class LaunchpadWindowComponent extends FloatWindow {
       icon: 'videogame_asset',
       label: 'Tetris',
       color: '#95E1D3'
-    }
+    },
+    // Conditionally add Style Guide in development mode
+    ...(environment.production ? [] : [{
+      type: WindowTypes.STYLE_GUIDE,
+      icon: 'colors-swatch',
+      label: 'Styles',
+      color: '#FFB6C1'
+    }])
   ];
+
+  // Handle Escape key to close drawer
+  @HostListener('document:keydown.escape')
+  onEscapeKey() {
+    if (this.isOpen()) {
+      this.close();
+    }
+  }
 
   onAppClick(appType: WindowTypes) {
     // Emit the app type through the close event emitter
-    this.closeEvent.emit(appType as any);
+    this.closeEvent.emit(appType);
   }
 
-  constructor() {
-    super();
-    this.width.set(500);
-    this.height.set(400);
+  close() {
+    this.closeEvent.emit();
   }
 }

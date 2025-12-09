@@ -44,7 +44,10 @@ $green-theme: mat.define-theme((
   --theme-border-color: #2e7d32;      // Forest green border
   --theme-player-bg: #1e2e22;         // Dark green player background
   --theme-shadow-color: #000000b3; // Dark shadow for depth
-  
+  --theme-success: #4caf50;   // Lighter green shade
+  --theme-warning: #ffb74d;   // Warm orange
+  --theme-error: #e57373;     // Soft red
+
   // Optional: Add theme-specific customizations
   // Example: Make buttons more rounded in this theme
   .mat-mdc-button,
