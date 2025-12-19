@@ -122,9 +122,13 @@
     <!-- Progress Bars Section -->
     <div class="nes-container with-title">
       <p class="title">Progress Bars</p>
-      <div style="margin-bottom: 0.5rem;">
-        <progress class="nes-progress is-primary" value="50" max="100"></progress>
+      <div>
+        <progress class="nes-progress" [value]="progressValue" max="100">{{progressValue}}</progress>
       </div>
+      <div style="margin-bottom: 0.5rem;">
+        <input type="range" class="nes-range" min="0" max="100" [(ngModel)]="progressValue" />
+      </div>
+
       <div style="margin-bottom: 0.5rem;">
         <progress class="nes-progress is-success" value="75" max="100"></progress>
       </div>
@@ -146,14 +150,33 @@
       </div>
     </div>
 
-    <!-- Pixel Icons Section -->
+    <!-- All Icons Section -->
     <div class="nes-container with-title">
-      <p class="title">Pixel Icons</p>
-      <div class="icon-showcase">
-        @for (icon of sampleIcons; track icon) {
-          <div class="icon-item">
-            <app-pixel-icon [name]="icon" size="lg" />
+      <p class="title">All Icons ({{ filteredIcons().length }})</p>
+      <div class="icon-search">
+        <input type="text" class="nes-input"
+               placeholder="Search icons..."
+               [value]="iconSearch()"
+               (input)="iconSearch.set($any($event.target).value)">
+      </div>
+      <div class="icon-grid">
+        @for (icon of filteredIcons(); track icon) {
+          <div class="icon-item" (click)="copyIconName(icon)" title="Click to copy">
+            <cvd-pixel-icon [name]="icon" size="md" />
             <span class="icon-name">{{ icon }}</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- CSS Variables Section -->
+    <div class="nes-container with-title">
+      <p class="title">CSS Variables</p>
+      <div class="variable-list">
+        @for (variable of themeVariables; track variable) {
+          <div class="variable-item">
+            <div class="color-swatch" [style.background]="getComputedColor(variable)"></div>
+            <code>{{ variable }}</code>
           </div>
         }
       </div>

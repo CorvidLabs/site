@@ -13,18 +13,18 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
  *
  * Usage:
  * // Two-way binding
- * <app-pixel-checkbox [(checked)]="myValue" label="Enable feature" />
+ * <cvd-pixel-checkbox [(checked)]="myValue" label="Enable feature" />
  *
  * // FormControl
- * <app-pixel-checkbox [control]="myControl" label="Enable feature" />
+ * <cvd-pixel-checkbox [control]="myControl" label="Enable feature" />
  *
  * // With change event
- * <app-pixel-checkbox [(checked)]="myValue" (valueChange)="onChange($event)" />
+ * <cvd-pixel-checkbox [(checked)]="myValue" (valueChange)="onChange($event)" />
  *
  * // Custom label content
- * <app-pixel-checkbox [(checked)]="myValue">
+ * <cvd-pixel-checkbox [(checked)]="myValue">
  *   Enable <strong>advanced</strong> feature
- * </app-pixel-checkbox>
+ * </cvd-pixel-checkbox>
  */
 @Component({
   selector: 'cvd-checkbox',
@@ -38,11 +38,13 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
         (click)="onCheckboxClick($event)"
       />
       <span></span>
-      @if (label()) {
-        {{ label() }}
-      } @else {
-        <ng-content></ng-content>
-      }
+      <span class="checkbox-label-text">
+        @if (label()) {
+          {{ label() }}
+        } @else {
+          <ng-content></ng-content>
+        }
+      </span>
     </label>
   `,
   styles: [`

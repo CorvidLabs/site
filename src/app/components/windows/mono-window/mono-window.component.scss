@@ -1,0 +1,85 @@
+@use '../../../../themes/nes-pixel-mixins' as nes-pixel-mixins;
+
+.e-ink-card {
+  background-color: var(--theme-secondary-bg);
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
+
+  @include nes-pixel-mixins.pixel-border(var(--theme-border-color));
+
+  transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+
+  &.active {
+    // Maintain accent border when selected
+    box-shadow:
+      var(--nes-pixel-size) 0 0 var(--theme-border-color),
+      calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+      0 var(--nes-pixel-size) 0 var(--theme-border-color),
+      0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color),
+      0 0 0 var(--nes-pixel-size) var(--theme-border-color),
+      0 0 0 calc(var(--nes-pixel-size) * 2) var(--theme-primary-accent);
+    background-color: var(--theme-section-bg);
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      var(--nes-pixel-size) 0 0 var(--theme-border-color),
+      calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+      0 var(--nes-pixel-size) 0 var(--theme-border-color),
+      0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color),
+      0 0 0 var(--nes-pixel-size) var(--theme-border-color),
+      0 0 0 calc(var(--nes-pixel-size) * 2) var(--theme-primary-accent);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow:
+      inset var(--nes-pixel-size) 0 0 var(--theme-border-color),
+      inset calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+      inset 0 var(--nes-pixel-size) 0 var(--theme-border-color),
+      inset 0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color) !important;
+  }
+}
+
+// ============================================
+// Container Query Based Responsive Layout
+// ============================================
+
+// Layout container for applets section
+.applets-layout {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "cards"
+    "details";
+}
+
+// Cards grid container
+.applets-grid {
+  grid-area: cards;
+  display: grid;
+  gap: 1rem;
+  // Default: 2 columns for all window sizes
+  grid-template-columns: repeat(2, 1fr);
+}
+
+// Details panel container
+.applets-details {
+  grid-area: details;
+  // Hide by default for small windows
+  display: none;
+
+  // Show when window is 600px or wider
+  @container (min-width: 600px) {
+    display: block;
+  }
+}
+
+// Large window: side-by-side layout (cards left, details right)
+@container (min-width: 900px) {
+  .applets-layout {
+    grid-template-columns: 2fr 1fr; // Cards take 2/3, details take 1/3
+    grid-template-areas: "cards details";
+  }
+}

@@ -15,8 +15,9 @@ import { FloatWindow } from '../float-window/float-window.component';
   styleUrls: ['gallery-window.component.scss']
 })
 export class GalleryWindowComponent extends FloatWindow implements OnInit, OnDestroy {
-  override title = input<string>('Gallery');
   @ViewChild('scrollableElement') scrollableElement!: ElementRef<HTMLDivElement>;
+  
+  override title = input<string>('Gallery');
 
   private scrollSubject = new Subject<void>();
   private scrollSubscription !: Subscription;

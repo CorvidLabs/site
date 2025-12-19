@@ -1,4 +1,4 @@
-import { Directive, ElementRef, OnDestroy, OnInit, output } from '@angular/core';
+import { Directive, ElementRef, input, OnChanges, OnDestroy, OnInit, output, SimpleChanges } from '@angular/core';
 
 export interface ResizeEvent {
   width: number;
@@ -16,6 +16,9 @@ export interface ResizeEvent {
 export class ResizableDirective implements OnInit, OnDestroy {
   windowResize = output<ResizeEvent>();
 
+  minimalWidth = input<number>(300);
+  minimalHeight = input<number>(200);
+
   private resizing = false;
   private startX = 0;
   private startY = 0;
@@ -23,8 +26,8 @@ export class ResizableDirective implements OnInit, OnDestroy {
   private startHeight = 0;
   private startPositionX = 0;  // Starting position when resize begins
   private startPositionY = 0;  // Starting position when resize begins
-  private minWidth = 300;
-  private minHeight = 200;
+  private minWidth = this.minimalWidth;
+  private minHeight = this.minimalHeight;
   private currentHandle: string | null = null;
 
   private mouseMoveListener: ((e: MouseEvent) => void) | null = null;
@@ -34,6 +37,24 @@ export class ResizableDirective implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.createResizeHandles();
+  }
+
+  /**
+   * Calculate dynamic offset for resize handles based on border width and pixel shadow
+   * @returns offset in pixels to position handles outside the visual border
+   */
+  private calculateHandleOffset(): number {
+    // Get border width from element's computed styles
+    const computedStyle = window.getComputedStyle(this.el.nativeElement);
+    const borderWidth = parseInt(computedStyle.borderWidth) || 4;
+
+    // Get pixel size from CSS variable
+    const pixelSize = parseInt(
+      computedStyle.getPropertyValue('--nes-pixel-size').trim()
+    ) || 3;
+
+    // Total offset = border + pixel shadow + small buffer (1px)
+    return borderWidth + pixelSize + 1.5;
   }
 
   ngOnDestroy(): void {
@@ -75,66 +96,65 @@ export class ResizableDirective implements OnInit, OnDestroy {
   }
 
   private styleHandle(handle: HTMLElement, position: string): void {
-    const handleSize = '12px'; // Increased for easier grabbing
-    const cornerSize = '20px'; // Increased for easier grabbing
+    const handleSize = 3; // Base handle size in pixels
+    const cornerSize = 20; // Base corner size in pixels
+    const offset = this.calculateHandleOffset(); // Dynamic offset based on border + shadow
 
     // Common styles - CRITICAL: position must be absolute!
     handle.style.position = 'absolute';
     handle.style.zIndex = '99999'; // Very high z-index to be above EVERYTHING
     handle.style.pointerEvents = 'auto'; // Ensure handles can receive mouse events
-    // Make handles MORE visible for debugging
-    // Make background full transparent
     handle.style.background = 'transparent';
     handle.style.border = 'none';
 
     switch (position) {
       case 'n':
-        handle.style.top = '0';
-        handle.style.left = cornerSize;
-        handle.style.right = cornerSize;
-        handle.style.height = handleSize;
+        handle.style.top = `-${offset}px`;
+        handle.style.left = `${cornerSize + offset}px`;
+        handle.style.right = `${cornerSize + offset}px`;
+        handle.style.height = `${handleSize + offset}px`;
         break;
       case 's':
-        handle.style.bottom = '0';
-        handle.style.left = cornerSize;
-        handle.style.right = cornerSize;
-        handle.style.height = handleSize;
+        handle.style.bottom = `-${offset}px`;
+        handle.style.left = `${cornerSize + offset}px`;
+        handle.style.right = `${cornerSize + offset}px`;
+        handle.style.height = `${handleSize + offset}px`;
         break;
       case 'e':
-        handle.style.right = '0';
-        handle.style.top = cornerSize;
-        handle.style.bottom = cornerSize;
-        handle.style.width = handleSize;
+        handle.style.right = `-${offset}px`;
+        handle.style.top = `${cornerSize + offset}px`;
+        handle.style.bottom = `${cornerSize + offset}px`;
+        handle.style.width = `${handleSize + offset}px`;
         break;
       case 'w':
-        handle.style.left = '0';
-        handle.style.top = cornerSize;
-        handle.style.bottom = cornerSize;
-        handle.style.width = handleSize;
+        handle.style.left = `-${offset}px`;
+        handle.style.top = `${cornerSize + offset}px`;
+        handle.style.bottom = `${cornerSize + offset}px`;
+        handle.style.width = `${handleSize + offset}px`;
         break;
       case 'ne':
-        handle.style.top = '0';
-        handle.style.right = '0';
-        handle.style.width = cornerSize;
-        handle.style.height = cornerSize;
+        handle.style.top = `-${offset}px`;
+        handle.style.right = `-${offset}px`;
+        handle.style.width = `${cornerSize + offset}px`;
+        handle.style.height = `${cornerSize + offset}px`;
         break;
       case 'nw':
-        handle.style.top = '0';
-        handle.style.left = '0';
-        handle.style.width = cornerSize;
-        handle.style.height = cornerSize;
+        handle.style.top = `-${offset}px`;
+        handle.style.left = `-${offset}px`;
+        handle.style.width = `${cornerSize + offset}px`;
+        handle.style.height = `${cornerSize + offset}px`;
         break;
       case 'se':
-        handle.style.bottom = '0';
-        handle.style.right = '0';
-        handle.style.width = cornerSize;
-        handle.style.height = cornerSize;
+        handle.style.bottom = `-${offset}px`;
+        handle.style.right = `-${offset}px`;
+        handle.style.width = `${cornerSize + offset}px`;
+        handle.style.height = `${cornerSize + offset}px`;
         break;
       case 'sw':
-        handle.style.bottom = '0';
-        handle.style.left = '0';
-        handle.style.width = cornerSize;
-        handle.style.height = cornerSize;
+        handle.style.bottom = `-${offset}px`;
+        handle.style.left = `-${offset}px`;
+        handle.style.width = `${cornerSize + offset}px`;
+        handle.style.height = `${cornerSize + offset}px`;
         break;
     }
   }
@@ -186,16 +206,16 @@ export class ResizableDirective implements OnInit, OnDestroy {
 
     // Calculate new dimensions based on handle position
     if (position.includes('e')) {
-      newWidth = Math.max(this.minWidth, this.startWidth + deltaX);
+      newWidth = Math.max(this.minWidth(), this.startWidth + deltaX);
     }
     if (position.includes('w')) {
       // Calculate new width
       const calculatedWidth = this.startWidth - deltaX;
-      newWidth = Math.max(this.minWidth, calculatedWidth);
+      newWidth = Math.max(this.minWidth(), calculatedWidth);
 
       // Calculate new ABSOLUTE position (startPosition + delta)
       // When dragging left (deltaX negative), position moves left (decreases)
-      if (calculatedWidth >= this.minWidth) {
+      if (calculatedWidth >= this.minWidth()) {
         newPositionX = this.startPositionX + deltaX;
       } else {
         // Hit minimum width - position moves by how much width actually changed
@@ -203,16 +223,16 @@ export class ResizableDirective implements OnInit, OnDestroy {
       }
     }
     if (position.includes('s')) {
-      newHeight = Math.max(this.minHeight, this.startHeight + deltaY);
+      newHeight = Math.max(this.minHeight(), this.startHeight + deltaY);
     }
     if (position.includes('n')) {
       // Calculate new height
       const calculatedHeight = this.startHeight - deltaY;
-      newHeight = Math.max(this.minHeight, calculatedHeight);
+      newHeight = Math.max(this.minHeight(), calculatedHeight);
 
       // Calculate new ABSOLUTE position (startPosition + delta)
       // When dragging up (deltaY negative), position moves up (decreases)
-      if (calculatedHeight >= this.minHeight) {
+      if (calculatedHeight >= this.minHeight()) {
         newPositionY = this.startPositionY + deltaY;
       } else {
         // Hit minimum height - position moves by how much height actually changed

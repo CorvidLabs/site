@@ -45,6 +45,31 @@ export class LaunchpadWindowComponent {
       label: 'Tetris',
       color: '#95E1D3'
     },
+    {
+      type: WindowTypes.ABOUT,
+      icon: 'info',
+      label: 'About',
+      color: '#FFD93D'
+    },
+    {
+      type: WindowTypes.BREAKOUT,
+      icon: 'sports_esports',
+      label: 'Breakout',
+      color: '#6A4C93'
+    },
+    {
+      type: WindowTypes.ROADMAP,
+      icon: 'map',
+      label: 'Roadmap',
+      color: '#FF8C00'
+    },
+    {
+      type: WindowTypes.MONO,
+      icon: 'grid', // DO AN SVG FOR MONO LATER
+      label: 'Mono',
+      color: '#000000'
+    },
+
     // Conditionally add Style Guide in development mode
     ...(environment.production ? [] : [{
       type: WindowTypes.STYLE_GUIDE,

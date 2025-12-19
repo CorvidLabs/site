@@ -1,4 +1,4 @@
-@use '../../../../themes/nes-pixel';
+@use '../../../../themes/nes-pixel-mixins' as nes-pixel-mixins;
 
 // ============================================
 // Launchpad Drawer Container
@@ -19,7 +19,7 @@
   border: 4px solid var(--theme-border-color, var(--mat-sys-outline-variant));
   border-bottom: none; // No bottom border since it's at bottom of viewport
 
-  @include nes-pixel.pixel-border(var(--theme-border-color));
+  @include nes-pixel-mixins.pixel-border(var(--theme-border-color));
 
   // Animation
   transform: translateY(100%); // Hidden by default
@@ -110,7 +110,7 @@
   &:hover {
     transform: scale(1.1);
 
-    .app-icon-circle {
+    .app-icon-btn {
       box-shadow: var(--theme-shadow-color, #111827) !important;
     }
   }
@@ -120,16 +120,16 @@
   }
 }
 
-.app-icon-circle {
+.app-icon-btn {
   width: 80px;
   height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--theme-primary-accent, #667eea) 0%, var(--theme-secondary-accent, #764ba2) 100%);
+  // background: linear-gradient(135deg, var(--theme-primary-accent, #667eea) 0%, var(--theme-secondary-accent, #764ba2) 100%);
 
   border: var(--nes-pixel-size) solid var(--theme-border-color, var(--mat-sys-outline-variant));
-  @include nes-pixel.pixel-border(var(--theme-border-color));
+  @include nes-pixel-mixins.pixel-border(var(--theme-border-color));
 
   transition: box-shadow 0.2s ease;
 }

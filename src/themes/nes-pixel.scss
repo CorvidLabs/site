@@ -94,37 +94,47 @@ html, body {
 // ============================================
 // Typography
 // ============================================
-h1, .nes-h1 {
+.nes-h1 {
   font-size: 2rem;
   margin: 0 0 1rem;
   font-weight: normal;
   color: var(--theme-primary-text);
 }
 
-h2, .nes-h2 {
+.nes-h2 {
   font-size: 1.5rem;
   margin: 0 0 1rem;
   font-weight: normal;
   color: var(--theme-primary-text);
 }
 
-h3, .nes-h3 {
+.nes-h3 {
   font-size: 1.25rem;
   margin: 0 0 0.75rem;
   font-weight: normal;
   color: var(--theme-primary-text);
 }
 
-h4, .nes-h4 {
+.nes-h4 {
   font-size: 1rem;
   margin: 0 0 0.5rem;
   font-weight: normal;
   color: var(--theme-primary-text);
 }
 
-p {
+.nes-p {
   margin: 0 0 1rem;
   color: var(--theme-primary-text);
+}
+
+// ============================================
+// Borders
+// ============================================
+
+.nes-border {
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
+
+  @include pixel-border(var(--theme-border-color));
 }
 
 // ============================================
@@ -498,7 +508,7 @@ textarea.nes-input {
 // ============================================
 .nes-checkbox {
   display: inline-flex !important;
-  align-items: center;
+  align-items: flex-start;
   cursor: pointer;
   user-select: none;
   color: var(--theme-primary-text);
@@ -511,11 +521,14 @@ textarea.nes-input {
       display: inline-block;
       width: 1.5rem;
       height: 1.5rem;
+      min-width: 1.5rem;
+      min-height: 1.5rem;
+      flex-shrink: 0;
       margin-right: 0.5rem;
       background-color: var(--theme-secondary-bg);
       border: var(--nes-pixel-size) solid var(--theme-border-color);
       vertical-align: middle;
-      
+
       @include pixel-border(var(--theme-border-color));
 
       &::before {
@@ -545,6 +558,14 @@ textarea.nes-input {
       cursor: not-allowed;
       opacity: 0.6;
     }
+  }
+
+  .checkbox-label-text {
+    flex: 1;
+    min-width: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.4;
   }
 }
 
@@ -625,6 +646,18 @@ textarea.nes-input {
 // ============================================
 // Progress Bar
 // ============================================
+progress::-moz-progress-bar { // Firefox inner bar
+  background: var(--theme-primary-accent);
+}
+
+progress::-webkit-progress-value { // Webkit inner bar (filled portion)
+  background: var(--theme-primary-accent);
+}
+
+progress::-webkit-progress-bar { // Webkit background (unfilled portion)
+  background: var(--theme-section-bg);
+}
+
 .nes-progress {
   position: relative;
   width: 100%;
@@ -635,33 +668,29 @@ textarea.nes-input {
   overflow: hidden;
 
   @include pixel-border(var(--theme-border-color));
-  
+
+  // Bar colors
+  color: var(--theme-primary-accent);
+
   &-bar {
     height: 100%;
     background-color: var(--theme-primary-accent);
     transition: width 0.3s ease;
   }
-  
-  &.is-primary .nes-progress-bar {
-    background-color: var(--theme-primary-accent);
-  }
-  
-  &.is-secondary .nes-progress-bar {
-    background-color: var(--theme-secondary-accent);
-  }
-  
+
+  // Color variants for div-based progress bars
   &.is-success .nes-progress-bar {
     background-color: var(--theme-success);
   }
-  
+
   &.is-warning .nes-progress-bar {
     background-color: var(--theme-warning);
   }
-  
+
   &.is-error .nes-progress-bar {
     background-color: var(--theme-error);
   }
-  
+
   &.is-pattern .nes-progress-bar {
     background-image: repeating-linear-gradient(
       45deg,
@@ -670,6 +699,31 @@ textarea.nes-input {
       rgba(255, 255, 255, 0.3) 0.5rem,
       rgba(255, 255, 255, 0.3) 1rem
     );
+  }
+
+  // Color variants for native <progress> elements
+  &.is-success::-moz-progress-bar {
+    background: var(--theme-success);
+  }
+
+  &.is-success::-webkit-progress-value {
+    background: var(--theme-success);
+  }
+
+  &.is-warning::-moz-progress-bar {
+    background: var(--theme-warning);
+  }
+
+  &.is-warning::-webkit-progress-value {
+    background: var(--theme-warning);
+  }
+
+  &.is-error::-moz-progress-bar {
+    background: var(--theme-error);
+  }
+
+  &.is-error::-webkit-progress-value {
+    background: var(--theme-error);
   }
 }
 

@@ -8,7 +8,7 @@
       <!-- Button to disconnect wallet, should be fixed on top right corner and can be behind windows -->
       @if (isAuthenticated()) {
         <button class="absolute top-4 right-4 bg-white/40 backdrop-blur-md rounded-full shadow-lg hover:bg-white/60 transition-colors z-50 flex items-center justify-center p-2" (click)="handleDisconnectWallet($event)" title="Disconnect Wallet">
-          <app-pixel-icon name="logout" size="md" class="text-gray-800" />
+          <cvd-pixel-icon name="logout" size="md" class="text-gray-800" />
         </button>
       }
 
@@ -28,7 +28,7 @@
           <div class="main-view-dock-item"
             (click)="openWindowByType(item.type)"
             [title]="item.label">
-            <app-pixel-icon [name]="item.icon" size="lg" class="item-icon" />
+            <cvd-pixel-icon [name]="item.icon" size="lg" class="item-icon" />
           </div>
         }
       </div>

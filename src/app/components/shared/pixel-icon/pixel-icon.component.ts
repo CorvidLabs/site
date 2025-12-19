@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, input, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
 /**
  * Pixel Icon Component
@@ -7,11 +7,11 @@ import { Component, ChangeDetectionStrategy, input, computed } from '@angular/co
  * Provides a mapping from Material Icon names to pixelarticons equivalents.
  *
  * Usage:
- * <app-pixel-icon name="play" />
- * <app-pixel-icon name="close" size="lg" />
+ * <cvd-pixel-icon name="play" />
+ * <cvd-pixel-icon name="close" size="lg" />
  */
 @Component({
-  selector: 'app-pixel-icon',
+  selector: 'cvd-pixel-icon',
   template: `<i [class]="iconClass()" aria-hidden="true"></i>`,
   styles: [`
     :host {

@@ -11,6 +11,9 @@
 @use 'themes/cyberpunk-theme';
 @use 'themes/nes-pixel';
 
+// Import Tailwind CSS
+@import './tailwind.css';
+
 // Include Material core (only once per app)
 @include mat.core();
 
@@ -54,31 +57,18 @@ body.cyberpunk-theme {
 
 h1 {
   font-size: 1.5rem !important;
-  margin: 0;
-  padding: 0;
 }
 
 h2 {
   font-size: 1.25rem !important;
-  margin: 0;
-  padding: 0;
 }
 
 h3 {
   font-size: 1rem !important;
-  margin: 0;
-  padding: 0;
 }
 
 h4 {
   font-size: 0.875rem !important;
-  margin: 0;
-  padding: 0;
-}
-
-p {
-  margin: 0;
-  padding: 0;
 }
 
 // Global styles
@@ -96,11 +86,11 @@ body {
   scrollbar-color: var(--theme-primary-accent, var(--mat-sys-primary)) var(--theme-primary-bg, var(--mat-sys-surface-container));
 }
 
-@media (min-width: 768px) {
-  .chart-container {
-    height: 400px;
-  }
-}
+// @media (min-width: 768px) {
+//   .chart-container {
+//     height: 400px;
+//   }
+// }
 
 .float-window {
   background-color: var(--theme-secondary-bg, var(--mat-sys-surface-container));
@@ -142,6 +132,13 @@ body {
     margin: 0;
     font-family: 'Press Start 2P', cursive;
   }
+}
+
+.drag-handle-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
 }
 
 .drag-handle-close {
@@ -245,10 +242,6 @@ body {
   border-color: var(--theme-border-color, var(--mat-sys-outline-variant));
 }
 
-.nes-progress.is-primary {
-  background-color: var(--theme-secondary-bg, var(--mat-sys-surface-container));
-}
-
 .nes-table td::before,
 .nes-table td::after,
 .nes-table th::before,
@@ -257,42 +250,12 @@ body {
 }
 
 // ============================================
-// Utility Classes
+// Custom Utility Classes
 // ============================================
-.gap-2 {
-  gap: 0.5rem !important;
+
+.section-bg {
+  background-color: var(--theme-section-bg, var(--mat-sys-surface-container));
 }
-
-.gap-4 {
-  gap: 1rem !important;
-}
-
-.cursor-pointer { cursor: pointer; }
-.cursor-grab { cursor: grab; }
-.cursor-grabbing { cursor: grabbing; }
-
-.w-full { width: 100%; }
-.h-full { height: 100%; }
-.min-h-screen { min-height: 100vh; }
-
-.overflow-auto { overflow: auto; }
-.overflow-hidden { overflow: hidden; }
-.overflow-y-auto { overflow-y: auto; }
-
-.relative { position: relative; }
-.absolute { position: absolute; }
-.fixed { position: fixed; }
-
-.inset-0 {
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
-.z-10 { z-index: 10; }
-.z-20 { z-index: 20; }
-.z-50 { z-index: 50; }
 
 .pixel-corners {
   clip-path: polygon(
@@ -326,4 +289,20 @@ body {
     2px calc(100% - 2px),
     0px calc(100% - 2px)
   );
+}
+
+// ============================================
+// NES Pixel Border Mixins
+// ============================================
+
+.border-accent {
+  @include nes-pixel.pixel-border(var(--theme-primary-accent));
+}
+
+.border-teal {
+  @include nes-pixel.pixel-border(#008080);
+}
+
+.border-gray {
+  @include nes-pixel.pixel-border(#808080);
 }

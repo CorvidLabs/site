@@ -1,18 +1,21 @@
+import { CommonModule } from '@angular/common';
 import { Component, ComponentRef, ViewChild, ViewContainerRef, signal } from '@angular/core';
-import { PixelIconComponent } from '../shared/pixel-icon/pixel-icon.component';
+import { PeraWalletConnect } from '@perawallet/connect';
 import { WindowTypes } from '../../enums/window-types.enum';
+import { AlgorandChainIDs, PeraWalletConnectOptions } from '../../interfaces/pera-wallet-connect-options';
+import { PixelIconComponent } from '../shared/pixel-icon/pixel-icon.component';
+import { AboutWindowComponent } from '../windows/about-window/about-window.component';
+import { BreakoutWindowComponent } from '../windows/breakout-window/breakout-window.component';
 import { FloatWindow } from '../windows/float-window/float-window.component';
 import { GalleryWindowComponent } from '../windows/gallery-window/gallery-window.component';
-import { PlayerWindowComponent } from '../windows/player-window/player-window.component';
-import { SettingsWindowComponent } from '../windows/settings-window/settings-window.component';
-import { NotepadWindowComponent } from '../windows/notepad-window/notepad-window.component';
-import { TetrisWindowComponent } from '../windows/tetris-window/tetris-window.component';
 import { LaunchpadWindowComponent } from '../windows/launchpad-window/launchpad-window.component';
-import { StyleGuideWindowComponent } from '../windows/style-guide-window/style-guide-window.component';
 import { LoginWindowComponent } from '../windows/login-window/login-window.component';
-import { PeraWalletConnect } from '@perawallet/connect';
-import { AlgorandChainIDs, PeraWalletConnectOptions } from '../../interfaces/pera-wallet-connect-options';
-import { CommonModule } from '@angular/common';
+import { NotepadWindowComponent } from '../windows/notepad-window/notepad-window.component';
+import { SettingsWindowComponent } from '../windows/settings-window/settings-window.component';
+import { StyleGuideWindowComponent } from '../windows/style-guide-window/style-guide-window.component';
+import { TetrisWindowComponent } from '../windows/tetris-window/tetris-window.component';
+import { RoadmapWindowComponent } from '../windows/roadmap-window/roadmap-window.component';
+import { MonoWindowComponent } from '../windows/mono-window/mono-window.component';
 
 interface DockItem {
   type: WindowTypes;
@@ -42,6 +45,8 @@ export class MainViewComponent {
     { type: WindowTypes.LAUNCHPAD, icon: 'apps', label: 'Launch Pad' },
     { type: WindowTypes.SETTINGS, icon: 'settings', label: 'Settings' }
   ]);
+
+  iconMap: Record<WindowTypes, { icon: string, label: string }>;
   
   // Pera Wallet Connect Setup
   peraWalletConnectOptions: PeraWalletConnectOptions = {
@@ -54,7 +59,35 @@ export class MainViewComponent {
   isAuthenticated = signal(false);
   // End Pera Wallet Connect Setup
 
-  constructor() {}
+  constructor() {
+    this.iconMap = {
+      [WindowTypes.LAUNCHPAD]: { icon: 'apps', label: 'Launch Pad' },
+      [WindowTypes.GALLERY]: { icon: 'photo', label: 'Gallery' },
+      [WindowTypes.NOTEPAD]: { icon: 'description', label: 'Notepad' },
+      [WindowTypes.TETRIS]: { icon: 'videogame_asset', label: 'Tetris' },
+      [WindowTypes.SETTINGS]: { icon: 'settings', label: 'Settings' },
+      [WindowTypes.SOUNDCLOUD_PLAYER]: { icon: 'music_note', label: 'Music' },
+      [WindowTypes.ABOUT]: { icon: 'info', label: 'About' },
+      [WindowTypes.STYLE_GUIDE]: { icon: 'colors-swatch', label: 'Styles' },
+      [WindowTypes.LOGIN]: { icon: 'login', label: 'Login' },
+      [WindowTypes.MINT_CTA]: { icon: 'diamond', label: 'Mint' },
+      [WindowTypes.CALCULATOR]: { icon: 'calculate', label: 'Calculator' },
+      [WindowTypes.MEMORY_MATCH]: { icon: 'memory', label: 'Memory Match' },
+      [WindowTypes.SNAKE]: { icon: 'snake', label: 'Snake' },
+      [WindowTypes.POLL]: { icon: 'poll', label: 'Poll' },
+      [WindowTypes.SLOT_MACHINE]: { icon: 'casino', label: 'Slot Machine' },
+      [WindowTypes.PONG]: { icon: 'sports_esports', label: 'Pong' },
+      [WindowTypes.MINESWEEPER]: { icon: 'grid_on', label: 'Minesweeper' },
+      [WindowTypes.GAME_2048]: { icon: 'view_module', label: '2048' },
+      [WindowTypes.BREAKOUT]: { icon: 'breakfast_dining', label: 'Breakout' },
+      [WindowTypes.FLAPPY_RAVEN]: { icon: 'flight', label: 'Flappy Raven' },
+      [WindowTypes.NFT_SHOWCASE]: { icon: 'collections', label: 'NFT Showcase' },
+      [WindowTypes.LEADERBOARD]: { icon: 'leaderboard', label: 'Leaderboard' },
+      [WindowTypes.RARITY_CHECKER]: { icon: 'star_rate', label: 'Rarity Checker' },
+      [WindowTypes.ROADMAP]: { icon: 'map', label: 'Roadmap' },
+      [WindowTypes.MONO]: { icon: 'work_outline', label: 'Mono' },
+    };
+  }
 
   onLoginSuccess(accountAddress: string | null): void {
     if (!accountAddress) {
@@ -138,19 +171,7 @@ export class MainViewComponent {
   }
 
   private getDockItemForType(type: WindowTypes): DockItem | null {
-    const iconMap: Record<WindowTypes, { icon: string, label: string }> = {
-      [WindowTypes.LAUNCHPAD]: { icon: 'apps', label: 'Launch Pad' },
-      [WindowTypes.GALLERY]: { icon: 'photo', label: 'Gallery' },
-      [WindowTypes.NOTEPAD]: { icon: 'description', label: 'Notepad' },
-      [WindowTypes.TETRIS]: { icon: 'videogame_asset', label: 'Tetris' },
-      [WindowTypes.SETTINGS]: { icon: 'settings', label: 'Settings' },
-      [WindowTypes.SOUNDCLOUD_PLAYER]: { icon: 'music_note', label: 'Music' },
-      [WindowTypes.ABOUT]: { icon: 'info', label: 'About' },
-      [WindowTypes.STYLE_GUIDE]: { icon: 'colors-swatch', label: 'Styles' },
-      [WindowTypes.LOGIN]: { icon: 'login', label: 'Login' }
-    };
-
-    const config = iconMap[type];
+    const config = this.iconMap[type];
     return config ? { type, icon: config.icon, label: config.label } : null;
   }
 
@@ -216,6 +237,7 @@ export class MainViewComponent {
         break;
       case WindowTypes.SETTINGS:
         const settingsRef = this.openOrCreateWindowAdvanced<SettingsWindowComponent>(SettingsWindowComponent);
+        
         // Handle Change User button from Settings
         settingsRef.instance.closeEvent.subscribe((windowType: any) => {
           if (windowType && typeof windowType === 'string' && windowType === WindowTypes.LOGIN) {
@@ -224,26 +246,34 @@ export class MainViewComponent {
         });
         break;
       case WindowTypes.NOTEPAD:
-        this.openWindowAdvanced<NotepadWindowComponent>(NotepadWindowComponent);
+        this.openWindowAdvanced(NotepadWindowComponent);
         break;
       case WindowTypes.TETRIS:
-        this.openWindowAdvanced<TetrisWindowComponent>(TetrisWindowComponent);
+        this.openWindowAdvanced(TetrisWindowComponent);
         break;
       case WindowTypes.STYLE_GUIDE:
-        this.openOrCreateWindowAdvanced<StyleGuideWindowComponent>(StyleGuideWindowComponent);
+        this.openOrCreateWindowAdvanced(StyleGuideWindowComponent);
         break;
       case WindowTypes.LOGIN:
-        const loginRef = this.openOrCreateWindowAdvanced<LoginWindowComponent>(LoginWindowComponent);
+        const loginRef = this.openOrCreateWindowAdvanced(LoginWindowComponent);
         loginRef.setInput('peraInstance', this.peraWalletConnect);
         // Handle login success
         loginRef.instance.userAccountAddress.subscribe((address: string | null) => {
           this.onLoginSuccess(address);
         });
         break;
-
-      // case WindowTypes.ABOUT:
-      //   this.openWindowAdvanced(AboutWindowComponent);
-      //   break;
+      case WindowTypes.BREAKOUT:
+        this.openOrCreateWindowAdvanced(BreakoutWindowComponent);
+        break;
+      case WindowTypes.ABOUT:
+        this.openWindowAdvanced(AboutWindowComponent);
+        break;
+      case WindowTypes.ROADMAP:
+        this.openWindowAdvanced(RoadmapWindowComponent);
+        break;
+      case WindowTypes.MONO:
+        this.openOrCreateWindowAdvanced(MonoWindowComponent);
+        break;
       // case WindowTypes.SOUNDCLOUD_PLAYER:  // NOTE: Removed till a new music api is implemented
       //   this.openOrCreateWindowAdvanced<PlayerWindowComponent>(PlayerWindowComponent);
       //   break;
