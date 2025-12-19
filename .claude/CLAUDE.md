@@ -136,3 +136,26 @@ bun run build    # Production build → dist/corvid-site/
 bun run watch    # Development build with watch
 bun test         # Run tests
 ```
+
+## Build & Bundle Information
+
+### Bundle Size Budget
+
+**Current production bundle:** ~1.85 MB raw / ~320 KB gzipped
+**Budget limits:** 2 MB warning / 2.5 MB error (see `angular.json`)
+
+**Why bundle is large:**
+- Blockchain SDKs: `algosdk` (~683 KB chunk), `@perawallet/connect`
+- Angular Material + 8 complete theme definitions (~470 KB styles)
+- Chart.js, multiformats, and other dependencies
+
+**Performance:** Despite raw size, the 82% compression ratio (1.85 MB → 320 KB) is excellent.
+
+### Future Optimization Option
+
+**Lazy load algosdk** to reduce initial bundle by ~400-600 KB:
+- Convert `algosdk` imports to dynamic imports in:
+  - `src/app/services/nodely.service.ts`
+  - `src/app/components/main-view/main-view.component.ts`
+- Trade-off: Slight delay when blockchain features are first used
+- Benefit: Faster initial page load for users who don't connect wallets

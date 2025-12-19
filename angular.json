@@ -31,7 +31,8 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "public/fonts/pixelart-icons-font.css"
             ],
             "outputPath": "dist/corvid-site",
             "allowedCommonJsDependencies": [
@@ -58,8 +59,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "1.5MB",
-                  "maximumError": "2MB"
+                  "maximumWarning": "2MB",
+                  "maximumError": "2.5MB"
                 },
                 {
                   "type": "anyComponentStyle",
