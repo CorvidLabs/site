@@ -1,0 +1,208 @@
+// Roadmap Window Styling
+
+.roadmap-content {
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+// Header Stats Section
+.roadmap-header {
+  margin-bottom: 1.5rem;
+
+  .roadmap-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1rem;
+    gap: 1rem;
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+
+      .stat-value {
+        font-size: 1.5rem;
+        color: var(--theme-primary-accent, #f9e9c8);
+        font-weight: bold;
+        line-height: 1.2;
+      }
+
+      .stat-label {
+        font-size: 0.65rem;
+        color: var(--theme-secondary-text, #9ca3af);
+        margin-top: 0.25rem;
+      }
+    }
+  }
+}
+
+// Timeline Container
+.roadmap-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+// Quarter Item (Accordion Container)
+.quarter-item {
+  position: relative;
+  transition: all 0.3s ease;
+  background-color: var(--theme-section-bg, var(--theme-secondary-bg));
+
+  // Current quarter highlighting
+  &.is-current {
+    background-color: color-mix(in srgb, var(--theme-section-bg, var(--theme-secondary-bg)) 90%, var(--theme-warning, #fbbf24) 10%);
+    border-color: var(--theme-warning, #fbbf24);
+    box-shadow: 0 0 0 2px var(--theme-warning, #fbbf24);
+  }
+
+  // Expanded state - show content
+  &.is-expanded .quarter-content {
+    max-height: 3000px;
+    opacity: 1;
+    margin-top: 1rem;
+  }
+}
+
+// Quarter Header (Clickable)
+.quarter-header {
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s ease;
+  position: relative;
+  padding-right: 2.5rem;
+
+  &:hover {
+    background-color: color-mix(in srgb, var(--theme-section-bg, var(--theme-secondary-bg)) 95%, var(--theme-primary-accent, #f9e9c8) 5%);
+  }
+
+  .quarter-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+
+    .quarter-title {
+      font-size: 1.25rem;
+      margin: 0;
+      color: var(--theme-primary-accent, #f9e9c8);
+    }
+
+    .nes-badge {
+      font-size: 0.5rem;
+      padding: 0.25rem 0.5rem;
+    }
+  }
+
+  .quarter-progress {
+    margin-bottom: 0.5rem;
+
+    .nes-progress {
+      margin: 0.25rem 0;
+    }
+
+    .progress-text {
+      font-size: 0.65rem;
+      color: var(--theme-secondary-text, #9ca3af);
+      display: block;
+      margin-top: 0.25rem;
+    }
+  }
+
+  .quarter-arrow {
+    position: absolute;
+    top: 2.8rem;
+    right: 0.5rem;
+    font-size: 1rem;
+    color: var(--theme-primary-accent, #f9e9c8);
+    transition: transform 0.3s ease;
+  }
+}
+
+// Quarter Content (Collapsible)
+.quarter-content {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
+}
+
+// Roadmap Section
+.roadmap-section {
+  margin-bottom: 1.5rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .section-header {
+    margin-bottom: 0.75rem;
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--theme-secondary-accent, #60a5fa);
+      margin: 0;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--theme-border-color, #374151);
+
+      cvd-pixel-icon {
+        color: var(--theme-secondary-accent, #60a5fa);
+      }
+    }
+  }
+}
+
+// Items List
+.items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+// Individual Roadmap Item
+.roadmap-item {
+  .nes-checkbox {
+    width: 100%;
+
+    .item-text {
+      color: var(--theme-primary-text, #f9fafb);
+      transition: color 0.2s ease;
+      font-size: 0.75rem;
+      line-height: 1.4;
+
+      &.completed {
+        color: var(--theme-secondary-text, #9ca3af);
+        text-decoration: line-through;
+        text-decoration-thickness: 1px;
+      }
+    }
+  }
+
+  &:hover {
+    background-color: color-mix(in srgb, var(--theme-section-bg, var(--theme-secondary-bg)) 95%, var(--theme-primary-accent, #f9e9c8) 5%);
+    padding: 0.25rem;
+    margin: -0.25rem;
+    border-radius: 2px;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .roadmap-header {
+    .roadmap-stats {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+  }
+
+  .quarter-header {
+    .quarter-arrow {
+      top: 1rem;
+      right: 1rem;
+    }
+  }
+}

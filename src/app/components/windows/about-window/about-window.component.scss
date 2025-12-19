@@ -1,0 +1,48 @@
+.chart {
+  object-fit: cover;
+}
+
+.title {
+  color: var(--theme-primary-accent, var(--mat-sys-primary)) !important;
+}
+
+.stat-card {
+  background-color: var(--theme-secondary-bg, var(--mat-sys-surface-container));
+}
+
+.faq-question {
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+  padding: 0 1.5rem;
+}
+
+.faq-item {
+  background-color: var(--theme-secondary-bg, var(--mat-sys-surface-container));
+
+  // &.open .faq-answer {
+  //   max-height: 500px; 
+  //   padding: 1.5rem 1.5rem;
+  // }
+
+  &.open {
+    .faq-answer {
+      background-color: color-mix(in srgb, var(--theme-secondary-bg, var(--mat-sys-surface-container)) 85%, var(--theme-primary-accent));
+      max-height: 500px; 
+      padding: 1.5rem 1.5rem;
+    }
+
+    .faq-arrow {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.faq-arrow {
+  transition: transform 0.3s ease-out;
+}

@@ -1,0 +1,81 @@
+<div class="player-container">
+  <div class="flex-center">
+    <!-- Placeholder for Album Art -->
+    <div class="album-art">
+      <img src="https://placehold.co/100x100/111827/FFF?text=Art" alt="Album Art">
+    </div>
+
+    <div class="track-info-container">
+      <div class="track-info">
+        <p class="title">Sample Track Title</p>
+        <p class="artist">Sample Artist</p>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="progress-bar-container">
+        <span class="time">{{ formatTime(currentTime) }}</span>
+        <input class="progress-bar accent-accent" #progressBar type="range" 
+          min="0" max="100" [value]="progress" (input)="onProgressChange($event)" />
+        <span class="time">{{ formatTime(140) }}</span>
+      </div>
+    </div>
+  </div>
+
+<!--
+<div *ngIf="currentTrack" class="player-container">
+  <div class="flex-center">
+    <!-- Placeholder for Album Art 
+    <div class="album-art">
+      <img [src]="currentTrack.albumArtUrl" alt="Album Art">
+    </div>
+
+    <div class="track-info-container">
+      <!-- Track Info 
+      <div class="track-info">
+        <p class="title">{{ currentTrack.title }}</p>
+        <p class="artist">{{ currentTrack.artist }}</p>
+      </div>
+
+      <!-- Progress Bar 
+      <div class="progress-bar-container">
+        <span class="time">{{ formatTime(currentTime) }}</span>
+        <input type="range" min="0" max="100" [value]="progress" (input)="onProgressChange($event)"
+          class="progress-bar accent-accent">
+        <span class="time">{{ formatTime(currentTrack.duration) }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls 
+  <div class="controls-container">
+    <div class="soundcloud-logo">
+      <img src="soundcloud/soundcloud-logo-dark.png" alt="SoundCloud Logo">
+    </div>
+
+    <!-- Main Controls 
+    <div class="main-controls">
+      <!-- Previous Button 
+      <button class="control-button">
+        <mat-icon>skip_previous</mat-icon>
+      </button>
+
+      <!-- Play/Pause Button
+      <button (click)="togglePlayPause()" class="play-pause-button">
+        <mat-icon>{{ isPlaying ? 'pause' : 'play_arrow' }}</mat-icon>
+      </button>
+      
+      <!-- Next Button 
+      <button class="control-button">
+        <mat-icon>skip_next</mat-icon>
+      </button>
+    </div>
+
+    <!-- Volume Control
+    <div class="volume-control-container">
+      <input type="range" min="0" max="100" [value]="volume" (input)="onVolumeChange($event)"
+        class="volume-slider accent-accent">
+    </div>
+  </div>
+</div>
+
+-->

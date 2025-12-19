@@ -1,0 +1,69 @@
+@use '@angular/material' as mat;
+
+// Cyberpunk Theme
+// Futuristic theme with neon colors on dark backgrounds, inspired by cyberpunk aesthetics
+// Ideal for designs that aim to be edgy and visually striking
+
+// Define the theme using Material's violet and cyan palettes
+$cyberpunk-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: mat.$violet-palette,
+    tertiary: mat.$cyan-palette,
+  ),
+  typography: (
+    brand-family: 'Press Start 2P',
+    plain-family: 'Press Start 2P',
+  ),
+  density: (
+    scale: 0
+  )
+));
+
+@mixin theme() {
+  // Apply Material component themes with cyberpunk colors
+  @include mat.all-component-themes($cyberpunk-theme);
+  
+  // Custom theme variables - Cyberpunk aesthetic
+  --theme-primary-bg: #0a0e27;        // Dark navy
+  --theme-secondary-bg: #16213e;      // Deep blue
+  --theme-section-bg: #1a1a2e;        // Very dark blue
+  --theme-primary-text: #00fff9;      // Neon cyan
+  --theme-secondary-text: #00d9ff;    // Bright cyan
+  --theme-primary-accent: #ff00ff;    // Neon magenta
+  --theme-secondary-accent: #00fff9;  // Neon cyan
+  --theme-border-color: #ff00ff;      // Neon magenta
+  --theme-player-bg: #16213e;         // Deep blue
+  --theme-shadow-color: rgba(255, 0, 255, 0.5); // Neon shadow for depth
+  --theme-success: #00ff88;   // Neon green-cyan
+  --theme-warning: #ffcc00;   // Neon yellow-orange
+  --theme-error: #ff0066;     // Neon pink-red
+
+  // Optional: Custom scrollbar for this theme
+  scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
+  
+  // Optional: Enhance focus states with cyberpunk colors
+  *:focus-visible {
+    outline-color: var(--theme-primary-accent);
+  }
+
+  .main-view {
+    background: linear-gradient(var(--theme-primary-accent, #ff00ff) 0%, var(--theme-secondary-bg, #16213e) 100%);
+  }
+
+  .login-container {
+    background: linear-gradient(var(--theme-primary-accent, #ff00ff) 0%, var(--theme-secondary-bg, #16213e) 100%);
+  }
+}
+
+// Theme Color Palette Reference:
+// Primary Background:    #0a0e27 (Dark Navy)
+// Secondary Background:  #16213e (Deep Blue)
+// Section Background:    #1a1a2e (Very Dark Blue)
+// Primary Text:          #00fff9 (Neon Cyan)
+// Secondary Text:        #00d9ff (Bright Cyan)
+// Primary Accent:       #ff00ff (Neon Magenta)
+// Secondary Accent:     #00fff9 (Neon Cyan)
+// Border Color:        #ff00ff (Neon Magenta)
+// Player Background:   #16213e (Deep Blue)
+// Shadow Color:       rgba(255, 0, 255, 0.5) (Neon Shadow for Depth)

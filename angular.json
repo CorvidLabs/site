@@ -12,14 +12,15 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "cvd",
       "architect": {
         "build": {
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
             "polyfills": [
-              "zone.js"
+              "zone.js",
+              "src/polyfills.ts"
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -32,20 +33,38 @@
             "styles": [
               "src/styles.scss"
             ],
-            "outputPath": "dist/corvid-site"
+            "outputPath": "dist/corvid-site",
+            "allowedCommonJsDependencies": [
+              "qr-code-styling",
+              "@evanhahn/lottie-web-light",
+              "bowser",
+              "ws",
+              "is-typedarray",
+              "typedarray-to-buffer",
+              "tweetnacl",
+              "js-sha512",
+              "hi-base32",
+              "json-bigint",
+              "bn.js",
+              "js-sha3",
+              "query-string",
+              "@walletconnect/environment",
+              "@walletconnect/window-metadata",
+              "@walletconnect/window-getters"
+            ]
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1.5MB",
+                  "maximumError": "2MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "8kB",
+                  "maximumError": "16kB"
                 }
               ],
               "outputHashing": "all"
@@ -95,5 +114,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

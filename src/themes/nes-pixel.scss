@@ -1,0 +1,1010 @@
+// ============================================
+// NES-Style SCSS for Angular with Dynamic Theming
+// 8-bit Retro Gaming Theme
+// ============================================
+
+// ============================================
+// SCSS Variables (static values)
+// ============================================
+// $nes-font: 'Press Start 2P', cursive;
+// $nes-pixel-size: 3px;
+
+// Define CSS custom properties for global use
+:root {
+  --nes-pixel-size: 3px;
+  --nes-font: 'Press Start 2P', cursive;
+}
+
+// ============================================
+// Mixins
+// ============================================
+
+// Pixel Border Mixin (creates 8-bit style borders using box-shadow)
+@mixin pixel-border($color: var(--theme-border-color)) {
+  box-shadow:
+    var(--nes-pixel-size) 0 0 $color,
+    calc(var(--nes-pixel-size) * -1) 0 0 $color,
+    0 var(--nes-pixel-size) 0 $color,
+    0 calc(var(--nes-pixel-size) * -1) 0 $color,
+    0 0 0 var(--nes-pixel-size) $color;
+}
+
+// Inset Pixel Border (for inputs and pressed states)
+@mixin pixel-border-inset($color: var(--theme-border-color)) {
+  box-shadow:
+    inset var(--nes-pixel-size) 0 0 $color,
+    inset calc(var(--nes-pixel-size) * -1) 0 0 $color,
+    inset 0 var(--nes-pixel-size) 0 $color,
+    inset 0 calc(var(--nes-pixel-size) * -1) 0 $color;
+}
+
+// ============================================
+// Base Styles
+// ============================================
+* {
+  box-sizing: border-box;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+html, body {
+  font-family: var(--nes-font);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--theme-primary-text);
+  background-color: var(--theme-primary-bg);
+  scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
+}
+
+// Custom scrollbar styles (WebKit)
+::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--theme-primary-bg);
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
+  // border-radius: 0; // Squared corners for pixel art style
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--theme-primary-accent);
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
+  // border-radius: 0; // Squared corners for pixel art style
+
+  @include pixel-border(var(--theme-border-color));
+
+  &:hover {
+    background: var(--theme-secondary-accent);
+    filter: brightness(1.1);
+  }
+
+  &:active {
+    background: var(--theme-primary-accent);
+    filter: brightness(0.9);
+  }
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--theme-primary-bg);
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
+}
+
+// ============================================
+// Typography
+// ============================================
+.nes-h1 {
+  font-size: 2rem;
+  margin: 0 0 1rem;
+  font-weight: normal;
+  color: var(--theme-primary-text);
+}
+
+.nes-h2 {
+  font-size: 1.5rem;
+  margin: 0 0 1rem;
+  font-weight: normal;
+  color: var(--theme-primary-text);
+}
+
+.nes-h3 {
+  font-size: 1.25rem;
+  margin: 0 0 0.75rem;
+  font-weight: normal;
+  color: var(--theme-primary-text);
+}
+
+.nes-h4 {
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+  font-weight: normal;
+  color: var(--theme-primary-text);
+}
+
+.nes-p {
+  margin: 0 0 1rem;
+  color: var(--theme-primary-text);
+}
+
+// ============================================
+// Borders
+// ============================================
+
+.nes-border {
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
+
+  @include pixel-border(var(--theme-border-color));
+}
+
+// ============================================
+// Buttons
+// ============================================
+.nes-btn {
+  position: relative;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+  font-family: var(--nes-font);
+  font-size: 1rem;
+  color: var(--theme-primary-text);
+  background-color: var(--theme-secondary-bg);
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: none;
+  user-select: none;
+  -webkit-user-select: none;
+  
+  @include pixel-border(var(--theme-border-color));
+  
+  &:hover {
+    background-color: var(--theme-section-bg);
+    box-shadow:
+      var(--nes-pixel-size) 0 0 var(--theme-border-color),
+      calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+      0 var(--nes-pixel-size) 0 var(--theme-border-color),
+      0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color),
+      0 0 0 var(--nes-pixel-size) var(--theme-border-color),
+      0 0 0 calc(var(--nes-pixel-size) * 2) var(--theme-primary-accent);
+  }
+  
+  &:active, &.is-pressed {
+    box-shadow:
+      inset var(--nes-pixel-size) 0 0 var(--theme-border-color),
+      inset calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+      inset 0 var(--nes-pixel-size) 0 var(--theme-border-color),
+      inset 0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color);
+    transform: translate(2px, 2px);
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 
+      var(--nes-pixel-size) 0 0 var(--theme-border-color),
+      calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+      0 var(--nes-pixel-size) 0 var(--theme-border-color),
+      0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color),
+      0 0 0 var(--nes-pixel-size) var(--theme-border-color),
+      0 0 0 calc(var(--nes-pixel-size) * 2) var(--theme-primary-accent);
+  }
+  
+  &:disabled, &.is-disabled {
+    color: var(--theme-secondary-text);
+    background-color: var(--theme-section-bg);
+    cursor: not-allowed;
+    opacity: 0.6;
+    
+    &:hover {
+      background-color: var(--theme-section-bg);
+      box-shadow: 
+        var(--nes-pixel-size) 0 0 var(--theme-border-color),
+        calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+        0 var(--nes-pixel-size) 0 var(--theme-border-color),
+        0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color),
+        0 0 0 var(--nes-pixel-size) var(--theme-border-color);
+    }
+    
+    &:active {
+      transform: none;
+      box-shadow: 
+        var(--nes-pixel-size) 0 0 var(--theme-border-color),
+        calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+        0 var(--nes-pixel-size) 0 var(--theme-border-color),
+        0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color),
+        0 0 0 var(--nes-pixel-size) var(--theme-border-color);
+    }
+  }
+  
+  // Button Variants
+  &.is-primary {
+    color: var(--theme-primary-bg);
+    background-color: var(--theme-primary-accent);
+    
+    &:hover {
+      filter: brightness(1.1);
+    }
+  }
+  
+  &.is-secondary {
+    color: var(--theme-primary-bg);
+    background-color: var(--theme-secondary-accent);
+    
+    &:hover {
+      filter: brightness(1.1);
+    }
+  }
+  
+  &.is-success {
+    color: var(--theme-primary-bg);
+    background-color: var(--theme-success);
+    
+    &:hover {
+      filter: brightness(1.1);
+    }
+  }
+  
+  &.is-warning {
+    color: var(--theme-primary-text);
+    background-color: var(--theme-warning);
+    
+    &:hover {
+      filter: brightness(1.1);
+    }
+  }
+  
+  &.is-error {
+    color: var(--theme-primary-bg);
+    background-color: var(--theme-error);
+    
+    &:hover {
+      filter: brightness(1.1);
+    }
+  }
+}
+
+// ============================================
+// Input Fields
+// ============================================
+.nes-input {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  font-family: var(--nes-font);
+  font-size: 1rem;
+  color: var(--theme-primary-text);
+  background-color: var(--theme-secondary-bg);
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
+
+  @include pixel-border(var(--theme-border-color));
+  
+  &:focus {
+    outline: none;
+    box-shadow: 
+      var(--nes-pixel-size) 0 0 var(--theme-border-color),
+      calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+      0 var(--nes-pixel-size) 0 var(--theme-border-color),
+      0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color),
+      0 0 0 var(--nes-pixel-size) var(--theme-border-color),
+      0 0 0 calc(var(--nes-pixel-size) * 2) var(--theme-primary-accent);
+  }
+  
+  &::placeholder {
+    color: var(--theme-secondary-text);
+  }
+  
+  &.is-error {
+    border-color: var(--theme-error);
+    box-shadow: 
+      var(--nes-pixel-size) 0 0 var(--theme-error),
+      calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-error),
+      0 var(--nes-pixel-size) 0 var(--theme-error),
+      0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-error),
+      0 0 0 var(--nes-pixel-size) var(--theme-error);
+    
+    &:focus {
+      box-shadow: 
+        var(--nes-pixel-size) 0 0 var(--theme-error),
+        calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-error),
+        0 var(--nes-pixel-size) 0 var(--theme-error),
+        0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-error),
+        0 0 0 var(--nes-pixel-size) var(--theme-error),
+        0 0 0 calc(var(--nes-pixel-size) * 2) var(--theme-error);
+    }
+  }
+  
+  &.is-success {
+    border-color: var(--theme-success);
+    box-shadow: 
+      var(--nes-pixel-size) 0 0 var(--theme-success),
+      calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-success),
+      0 var(--nes-pixel-size) 0 var(--theme-success),
+      0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-success),
+      0 0 0 var(--nes-pixel-size) var(--theme-success);
+  }
+}
+
+textarea.nes-input {
+  min-height: 100px;
+  resize: vertical;
+}
+
+// ============================================
+// Cards / Containers
+// ============================================
+.nes-container {
+  position: relative;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  background-color: var(--theme-section-bg);
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
+  
+  @include pixel-border(var(--theme-border-color));
+  
+  &.is-rounded {
+    border-radius: var(--nes-pixel-size);
+  }
+  
+  &.is-primary-bg {
+    background-color: var(--theme-primary-bg);
+  }
+  
+  &.is-secondary-bg {
+    background-color: var(--theme-secondary-bg);
+  }
+  
+  &.is-player-bg {
+    background-color: var(--theme-player-bg);
+  }
+  
+  &.with-title {
+    padding-top: 2.5rem;
+    
+    > .title {
+      position: absolute;
+      top: -0.75rem;
+      left: 1rem;
+      padding: 0 0.5rem;
+      background-color: var(--theme-section-bg);
+      color: var(--theme-primary-text);
+      font-size: 1rem;
+    }
+    
+    &.is-primary-bg > .title {
+      background-color: var(--theme-primary-bg);
+    }
+    
+    &.is-secondary-bg > .title {
+      background-color: var(--theme-secondary-bg);
+    }
+  }
+  
+  // Shadow effect
+  &.has-shadow {
+    box-shadow:
+      var(--nes-pixel-size) 0 0 var(--theme-border-color),
+      calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+      0 var(--nes-pixel-size) 0 var(--theme-border-color),
+      0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color),
+      0 0 0 var(--nes-pixel-size) var(--theme-border-color),
+      8px 8px 0 var(--theme-shadow-color);
+  }
+}
+
+// Flush title variant - title stays inside the border
+.nes-container-f {
+  position: relative;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  background-color: var(--theme-section-bg);
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
+
+  @include pixel-border(var(--theme-border-color));
+
+  &.is-rounded {
+    border-radius: var(--nes-pixel-size);
+  }
+
+  &.is-primary-bg {
+    background-color: var(--theme-primary-bg);
+  }
+
+  &.is-secondary-bg {
+    background-color: var(--theme-secondary-bg);
+  }
+
+  &.is-player-bg {
+    background-color: var(--theme-player-bg);
+  }
+
+  &.with-title {
+    padding-top: 2.5rem;  // Standard padding + .5rem for title space
+
+    > .title {
+      position: absolute;
+      top: 0.5rem;  // POSITIVE value - stays inside border
+      left: 1rem;
+      padding: 0 0.5rem 0 0.25rem;
+      background-color: var(--theme-section-bg);
+      color: var(--theme-primary-text);
+      font-size: 1rem;
+    }
+
+    &.is-primary-bg > .title {
+      background-color: var(--theme-primary-bg);
+    }
+
+    &.is-secondary-bg > .title {
+      background-color: var(--theme-secondary-bg);
+    }
+  }
+
+  // Shadow effect
+  &.has-shadow {
+    box-shadow:
+      var(--nes-pixel-size) 0 0 var(--theme-border-color),
+      calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+      0 var(--nes-pixel-size) 0 var(--theme-border-color),
+      0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color),
+      0 0 0 var(--nes-pixel-size) var(--theme-border-color),
+      8px 8px 0 var(--theme-shadow-color);
+  }
+}
+
+// ============================================
+// Badges
+// ============================================
+.nes-badge {
+  position: relative;
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--theme-primary-text);
+  background-color: var(--theme-secondary-bg);
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
+  
+  @include pixel-border(var(--theme-border-color));
+  
+  &.is-primary {
+    color: var(--theme-primary-bg);
+    background-color: var(--theme-primary-accent);
+  }
+  
+  &.is-secondary {
+    color: var(--theme-primary-bg);
+    background-color: var(--theme-secondary-accent);
+  }
+  
+  &.is-splited {
+    padding: 0;
+    overflow: hidden;
+    
+    > span {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      
+      &:first-child {
+        color: var(--theme-primary-bg);
+        background-color: var(--theme-primary-accent);
+      }
+      
+      &:last-child {
+        color: var(--theme-primary-text);
+        background-color: var(--theme-secondary-bg);
+      }
+    }
+  }
+  
+  &.is-icon {
+    padding: 0.5rem;
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+// ============================================
+// Checkboxes & Radio Buttons
+// ============================================
+.nes-checkbox {
+  display: inline-flex !important;
+  align-items: flex-start;
+  cursor: pointer;
+  user-select: none;
+  color: var(--theme-primary-text);
+
+  > input[type="checkbox"] {
+    display: none;
+
+    & + span {
+      position: relative;
+      display: inline-block;
+      width: 1.5rem;
+      height: 1.5rem;
+      min-width: 1.5rem;
+      min-height: 1.5rem;
+      flex-shrink: 0;
+      margin-right: 0.5rem;
+      background-color: var(--theme-secondary-bg);
+      border: var(--nes-pixel-size) solid var(--theme-border-color);
+      vertical-align: middle;
+
+      @include pixel-border(var(--theme-border-color));
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0.75rem;
+        height: 0.75rem;
+        transform: translate(-50%, -50%);
+        background-color: transparent;
+      }
+    }
+
+    &:checked + span::before {
+      background-color: var(--theme-primary-accent);
+      box-shadow:
+        0 0 0 2px var(--theme-primary-accent),
+        2px 2px 0 2px var(--theme-primary-accent),
+        -2px -2px 0 2px var(--theme-primary-accent),
+        2px -2px 0 2px var(--theme-primary-accent),
+        -2px 2px 0 2px var(--theme-primary-accent);
+    }
+
+    &:disabled + span {
+      background-color: var(--theme-section-bg);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+
+  .checkbox-label-text {
+    flex: 1;
+    min-width: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.4;
+  }
+}
+
+// ============================================
+// Radio Button Container
+// ============================================
+.nes-radio-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  &.is-vertical {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  &.has-background {
+    padding: 1rem;
+    background-color: var(--theme-section-bg);
+    border: var(--nes-pixel-size) solid var(--theme-border-color);
+
+    @include pixel-border(var(--theme-border-color));
+  }
+}
+
+// ============================================
+// Radio Buttons
+// ============================================
+.nes-radio {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  color: var(--theme-primary-text);
+
+  > input[type="radio"] {
+    display: none;
+
+    & + span {
+      position: relative;
+      display: inline-block;
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-right: 0.5rem;
+      background-color: var(--theme-secondary-bg);
+      border: var(--nes-pixel-size) solid var(--theme-border-color);
+      border-radius: 50%;
+      vertical-align: middle;
+
+      @include pixel-border(var(--theme-border-color));
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0.75rem;
+        height: 0.75rem;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        background-color: transparent;
+      }
+    }
+
+    &:checked + span::before {
+      background-color: var(--theme-primary-accent);
+    }
+
+    &:disabled + span {
+      background-color: var(--theme-section-bg);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+}
+
+// ============================================
+// Progress Bar
+// ============================================
+progress::-moz-progress-bar { // Firefox inner bar
+  background: var(--theme-primary-accent);
+}
+
+progress::-webkit-progress-value { // Webkit inner bar (filled portion)
+  background: var(--theme-primary-accent);
+}
+
+progress::-webkit-progress-bar { // Webkit background (unfilled portion)
+  background: var(--theme-section-bg);
+}
+
+.nes-progress {
+  position: relative;
+  width: 100%;
+  height: 2rem;
+  margin: 1rem 0;
+  background-color: var(--theme-section-bg);
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
+  overflow: hidden;
+
+  @include pixel-border(var(--theme-border-color));
+
+  // Bar colors
+  color: var(--theme-primary-accent);
+
+  &-bar {
+    height: 100%;
+    background-color: var(--theme-primary-accent);
+    transition: width 0.3s ease;
+  }
+
+  // Color variants for div-based progress bars
+  &.is-success .nes-progress-bar {
+    background-color: var(--theme-success);
+  }
+
+  &.is-warning .nes-progress-bar {
+    background-color: var(--theme-warning);
+  }
+
+  &.is-error .nes-progress-bar {
+    background-color: var(--theme-error);
+  }
+
+  &.is-pattern .nes-progress-bar {
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 0.5rem,
+      rgba(255, 255, 255, 0.3) 0.5rem,
+      rgba(255, 255, 255, 0.3) 1rem
+    );
+  }
+
+  // Color variants for native <progress> elements
+  &.is-success::-moz-progress-bar {
+    background: var(--theme-success);
+  }
+
+  &.is-success::-webkit-progress-value {
+    background: var(--theme-success);
+  }
+
+  &.is-warning::-moz-progress-bar {
+    background: var(--theme-warning);
+  }
+
+  &.is-warning::-webkit-progress-value {
+    background: var(--theme-warning);
+  }
+
+  &.is-error::-moz-progress-bar {
+    background: var(--theme-error);
+  }
+
+  &.is-error::-webkit-progress-value {
+    background: var(--theme-error);
+  }
+}
+
+// ============================================
+// Tables
+// ============================================
+.nes-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
+  color: var(--theme-primary-text);
+  
+  @include pixel-border(var(--theme-border-color));
+  
+  thead {
+    background-color: var(--theme-secondary-bg);
+    
+    > tr {
+      th {
+        font-weight: bold;
+      }
+    }
+
+    &.is-big {
+      > tr {
+        th {
+          font-weight: bold;
+          font-size: 1.25rem;
+          padding: 1rem 0.75rem;
+        }
+      }
+    }
+  }
+  
+  tbody tr {
+    background-color: var(--theme-section-bg);
+
+    &:nth-child(even) {
+      background-color: var(--theme-secondary-bg);
+    }
+
+    &:hover {
+      background-color: var(--theme-primary-bg);
+    }
+  }
+  
+  th, td {
+    padding: 0.75rem;
+    text-align: left;
+    border-right: var(--nes-pixel-size) solid var(--theme-border-color);
+    border-bottom: var(--nes-pixel-size) solid var(--theme-border-color);
+    
+    &:last-child {
+      border-right: none;
+    }
+  }
+  
+  tbody tr:last-child {
+    td {
+      border-bottom: none;
+    }
+  }
+  
+  &.is-bordered {
+    td, th {
+      border: var(--nes-pixel-size) solid var(--theme-border-color);
+    }
+  }
+}
+
+// ============================================
+// Dialogs / Balloons
+// ============================================
+.nes-balloon {
+  position: relative;
+  display: inline-block;
+  padding: 1rem 1.5rem;
+  margin: 1rem;
+  color: var(--theme-primary-text);
+  background-color: var(--theme-section-bg);
+  border: var(--nes-pixel-size) solid var(--theme-border-color);
+
+  @include pixel-border(var(--theme-border-color));
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: var(--theme-section-bg);
+    border: var(--nes-pixel-size) solid var(--theme-border-color);
+  }
+  
+  // Balloon pointing from bottom
+  &.from-left::before {
+    bottom: -1rem;
+    left: 1.5rem;
+    border-top: none;
+    border-right: none;
+    box-shadow:
+      calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+      0 var(--nes-pixel-size) 0 var(--theme-border-color),
+      calc(var(--nes-pixel-size) * -1) var(--nes-pixel-size) 0 var(--theme-border-color);
+  }
+  
+  &.from-right::before {
+    bottom: -1rem;
+    right: 1.5rem;
+    border-top: none;
+    border-left: none;
+    box-shadow:
+      var(--nes-pixel-size) 0 0 var(--theme-border-color),
+      0 var(--nes-pixel-size) 0 var(--theme-border-color),
+      var(--nes-pixel-size) var(--nes-pixel-size) 0 var(--theme-border-color);
+  }
+  
+  &.from-top::before {
+    top: -1rem;
+    left: 1.5rem;
+    border-bottom: none;
+    border-right: none;
+    box-shadow:
+      calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+      0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color),
+      calc(var(--nes-pixel-size) * -1) calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color);
+  }
+}
+
+// ============================================
+// Lists
+// ============================================
+.nes-list {
+  padding-left: 2rem;
+  color: var(--theme-primary-text);
+  
+  &.is-disc {
+    list-style-type: disc;
+  }
+  
+  &.is-circle {
+    list-style-type: circle;
+  }
+  
+  li {
+    margin-bottom: 0.5rem;
+    
+    &::marker {
+      color: var(--theme-primary-accent);
+    }
+  }
+}
+
+// ============================================
+// Select Dropdown
+// ============================================
+.nes-select {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  
+  select {
+    width: 100%;
+    padding: 0.5rem 2rem 0.5rem 0.5rem;
+    font-family: var(--nes-font);
+    font-size: 1rem;
+    color: var(--theme-primary-text);
+    background-color: var(--theme-secondary-bg);
+    border: var(--nes-pixel-size) solid var(--theme-border-color);
+    cursor: pointer;
+    appearance: none;
+
+    @include pixel-border(var(--theme-border-color));
+    
+    &:focus {
+      outline: none;
+      box-shadow: 
+        var(--nes-pixel-size) 0 0 var(--theme-border-color),
+        calc(var(--nes-pixel-size) * -1) 0 0 var(--theme-border-color),
+        0 var(--nes-pixel-size) 0 var(--theme-border-color),
+        0 calc(var(--nes-pixel-size) * -1) 0 var(--theme-border-color),
+        0 0 0 var(--nes-pixel-size) var(--theme-border-color),
+        0 0 0 calc(var(--nes-pixel-size) * 2) var(--theme-primary-accent);
+    }
+  }
+  
+  &::after {
+    content: '▼';
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--theme-primary-text);
+    pointer-events: none;
+    font-size: 0.75rem;
+  }
+}
+
+// ============================================
+// Utility Classes
+// ============================================
+.is-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.is-hidden {
+  display: none;
+}
+
+.text-primary {
+  color: var(--theme-primary-text);
+}
+
+.text-secondary {
+  color: var(--theme-secondary-text) !important;
+}
+
+.text-accent {
+  color: var(--theme-primary-accent);
+}
+
+.bg-primary {
+  background-color: var(--theme-primary-bg);
+}
+
+.bg-secondary {
+  background-color: var(--theme-secondary-bg);
+}
+
+.bg-section {
+  background-color: var(--theme-section-bg);
+}
+
+.bg-player {
+  background-color: var(--theme-player-bg);
+}
+
+// ============================================
+// Animations
+// ============================================
+@keyframes nes-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.nes-blink {
+  animation: nes-blink 1s infinite;
+}
+
+@keyframes nes-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.nes-bounce {
+  animation: nes-bounce 0.5s infinite;
+}
+
+@keyframes nes-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.nes-shake {
+  animation: nes-shake 0.3s ease-in-out;
+}
+
+
+

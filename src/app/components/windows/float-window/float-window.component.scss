@@ -1,0 +1,10 @@
+// Component styles - ensure solid backgrounds
+.float-window {
+  // Force solid background in case global styles don't apply
+  background-color: var(--theme-secondary-bg, #1f2937) !important;
+}
+
+.drag-handle {
+  // Force solid background for header
+  background-color: var(--theme-primary-bg, #111827) !important;
+}

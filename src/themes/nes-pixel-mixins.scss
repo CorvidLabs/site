@@ -1,0 +1,23 @@
+// ============================================
+// NES-Style SCSS Mixins Only
+// Lightweight import for component-level styling
+// ============================================
+
+// Pixel Border Mixin (creates 8-bit style borders using box-shadow)
+@mixin pixel-border($color: var(--theme-border-color)) {
+  box-shadow:
+    var(--nes-pixel-size) 0 0 $color,
+    calc(var(--nes-pixel-size) * -1) 0 0 $color,
+    0 var(--nes-pixel-size) 0 $color,
+    0 calc(var(--nes-pixel-size) * -1) 0 $color,
+    0 0 0 var(--nes-pixel-size) $color;
+}
+
+// Inset Pixel Border (for inputs and pressed states)
+@mixin pixel-border-inset($color: var(--theme-border-color)) {
+  box-shadow:
+    inset var(--nes-pixel-size) 0 0 $color,
+    inset calc(var(--nes-pixel-size) * -1) 0 0 $color,
+    inset 0 var(--nes-pixel-size) 0 $color,
+    inset 0 calc(var(--nes-pixel-size) * -1) 0 $color;
+}

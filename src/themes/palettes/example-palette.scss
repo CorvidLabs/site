@@ -1,0 +1,84 @@
+// Example Custom Color Palette
+// This is an example of a custom Material Design 3 color palette
+// 
+// Base Color: #2E7D32 (Forest Green)
+// Theme: Nature/Eco-friendly
+// Usage: Primary color for eco-conscious applications
+//
+// How to use this palette:
+// 1. Import it in your theme file: @use 'palettes/example-palette';
+// 2. Use it in mat.define-theme(): primary: example-palette.$palette
+//
+// To create your own palette:
+// 1. Choose a base color (typically use key 40 for light theme, 80 for dark theme)
+// 2. Generate shades by mixing with black (darker) and white (lighter)
+// 3. Use the Material Theme Builder tool for automatic generation:
+//    https://material-foundation.github.io/material-theme-builder/
+
+@use 'sass:map';
+
+// Forest Green Palette
+// Perfect for nature, eco, sustainability themes
+$palette: (
+  // Very dark shades (used for dark theme backgrounds, shadows)
+  '0': #000000,        // Pure black
+  '10': #002106,       // Very dark green (almost black)
+  '20': #00390f,       // Deep forest green
+  '25': #004a13,       // Dark forest green
+  '30': #005b16,       // Forest green (dark)
+  '35': #006d1a,       // Medium-dark green
+  
+  // Medium shades (primary colors for light theme)
+  '40': #2E7D32,       // BASE COLOR - Forest Green (Material Green 700)
+  
+  // Medium-light shades (used for accents, hover states)
+  '50': #43A047,       // Vibrant green
+  '60': #66BB6A,       // Light green
+  '70': #81C784,       // Lighter green
+  
+  // Light shades (used for backgrounds, surfaces in light theme)
+  '80': #A5D6A7,       // Very light green
+  '90': #C8E6C9,       // Pale green
+  '95': #E8F5E9,       // Almost white green
+  
+  // Very light shades (used for surfaces, backgrounds)
+  '98': #F1F8E9,       // Nearly white with green tint
+  '99': #F9FBE7,       // Almost pure white with hint of green
+  '100': #FFFFFF,      // Pure white
+);
+
+// Optional: Export complementary colors for advanced theming
+$complementary-red: (
+  '0': #000000,
+  '10': #330000,
+  '20': #660000,
+  '30': #990000,
+  '40': #cc0000,
+  '50': #ff1744,
+  '60': #ff5252,
+  '70': #ff8a80,
+  '80': #ffb3b3,
+  '90': #ffcccc,
+  '95': #ffe6e6,
+  '98': #fff5f5,
+  '99': #fffafa,
+  '100': #ffffff,
+);
+
+// Optional: Export analogous colors for color schemes
+$analogous-blue-green: (
+  '0': #000000,
+  '10': #001a1a,
+  '20': #003333,
+  '30': #004d4d,
+  '40': #006666,
+  '50': #00897b,
+  '60': #4db6ac,
+  '70': #80cbc4,
+  '80': #b2dfdb,
+  '90': #e0f2f1,
+  '95': #f0f9f8,
+  '98': #f7fcfb,
+  '99': #fbfefe,
+  '100': #ffffff,
+);

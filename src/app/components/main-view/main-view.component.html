@@ -1,0 +1,48 @@
+<!-- We use Tailwind classes directly for styling -->
+<!-- The main container is now a flex column to position the window area and the dock -->
+<div class="main-view">
+    <!-- <img src="wallpapers/space-gradient-background.png" class="absolute top-0 left-0 w-full h-full object-cover -z-100" alt="BackgroundImage"> -->
+
+    <!-- This div will be the area where floating windows can exist, positioned above the dock -->
+    <div class="main-view-content">
+      <!-- Button to disconnect wallet, should be fixed on top right corner and can be behind windows -->
+      @if (isAuthenticated()) {
+        <button class="absolute top-4 right-4 bg-white/40 backdrop-blur-md rounded-full shadow-lg hover:bg-white/60 transition-colors z-50 flex items-center justify-center p-2" (click)="handleDisconnectWallet($event)" title="Disconnect Wallet">
+          <cvd-pixel-icon name="logout" size="md" class="text-gray-800" />
+        </button>
+      }
+
+      <!--
+        This is the magic part!
+        It's an invisible anchor in your template.
+        The #windowHost is a template reference variable that we use in the .ts file.
+      -->
+      <ng-template #windowHost></ng-template>
+    </div>
+
+    <!-- This is the macOS-style dock -->
+    <div class="main-view-dock-region">
+      <div class="main-view-dock-bar">
+        <!-- Dynamic dock icons -->
+        @for (item of dockItems(); track item.type) {
+          <div class="main-view-dock-item"
+            (click)="openWindowByType(item.type)"
+            [title]="item.label">
+            <cvd-pixel-icon [name]="item.icon" size="lg" class="item-icon" />
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Launchpad Backdrop (shown when drawer is open) -->
+    @if (launchpadDrawerOpen()) {
+      <div class="launchpad-backdrop"
+           [class.backdrop-visible]="launchpadDrawerOpen()"
+           (click)="closeLaunchpadDrawer()">
+      </div>
+    }
+
+    <!-- Launchpad Drawer Host -->
+    <ng-template #launchpadDrawerHost></ng-template>
+
+</div>

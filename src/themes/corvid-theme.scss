@@ -1,0 +1,47 @@
+@use '@angular/material' as mat;
+
+// Define a custom Corvid theme with space/raven aesthetic
+$corvid-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: mat.$violet-palette,
+    tertiary: mat.$cyan-palette,
+  ),
+  typography: (
+    brand-family: 'Inter',
+    plain-family: 'Inter',
+  ),
+  density: (
+    scale: 0
+  )
+));
+
+// Export theme for use
+@mixin theme() {
+  @include mat.all-component-themes($corvid-theme);
+  
+  // Custom Corvid theme variables - Deep space aesthetic
+  --theme-primary-bg: #11111b;        // Deep Space Black
+  --theme-secondary-bg: #171a30;      // Extra Dark Navy
+  --theme-section-bg: #232338;        // Slightly Lighter Dark
+  --theme-primary-text: #f9e9c8;      // Cream Highlight
+  --theme-secondary-text: #a8a9ad;    // Muted Gray
+  --theme-primary-accent: #f9e9c8;    // Cream Highlight
+  --theme-secondary-accent: #0c0f18;  // Shadow Accent
+  --theme-border-color: #0d1019;      // Dark Border
+  --theme-player-bg: #12121c;         // Player Background
+  --theme-shadow-color: #000000b3; // Dark shadow for depth
+  --theme-success: #66bb6a;   // Material green-400
+  --theme-warning: #ffa726;   // Material orange-400
+  --theme-error: #ef5350;     // Material red-400
+
+  scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
+
+  .main-view {
+    background: linear-gradient(var(--theme-primary-accent) 0%, var(--theme-secondary-bg) 100%);
+  }
+
+  .login-container {
+    background: linear-gradient(var(--theme-primary-accent) 0%, var(--theme-secondary-bg) 100%);
+  }
+}
