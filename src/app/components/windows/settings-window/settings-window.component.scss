@@ -1,4 +1,6 @@
 // Component styles - ensure solid backgrounds
+@use '../../../../themes/nes-pixel-mixins' as nes-pixel-mixins;
+
 .float-window {
   // Force solid background in case global styles don't apply
   background-color: var(--theme-secondary-bg, #1f2937) !important;
@@ -27,5 +29,148 @@
     cvd-pixel-icon {
       margin-right: 0.25rem;
     }
+  }
+}
+
+// User Account Section
+.user-account-content {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.5rem 0;
+}
+
+// Clickable Avatar
+.user-avatar-wrapper {
+  margin-left: 1rem;
+  position: relative;
+  width: 128px;
+  height: 128px;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+
+    .avatar-overlay {
+      opacity: 1;
+    }
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.user-avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 3px solid var(--theme-border-color, #000);
+  
+  @include nes-pixel-mixins.pixel-border(var(--theme-border-color));
+
+  background-color: var(--theme-section-bg, #333);
+  image-rendering: pixelated;
+}
+
+.user-avatar-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border: 3px solid var(--theme-border-color, #000);
+  background-color: var(--theme-section-bg, #333);
+  
+  @include nes-pixel-mixins.pixel-border(var(--theme-border-color));
+}
+
+// Edit Overlay
+.avatar-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+
+  cvd-pixel-icon {
+    color: var(--theme-primary-text, #fff);
+    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.8));
+  }
+}
+
+// User Info
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 0;
+  margin-left: 2rem;
+}
+
+.user-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 0.75rem;
+  font-family: 'Press Start 2P', cursive;
+  line-height: 1.4;
+
+  &.authenticated {
+    color: var(--theme-success, #66bb6a);
+
+    cvd-pixel-icon {
+      color: var(--theme-success, #66bb6a);
+    }
+  }
+
+  &.not-authenticated {
+    color: var(--theme-secondary-text, #a8a9ad);
+
+    cvd-pixel-icon {
+      color: var(--theme-secondary-text, #a8a9ad);
+    }
+  }
+}
+
+.user-wallet {
+  font-size: 0.625rem;
+  color: var(--theme-secondary-text, #a8a9ad);
+  margin: 0;
+  font-family: 'Press Start 2P', cursive;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.login-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.625rem;
+  align-self: flex-start;
+
+  cvd-pixel-icon {
+    margin-right: 0.25rem;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 }

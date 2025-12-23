@@ -22,7 +22,7 @@ export interface ThemeConfig {
 export const THEME_REGISTRY: readonly ThemeConfig[] = [
   { id: 'light', displayName: 'Light', type: 'light', cssClass: 'light-theme' },
   { id: 'dark', displayName: 'Dark (Default)', type: 'dark', cssClass: 'dark-theme' },
-  { id: 'corvid', displayName: 'Corvid', type: 'dark', cssClass: 'corvid-theme' },
+  { id: 'corvid', displayName: 'Cappuccino', type: 'dark', cssClass: 'corvid-theme' },
   { id: 'green', displayName: 'Green Matrix', type: 'dark', cssClass: 'green-theme' },
   { id: 'black-orange', displayName: 'Black & Orange', type: 'dark', cssClass: 'black-orange-theme' },
   { id: 'arcade', displayName: 'Arcade', type: 'dark', cssClass: 'arcade-theme' },

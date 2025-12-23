@@ -237,7 +237,11 @@ export class MainViewComponent {
         break;
       case WindowTypes.SETTINGS:
         const settingsRef = this.openOrCreateWindowAdvanced<SettingsWindowComponent>(SettingsWindowComponent);
-        
+
+        // Pass login state to settings window
+        settingsRef.setInput('isAuthenticated', this.isAuthenticated());
+        settingsRef.setInput('userAccountAddress', this.userAccountAddress());
+
         // Handle Change User button from Settings
         settingsRef.instance.closeEvent.subscribe((windowType: any) => {
           if (windowType && typeof windowType === 'string' && windowType === WindowTypes.LOGIN) {

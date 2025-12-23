@@ -4,16 +4,6 @@
   gap: 1rem;
   padding: 1rem;
   background-color: var(--theme-section-bg, var(--mat-sys-surface-container));
-  border: 1px solid var(--theme-border-color, var(--mat-sys-outline-variant));
-}
-
-.section-title {
-  margin-bottom: 1rem;
-  font-size: 1.25rem;
-  font-weight: bold;
-  width: 100%;
-  // border: 1px solid var(--theme-border-color, var(--mat-sys-outline-variant));
-  color: var(--theme-primary-text, var(--mat-sys-on-surface));
 }
 
 .theme-groups {

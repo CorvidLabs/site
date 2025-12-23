@@ -11,18 +11,54 @@
 
   <!-- Window Content -->
   <div class="float-window-content">
-    <div class="settings-section">
-      <h3 class="section-title">Account</h3>
-      <button class="nes-btn" (click)="onChangeUser()">
-        <cvd-pixel-icon name="login" size="sm"></cvd-pixel-icon>
-        <span>Change User</span>
-      </button>
-    </div>
-    
-    <div class="settings-section">
-      <h3 class="section-title">Theme</h3>
-      <app-theme-switcher></app-theme-switcher>
-    </div>
 
+    <section id="user-account" class="nes-container with-title">
+      <label class="title">User Account</label>
+
+      <div class="user-account-content">
+        <!-- Clickable Avatar -->
+        <div class="user-avatar-wrapper" (click)="onChangeProfilePicture()">
+          @if(isAuthenticated() && userImage()) {
+            <img [src]="userImage()" alt="User Profile" class="user-avatar-image" />
+          } @else {
+            <cvd-pixel-icon name="user" size="lg" class="user-avatar-icon"></cvd-pixel-icon>
+          }
+          
+          <div class="avatar-overlay">
+            <cvd-pixel-icon name="edit" size="sm"></cvd-pixel-icon>
+          </div>
+        </div>
+
+        <!-- User Status & Info -->
+        <div class="user-info">
+          @if(isAuthenticated()) {
+            <p class="user-status authenticated">
+              <cvd-pixel-icon name="check" size="sm"></cvd-pixel-icon>
+              <span>Logged In</span>
+            </p>
+            
+            @if(userAccountAddress()) {
+              <p class="user-wallet">{{ userAccountAddress()!.substring(0, 8) }}...{{ userAccountAddress()!.substring(userAccountAddress()!.length - 6) }}</p>
+            }
+
+          } @else {
+            <p class="user-status not-authenticated">
+              <cvd-pixel-icon name="contact-delete" size="sm"></cvd-pixel-icon>
+              <span>Not Logged In</span>
+            </p>
+            
+            <button class="nes-btn is-primary login-btn" (click)="onChangeUser()">
+              <cvd-pixel-icon name="login" size="sm"></cvd-pixel-icon>
+              <span>Sign In</span>
+            </button>
+          }
+        </div>
+      </div>
+    </section>
+
+    <section id="theme" class="nes-container with-title">
+      <label class="title !text-lg">Theme</label>
+      <app-theme-switcher></app-theme-switcher>
+    </section>
   </div>
 </div>

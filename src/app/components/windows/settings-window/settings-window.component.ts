@@ -1,4 +1,4 @@
-import { Component, OnInit, input } from '@angular/core';
+import { Component, OnInit, input, signal } from '@angular/core';
 import { FloatWindow } from '../float-window/float-window.component';
 import { DraggableDirective } from '../../../directives/draggable.directive';
 import { CommonModule } from '@angular/common';
@@ -15,6 +15,10 @@ import { WindowTypes } from '../../../enums/window-types.enum';
 export class SettingsWindowComponent extends FloatWindow implements OnInit {
   override title = input<string>('Settings');
 
+  userImage = signal<string>("");
+  isAuthenticated = input<boolean>(false);
+  userAccountAddress = input<string | null>(null);
+
   constructor() {
     super();
 
@@ -27,5 +31,10 @@ export class SettingsWindowComponent extends FloatWindow implements OnInit {
   onChangeUser() {
     // Emit the LOGIN window type through the close event emitter
     this.closeEvent.emit(WindowTypes.LOGIN as any);
+  }
+
+  onChangeProfilePicture() {
+    // Placeholder for future profile picture gallery/upload
+    console.log('Profile picture change requested');
   }
 }
