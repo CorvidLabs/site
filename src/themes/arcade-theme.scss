@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use 'tailwind-theme-bridge' as tw;
 
 // Arcade Theme
 // Vibrant theme with bright colors on dark backgrounds, inspired by classic arcade games
@@ -38,6 +39,9 @@ $arcade-theme: mat.define-theme((
   --theme-success: #00ff00;   // Classic neon green
   --theme-warning: #ffff00;   // Neon yellow
   --theme-error: #ff0000;     // Neon red
+
+  // Tailwind color bridge
+  @include tw.tailwind-colors();
 
   scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
 

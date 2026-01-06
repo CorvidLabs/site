@@ -3,6 +3,7 @@ import { FloatWindow } from '../float-window/float-window.component';
 import { DraggableDirective } from '../../../directives/draggable.directive';
 import { ResizableDirective } from '../../../directives/resizable.directive';
 import { CommonModule } from '@angular/common';
+import { NavbarComponent, NavbarItem } from "../../navbar/navbar.component";
 
 interface monoAppletData {
   id: string;
@@ -16,13 +17,33 @@ interface monoAppletData {
   selector: 'cvd-mono-window',
   templateUrl: 'mono-window.component.html',
   styleUrls: ['mono-window.component.scss'],
-  imports: [CommonModule, DraggableDirective, ResizableDirective],
+  imports: [CommonModule, DraggableDirective, ResizableDirective, NavbarComponent],
 })
 export class MonoWindowComponent extends FloatWindow implements OnInit {
   override title = input<string>('Mono');
 
   // Track selected applet for details view (desktop)
   selectedApplet = signal<monoAppletData | null>(null);
+
+  navbarItems: NavbarItem[] = [
+    {
+      label: 'Overview',
+      link: '#overview'
+    },
+    {
+      label: 'Design',
+      link: '#design'
+    },
+    {
+      label: 'Applets',
+      link: '#applets'
+    },
+    {
+      label: 'Contact',
+      link: '#contact',
+      styling: 'text-accent'
+    }
+  ];
 
   appletsData: monoAppletData[] = [
     { id: 'apps', name: 'Apps', description: 'Launch installed apps.', icon: '🚀', use_case: 'Quickly access your most-used apps without navigating a cluttered home screen.' },
@@ -60,7 +81,7 @@ export class MonoWindowComponent extends FloatWindow implements OnInit {
   constructor() {
     super();
 
-    this.width.set(800);
+    this.width.set(865);
     this.height.set(600);
   }
 

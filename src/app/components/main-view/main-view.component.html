@@ -5,13 +5,6 @@
 
     <!-- This div will be the area where floating windows can exist, positioned above the dock -->
     <div class="main-view-content">
-      <!-- Button to disconnect wallet, should be fixed on top right corner and can be behind windows -->
-      @if (isAuthenticated()) {
-        <button class="absolute top-4 right-4 bg-white/40 backdrop-blur-md rounded-full shadow-lg hover:bg-white/60 transition-colors z-50 flex items-center justify-center p-2" (click)="handleDisconnectWallet($event)" title="Disconnect Wallet">
-          <cvd-pixel-icon name="logout" size="md" class="text-gray-800" />
-        </button>
-      }
-
       <!--
         This is the magic part!
         It's an invisible anchor in your template.
@@ -22,27 +15,34 @@
 
     <!-- This is the macOS-style dock -->
     <div class="main-view-dock-region">
-      <div class="main-view-dock-bar">
-        <!-- Dynamic dock icons -->
-        @for (item of dockItems(); track item.type) {
-          <div class="main-view-dock-item"
-            (click)="openWindowByType(item.type)"
-            [title]="item.label">
-            <cvd-pixel-icon [name]="item.icon" size="lg" class="item-icon" />
-          </div>
-        }
-      </div>
+      @if (!launchpadDrawerOpen()) {
+        <div class="main-view-dock-bar">
+          <!-- Dynamic dock icons -->
+          @for (item of dockItems(); track item.type) {
+            <div class="main-view-dock-item" (click)="openWindowByType(item.type)" [title]="item.label">
+              @if (item.imgIcon) {
+                <div class="w-12 h-12">
+                  <img [src]="item.imgIcon" alt="{{ item.label }}" class="item-icon" />
+                </div>
+              } @else {
+                <cvd-pixel-icon [name]="item.icon" size="lg" class="item-icon" />
+              }
+            </div>
+          }
+        </div>
+      }
     </div>
 
     <!-- Launchpad Backdrop (shown when drawer is open) -->
     @if (launchpadDrawerOpen()) {
-      <div class="launchpad-backdrop"
-           [class.backdrop-visible]="launchpadDrawerOpen()"
-           (click)="closeLaunchpadDrawer()">
+      <div class="launchpad-backdrop" [class.backdrop-visible]="launchpadDrawerOpen()" (click)="closeLaunchpadDrawer()">
       </div>
     }
 
     <!-- Launchpad Drawer Host -->
     <ng-template #launchpadDrawerHost></ng-template>
+
+    <!-- Login Overlay Host -->
+    <ng-template #loginOverlayHost></ng-template>
 
 </div>

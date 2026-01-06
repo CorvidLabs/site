@@ -5,6 +5,7 @@ import { ResizableDirective } from '../../../directives/resizable.directive';
 import { NftCardComponent } from '../../nft-card/nft-card.component';
 import { FloatWindow } from '../float-window/float-window.component';
 import { ThemeService } from '../../../services/general/theme.service';
+import { NavbarComponent } from '../../navbar/navbar.component';
 
 declare const Chart: any;
 
@@ -18,7 +19,7 @@ interface FaqItem {
   templateUrl: 'about-window.component.html',
   styleUrls: ['about-window.component.scss'],
   imports: [
-    CommonModule, DraggableDirective, ResizableDirective
+    CommonModule, DraggableDirective, ResizableDirective, NavbarComponent
   ]
 })
 export class AboutWindowComponent extends FloatWindow implements OnInit, AfterViewInit {
@@ -26,6 +27,34 @@ export class AboutWindowComponent extends FloatWindow implements OnInit, AfterVi
   faqContainer = viewChild<ElementRef<HTMLDivElement>>('faqContainer');
 
   override title = input<string>('About Corvid Labs');
+
+  navbarItems = [
+    {
+      label: 'The Project',
+      link: '#nevermore-nft'
+    },
+    {
+      label: 'Utility',
+      link: '#reimagining-subscriptions'
+    },
+    {
+      label: 'Tokenomics',
+      link: '#core-utility-benefits'
+    },
+    {
+      label: 'Team',
+      link: '#team'
+    },
+    {
+      label: 'FAQ',
+      link: '#faq'
+    },
+    {
+      label: 'Join Discord',
+      link: 'https://discord.gg/mQGPQy5fnd',
+      styling: 'bg-accent text-primary-bg !font-bold py-2 px-5 hover:bg-opacity-90 transition-colors ml-4'
+    }
+  ];
 
   faqData: FaqItem[] = [
     {
@@ -57,7 +86,7 @@ export class AboutWindowComponent extends FloatWindow implements OnInit, AfterVi
       this.width.set(1200);
       this.height.set(720);
     } else {
-      this.width.set(800);
+      this.width.set(865);
       this.height.set(600);
     }
 

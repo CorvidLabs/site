@@ -174,3 +174,54 @@
     transform: translateY(0);
   }
 }
+
+.logout-btn {
+  margin-top: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.625rem;
+  align-self: flex-start;
+
+  cvd-pixel-icon {
+    margin-right: 0.25rem;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// Sound Settings Section
+.sound-settings-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  .setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .setting-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--theme-primary-text);
+    }
+  }
+
+  .setting-description {
+    font-size: 0.75rem;
+    color: var(--theme-secondary-text);
+    margin: 0;
+    opacity: 0.8;
+    line-height: 1.4;
+  }
+}

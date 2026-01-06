@@ -947,17 +947,29 @@ progress::-webkit-progress-bar { // Webkit background (unfilled portion)
   display: none;
 }
 
-.text-primary {
-  color: var(--theme-primary-text);
-}
+// .text-primary-text {
+//   color: var (--theme-primary-text) !important;
+// }
 
-.text-secondary {
-  color: var(--theme-secondary-text) !important;
-}
+// .text-secondary-text {
+//   color: var(--theme-secondary-text) !important;
+// }
 
-.text-accent {
-  color: var(--theme-primary-accent);
-}
+// .text-accent {
+//   color: var(--theme-primary-accent) !important;
+// }
+
+// .nes-text-primary-text {
+//   color: var(--theme-primary-text);
+// }
+
+// .nes-text-secondary-text {
+//   color: var(--theme-secondary-text) !important;
+// }
+
+// .nes-text-accent {
+//   color: var(--theme-primary-accent);
+// }
 
 .bg-primary {
   background-color: var(--theme-primary-bg);

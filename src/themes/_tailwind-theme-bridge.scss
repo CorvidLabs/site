@@ -1,0 +1,31 @@
+// Tailwind v4 Theme Bridge
+// This mixin maps theme CSS variables to Tailwind's expected color names
+// Include this in each theme's @mixin theme() to make Tailwind utilities work
+
+@mixin tailwind-colors() {
+  // Background colors
+  --color-primary-bg: var(--theme-primary-bg);
+  --color-secondary-bg: var(--theme-secondary-bg);
+  --color-section-bg: var(--theme-section-bg);
+  --color-player-bg: var(--theme-player-bg);
+
+  // Text colors
+  --color-primary-text: var(--theme-primary-text);
+  --color-secondary-text: var(--theme-secondary-text);
+
+  // Accent colors
+  --color-primary-accent: var(--theme-primary-accent);
+  --color-secondary-accent: var(--theme-secondary-accent);
+
+  // Utility colors
+  --color-border: var(--theme-border-color);
+  --color-shadow: var(--theme-shadow-color);
+
+  // State colors
+  --color-success: var(--theme-success);
+  --color-warning: var(--theme-warning);
+  --color-error: var(--theme-error);
+
+  // Accent colors - use text-accent, bg-accent for these
+  --color-accent: var(--theme-primary-accent);
+}

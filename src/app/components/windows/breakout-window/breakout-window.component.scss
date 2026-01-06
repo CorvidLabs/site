@@ -23,7 +23,7 @@
     gap: 0.25rem;
     font-size: 1rem;
     font-weight: 600;
-    color: var(--theme-text-primary, #f3f4f6);
+    color: var(--theme-text-primary-text, #f3f4f6);
 
     mat-icon {
       font-size: 18px;
@@ -80,19 +80,19 @@
   h2 {
     margin: 0;
     font-size: 1.5rem;
-    color: var(--theme-text-primary, #f3f4f6);
+    color: var(--theme-text-primary-text, #f3f4f6);
   }
 
   p {
     margin: 0;
-    color: var(--theme-text-secondary, #9ca3af);
+    color: var(--theme-text-secondary-text, #9ca3af);
     font-size: 0.9rem;
     text-align: center;
   }
 
   .hint {
     font-size: 0.8rem;
-    color: var(--theme-text-secondary, #6b7280);
+    color: var(--theme-text-secondary-text, #6b7280);
   }
 
   &.win .game-icon {

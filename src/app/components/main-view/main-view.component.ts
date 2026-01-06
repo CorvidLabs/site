@@ -3,23 +3,24 @@ import { Component, ComponentRef, ViewChild, ViewContainerRef, signal } from '@a
 import { PeraWalletConnect } from '@perawallet/connect';
 import { WindowTypes } from '../../enums/window-types.enum';
 import { AlgorandChainIDs, PeraWalletConnectOptions } from '../../interfaces/pera-wallet-connect-options';
+import { LoginOverlayComponent } from '../overlays/login-overlay/login-overlay.component';
 import { PixelIconComponent } from '../shared/pixel-icon/pixel-icon.component';
 import { AboutWindowComponent } from '../windows/about-window/about-window.component';
 import { BreakoutWindowComponent } from '../windows/breakout-window/breakout-window.component';
 import { FloatWindow } from '../windows/float-window/float-window.component';
 import { GalleryWindowComponent } from '../windows/gallery-window/gallery-window.component';
 import { LaunchpadWindowComponent } from '../windows/launchpad-window/launchpad-window.component';
-import { LoginWindowComponent } from '../windows/login-window/login-window.component';
+import { MonoWindowComponent } from '../windows/mono-window/mono-window.component';
 import { NotepadWindowComponent } from '../windows/notepad-window/notepad-window.component';
+import { RoadmapWindowComponent } from '../windows/roadmap-window/roadmap-window.component';
 import { SettingsWindowComponent } from '../windows/settings-window/settings-window.component';
 import { StyleGuideWindowComponent } from '../windows/style-guide-window/style-guide-window.component';
 import { TetrisWindowComponent } from '../windows/tetris-window/tetris-window.component';
-import { RoadmapWindowComponent } from '../windows/roadmap-window/roadmap-window.component';
-import { MonoWindowComponent } from '../windows/mono-window/mono-window.component';
 
 interface DockItem {
   type: WindowTypes;
   icon: string;
+  imgIcon?: string;
   label: string;
 }
 
@@ -33,6 +34,7 @@ export class MainViewComponent {
   // 1. Get a reference to the template element where we will host our dynamic components.
   @ViewChild('windowHost', { read: ViewContainerRef, static: false }) windowHost!: ViewContainerRef;
   @ViewChild('launchpadDrawerHost', { read: ViewContainerRef, static: false }) launchpadDrawerHost!: ViewContainerRef;
+  @ViewChild('loginOverlayHost', { read: ViewContainerRef, static: false }) loginOverlayHost!: ViewContainerRef;
 
   openedWindows: ComponentRef<FloatWindow>[] = [];
 
@@ -40,13 +42,19 @@ export class MainViewComponent {
   launchpadDrawerOpen = signal<boolean>(false);
   launchpadDrawerRef: ComponentRef<LaunchpadWindowComponent> | null = null;
 
+  // Login overlay state
+  loginOverlayRef: ComponentRef<LoginOverlayComponent> | null = null;
+
+  // Settings window state
+  settingsWindowRef: ComponentRef<SettingsWindowComponent> | null = null;
+
   // Dock items - starts with only LaunchPad and Settings
   dockItems = signal<DockItem[]>([
     { type: WindowTypes.LAUNCHPAD, icon: 'apps', label: 'Launch Pad' },
     { type: WindowTypes.SETTINGS, icon: 'settings', label: 'Settings' }
   ]);
 
-  iconMap: Record<WindowTypes, { icon: string, label: string }>;
+  iconMap: Record<WindowTypes, { icon: string, label: string, imgIcon?: string }>;
   
   // Pera Wallet Connect Setup
   peraWalletConnectOptions: PeraWalletConnectOptions = {
@@ -85,29 +93,44 @@ export class MainViewComponent {
       [WindowTypes.LEADERBOARD]: { icon: 'leaderboard', label: 'Leaderboard' },
       [WindowTypes.RARITY_CHECKER]: { icon: 'star_rate', label: 'Rarity Checker' },
       [WindowTypes.ROADMAP]: { icon: 'map', label: 'Roadmap' },
-      [WindowTypes.MONO]: { icon: 'work_outline', label: 'Mono' },
+      [WindowTypes.MONO]: { icon: 'work_outline', label: 'Mono', imgIcon: 'icons/mono-icon.png' },
     };
   }
 
   onLoginSuccess(accountAddress: string | null): void {
     if (!accountAddress) {
       this.isAuthenticated.set(false);
+      this.userAccountAddress.set(null);
+
+      // Update settings window if open
+      if (this.settingsWindowRef) {
+        this.settingsWindowRef.setInput('isAuthenticated', false);
+        this.settingsWindowRef.setInput('userAccountAddress', null);
+      }
       return;
     }
 
     this.isAuthenticated.set(true);
     this.userAccountAddress.set(accountAddress);
+
+    // TODO: Get nevermore NFT collection information here, and an NFT of the user here
+
+    // Update settings window if open
+    if (this.settingsWindowRef) {
+      this.settingsWindowRef.setInput('isAuthenticated', true);
+      this.settingsWindowRef.setInput('userAccountAddress', accountAddress);
+    }
   }
 
-  handleDisconnectWallet(event: Event): void {
-    event?.preventDefault();
-
-    this.peraWalletConnect.disconnect().catch(error => {
-      console.error('Error disconnecting wallet:', error);
-    });
-
+  handleDisconnectWallet(): void {
     this.userAccountAddress.set(null);
     this.isAuthenticated.set(false);
+
+    // Update settings window inputs if it's open
+    if (this.settingsWindowRef) {
+      this.settingsWindowRef.setInput('isAuthenticated', false);
+      this.settingsWindowRef.setInput('userAccountAddress', null);
+    }
   }
 
   // MARK: - Window Management
@@ -130,6 +153,11 @@ export class MainViewComponent {
   closeWindow(componentRef: ComponentRef<FloatWindow>) {
     const index = this.openedWindows.indexOf(componentRef);
     if (index > -1) {
+      // Clear settings reference if closing settings window
+      if (componentRef.instance instanceof SettingsWindowComponent) {
+        this.settingsWindowRef = null;
+      }
+
       this.openedWindows.splice(index, 1);
       componentRef.destroy();
 
@@ -164,15 +192,19 @@ export class MainViewComponent {
     if (componentRef.instance instanceof NotepadWindowComponent) return WindowTypes.NOTEPAD;
     if (componentRef.instance instanceof TetrisWindowComponent) return WindowTypes.TETRIS;
     if (componentRef.instance instanceof SettingsWindowComponent) return WindowTypes.SETTINGS;
+    if (componentRef.instance instanceof BreakoutWindowComponent) return WindowTypes.BREAKOUT;
+    if (componentRef.instance instanceof AboutWindowComponent) return WindowTypes.ABOUT;
+    if (componentRef.instance instanceof RoadmapWindowComponent) return WindowTypes.ROADMAP;
+    if (componentRef.instance instanceof MonoWindowComponent) return WindowTypes.MONO;
     // LAUNCHPAD is now a drawer, not a window
     if (componentRef.instance instanceof StyleGuideWindowComponent) return WindowTypes.STYLE_GUIDE;
-    if (componentRef.instance instanceof LoginWindowComponent) return WindowTypes.LOGIN;
+    // LOGIN is now an overlay, not a window
     return null;
   }
 
   private getDockItemForType(type: WindowTypes): DockItem | null {
     const config = this.iconMap[type];
-    return config ? { type, icon: config.icon, label: config.label } : null;
+    return config ? { type, icon: config.icon, label: config.label, imgIcon: config.imgIcon } : null;
   }
 
   openOrCreateWindowAdvanced<T extends FloatWindow>(component: { new (...args: any[]): T}): ComponentRef<T> {
@@ -228,6 +260,10 @@ export class MainViewComponent {
   }
 
   openWindowByType(type: string) {
+    // TODO: Check if I should hide the dock intead when the drawer is openned
+    // If launchpad drawer opened, close it
+    this.closeLaunchpadDrawer();
+
     switch (type) {
       case WindowTypes.LAUNCHPAD:
         this.toggleLaunchpadDrawer();
@@ -236,18 +272,7 @@ export class MainViewComponent {
         this.openOrCreateWindowAdvanced<GalleryWindowComponent>(GalleryWindowComponent);
         break;
       case WindowTypes.SETTINGS:
-        const settingsRef = this.openOrCreateWindowAdvanced<SettingsWindowComponent>(SettingsWindowComponent);
-
-        // Pass login state to settings window
-        settingsRef.setInput('isAuthenticated', this.isAuthenticated());
-        settingsRef.setInput('userAccountAddress', this.userAccountAddress());
-
-        // Handle Change User button from Settings
-        settingsRef.instance.closeEvent.subscribe((windowType: any) => {
-          if (windowType && typeof windowType === 'string' && windowType === WindowTypes.LOGIN) {
-            this.openWindowByType(windowType);
-          }
-        });
+        this.setupSettingsWindow();
         break;
       case WindowTypes.NOTEPAD:
         this.openWindowAdvanced(NotepadWindowComponent);
@@ -259,12 +284,7 @@ export class MainViewComponent {
         this.openOrCreateWindowAdvanced(StyleGuideWindowComponent);
         break;
       case WindowTypes.LOGIN:
-        const loginRef = this.openOrCreateWindowAdvanced(LoginWindowComponent);
-        loginRef.setInput('peraInstance', this.peraWalletConnect);
-        // Handle login success
-        loginRef.instance.userAccountAddress.subscribe((address: string | null) => {
-          this.onLoginSuccess(address);
-        });
+        this.showLoginOverlay();
         break;
       case WindowTypes.BREAKOUT:
         this.openOrCreateWindowAdvanced(BreakoutWindowComponent);
@@ -334,4 +354,78 @@ export class MainViewComponent {
       }, 300);
     }
   }
+
+  setupSettingsWindow() {
+    const settingsRef = this.openOrCreateWindowAdvanced<SettingsWindowComponent>(SettingsWindowComponent);
+
+    // Store reference for later updates
+    this.settingsWindowRef = settingsRef;
+
+    // Set inputs
+    settingsRef.setInput('peraInstance', this.peraWalletConnect);
+
+    // Pass login state to settings window
+    settingsRef.setInput('isAuthenticated', this.isAuthenticated());
+    settingsRef.setInput('userAccountAddress', this.userAccountAddress());
+
+    // Handle Change User button from Settings
+    settingsRef.instance.closeEvent.subscribe((windowType: any) => {
+      if (windowType && typeof windowType === 'string' && windowType === WindowTypes.LOGIN) {
+        this.openWindowByType(windowType);
+      }
+    });
+
+    // Handle logout request from Settings
+    settingsRef.instance.logoutRequested.subscribe(() => {
+      this.handleDisconnectWallet();
+    });
+  }
+
+  // MARK: - Login Overlay Management
+  showLoginOverlay() {
+    // Check for existing instance (prevent duplicates)
+    if (this.loginOverlayRef) {
+      this.loginOverlayRef.instance.isOpen.set(true);
+      return;
+    }
+
+    // Create the overlay component
+    this.loginOverlayRef = this.loginOverlayHost.createComponent(LoginOverlayComponent);
+
+    // Set inputs
+    this.loginOverlayRef.setInput('peraInstance', this.peraWalletConnect);
+
+    // Subscribe to login success
+    this.loginOverlayRef.instance.loginSuccess.subscribe((address: string) => {
+      this.onLoginSuccess(address);
+    });
+
+    // Subscribe to close events
+    this.loginOverlayRef.instance.closeEvent.subscribe(() => {
+      this.closeLoginOverlay();
+    });
+
+    // Open the overlay with a small delay to trigger animation
+    setTimeout(() => {
+      if (this.loginOverlayRef) {
+        this.loginOverlayRef.instance.isOpen.set(true);
+      }
+    }, 10);
+  }
+
+  closeLoginOverlay() {
+    if (this.loginOverlayRef) {
+      // Set isOpen to false to trigger fade-out animation
+      this.loginOverlayRef.instance.isOpen.set(false);
+
+      // Destroy the component after animation completes (300ms)
+      setTimeout(() => {
+        if (this.loginOverlayRef) {
+          this.loginOverlayRef.destroy();
+          this.loginOverlayRef = null;
+        }
+      }, 300);
+    }
+  }
+
 }

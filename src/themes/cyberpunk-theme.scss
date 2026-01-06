@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use 'tailwind-theme-bridge' as tw;
 
 // Cyberpunk Theme
 // Futuristic theme with neon colors on dark backgrounds, inspired by cyberpunk aesthetics
@@ -38,6 +39,9 @@ $cyberpunk-theme: mat.define-theme((
   --theme-success: #00ff88;   // Neon green-cyan
   --theme-warning: #ffcc00;   // Neon yellow-orange
   --theme-error: #ff0066;     // Neon pink-red
+
+  // Tailwind color bridge
+  @include tw.tailwind-colors();
 
   // Optional: Custom scrollbar for this theme
   scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);

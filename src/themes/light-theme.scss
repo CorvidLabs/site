@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use 'tailwind-theme-bridge' as tw;
 
 // Define a light theme
 $light-theme: mat.define-theme((
@@ -34,6 +35,9 @@ $light-theme: mat.define-theme((
   --theme-success: #16a34a;   // Green-600 (darker for light bg)
   --theme-warning: #ea580c;   // Orange-600
   --theme-error: #dc2626;     // Red-600
+
+  // Tailwind color bridge
+  @include tw.tailwind-colors();
 
   scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
 

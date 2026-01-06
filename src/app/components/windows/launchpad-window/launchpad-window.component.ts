@@ -7,6 +7,7 @@ import { environment } from '../../../../environments/environment.local';
 interface AppIcon {
   type: WindowTypes;
   icon: string;
+  imgIcon?: string;
   label: string;
   color?: string;
 }
@@ -66,6 +67,7 @@ export class LaunchpadWindowComponent {
     {
       type: WindowTypes.MONO,
       icon: 'grid', // DO AN SVG FOR MONO LATER
+      imgIcon: 'icons/mono-icon.png',
       label: 'Mono',
       color: '#000000'
     },

@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use 'tailwind-theme-bridge' as tw;
 
 // Sunset Theme
 // Warm theme with soft sunset colors, evoking a calm and inviting atmosphere
@@ -38,6 +39,9 @@ $sunset-theme: mat.define-theme((
   --theme-success: #689f38;   // Olive green (warm)
   --theme-warning: #f57c00;   // Deep orange (matches theme)
   --theme-error: #d32f2f;     // Deep red
+
+  // Tailwind color bridge
+  @include tw.tailwind-colors();
 
   // Optional: Custom scrollbar for this theme
   scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);

@@ -36,10 +36,15 @@
               <cvd-pixel-icon name="check" size="sm"></cvd-pixel-icon>
               <span>Logged In</span>
             </p>
-            
+
             @if(userAccountAddress()) {
               <p class="user-wallet">{{ userAccountAddress()!.substring(0, 8) }}...{{ userAccountAddress()!.substring(userAccountAddress()!.length - 6) }}</p>
             }
+
+            <button class="nes-btn is-error logout-btn" (click)="onLogout()">
+              <cvd-pixel-icon name="logout" size="sm"></cvd-pixel-icon>
+              <span>Sign Out</span>
+            </button>
 
           } @else {
             <p class="user-status not-authenticated">
@@ -59,6 +64,32 @@
     <section id="theme" class="nes-container with-title">
       <label class="title !text-lg">Theme</label>
       <app-theme-switcher></app-theme-switcher>
+    </section>
+
+    <section id="sound-effects" class="nes-container with-title">
+      <label class="title">Sound Effects</label>
+
+      <div class="sound-settings-content">
+        <div class="setting-row">
+          <label class="setting-label">
+            <cvd-pixel-icon name="volume" size="sm"></cvd-pixel-icon>
+            <span>Click Sounds</span>
+          </label>
+
+          <label class="nes-checkbox">
+            <input
+              type="checkbox"
+              [checked]="soundEffectService.clickSoundEnabled()"
+              (change)="soundEffectService.toggleClickSound()"
+            />
+            <span></span>
+          </label>
+        </div>
+
+        <p class="setting-description">
+          Play sound effects when clicking anywhere on the page
+        </p>
+      </div>
     </section>
   </div>
 </div>

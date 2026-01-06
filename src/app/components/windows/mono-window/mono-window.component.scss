@@ -41,6 +41,15 @@
   }
 }
 
+.details-card {
+  background-color: var(--theme-secondary-bg);
+  border: var(--nes-pixel-size) solid var(--theme-primary-accent);
+
+  @include nes-pixel-mixins.pixel-border(var(--theme-primary-accent));
+
+  // transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+}
+
 // ============================================
 // Container Query Based Responsive Layout
 // ============================================

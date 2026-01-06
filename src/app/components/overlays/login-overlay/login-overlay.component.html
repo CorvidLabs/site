@@ -1,0 +1,47 @@
+<!-- Login Overlay Container -->
+<div class="login-overlay"
+     [class.overlay-visible]="isOpen()">
+
+  <!-- Backdrop -->
+  <div class="login-backdrop"
+       [class.backdrop-visible]="isOpen()"
+       (click)="!isLoading() && close()">
+  </div>
+
+  <!-- Login Card -->
+  <div class="login-card" [class.card-visible]="isOpen()">
+
+    <!-- Header -->
+    <div class="login-header">
+      <h1 class="login-title">Welcome</h1>
+      <p class="login-subtitle">Please sign in to continue</p>
+    </div>
+
+    <!-- Error Message -->
+    @if (loginError()) {
+      <div class="nes-container is-error error-message">
+        <p>{{ loginError() }}</p>
+      </div>
+    }
+
+    <!-- Login Form -->
+    <div class="login-form">
+      @if (currentEnvironment === 'development') {
+        <button class="nes-btn is-warning" (click)="onBypassLogin()" [disabled]="isLoading()"> Bypass Login (Dev)</button>
+      }
+
+      <button class="nes-btn is-primary" (click)="onSubmit()" [disabled]="isLoading()">
+        @if (isLoading()) {
+          <span>Connecting...</span>
+        } @else {
+          <span>Sign In with Pera Wallet</span>
+        }
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <div class="login-footer">
+      <p class="login-footer-text">Secure Algorand wallet authentication</p>
+    </div>
+  </div>
+</div>

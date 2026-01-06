@@ -1,4 +1,4 @@
-<div [style.width.px]="width()" [style.height.px]="height()" #elementWithDrag appDraggable appResizable [minimalWidth]="800" [minimalHeight]="400" (windowResize)="onResize($event)" [appDraggableInitialPosition]="initialPosition()" class="float-window">
+<div [style.width.px]="width()" [style.height.px]="height()" #elementWithDrag appDraggable appResizable [minimalWidth]="865" [minimalHeight]="400" (windowResize)="onResize($event)" [appDraggableInitialPosition]="initialPosition()" class="float-window">
 
   <!-- Header acts as the drag handle -->
   <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging" (mousedown)="isDragging = true" (mouseup)="isDragging = false">
@@ -12,20 +12,22 @@
 
   <!-- Window Content -->
   <div class="float-window-content">
-    <nav class="w-full bg-secondary/80 backdrop-blur-md sticky top-0 z-50 mx-auto px-6 py-4 flex justify-center items-center nes-border">
+    <!-- <nav class="w-full bg-secondary/80 backdrop-blur-md sticky top-0 z-50 mx-auto px-6 py-4 flex justify-center items-center nes-border">
       <div class="hidden md:flex items-center space-x-8">
-      <a href="#nevermore-nft" class="ml-4 nav-link text-primary hover:text-accent font-medium">The Project</a>
-      <a href="#reimagining-subscriptions" class="nav-link text-primary hover:text-accent font-medium">Utility</a>
-      <a href="#core-utility-benefits" class="nav-link text-primary hover:text-accent font-medium">Tokenomics</a>
-      <a href="#team" class="nav-link text-primary hover:text-accent font-medium">Team</a>
-      <a href="#faq" class="nav-link text-primary hover:text-accent font-medium">FAQ</a>
-      <a href="https://discord.gg/mQGPQy5fnd" target="_blank" 
-        class="bg-accent text-accent font-bold py-2 px-5 hover:bg-opacity-90 transition-colors ml-4">Join
-        Discord</a>
+        <a href="#nevermore-nft" class="ml-4 nav-link text-primary-text hover:text-accent font-medium">The Project</a>
+        <a href="#reimagining-subscriptions" class="nav-link text-primary-text hover:text-accent font-medium">Utility</a>
+        <a href="#core-utility-benefits" class="nav-link text-primary-text hover:text-accent font-medium">Tokenomics</a>
+        <a href="#team" class="nav-link text-primary-text hover:text-accent font-medium">Team</a>
+        <a href="#faq" class="nav-link text-primary-text hover:text-accent font-medium">FAQ</a>
+        <a href="https://discord.gg/mQGPQy5fnd" target="_blank" 
+          class="bg-accent text-primary-bg font-bold py-2 px-5 hover:bg-opacity-90 transition-colors ml-4">Join
+          Discord</a>
       </div>
-    </nav>
+    </nav> -->
 
-    <section id="nevermore-nft" class="nes-container with-title text-center">
+    <cvd-navbar [navbarItems]="navbarItems" />
+
+    <section id="nevermore-nft" class="nes-container with-title text-center !pb-4">
       <h2 class="title font-bold">Nevermore NFT Collection</h2>
       <h3 class="text-lg mb-2">A Lifetime Membership for the Corvid Labs Ecosystem.</h3>
       <p class="mb-8">
@@ -33,7 +35,7 @@
         supporters, granting pro features across all our iOS apps, exclusive access to new tools, and a voice in our
         community-driven development.
       </p>
-      <a href="#community-first-approach" class="bg-accent text-accent font-bold py-3 px-8 rounded-lg hover:bg-opacity-90 transition-colors text-lg">Learn About the Mint</a>
+      <a href="#community-first-approach" class="bg-accent text-primary-bg font-bold py-3 px-8 rounded-lg hover:bg-opacity-90 transition-colors text-lg">Learn About the Mint</a>
     </section>
 
     <section id="reimagining-subscriptions" class="nes-container with-title is-centered">
@@ -52,14 +54,14 @@
                 <span class="text-red-400 font-bold text-xl">✗</span>
                 <div>
                   <h4 class="font-semibold ">Fragmented Subscriptions</h4>
-                  <p class="text-secondary text-sm">Costs add up for users who need multiple specialized apps.</p>
+                  <p class="text-secondary-text text-sm">Costs add up for users who need multiple specialized apps.</p>
                 </div>
               </div>
               <div class="p-4 bg-red-900/30 rounded-lg flex items-start space-x-3">
                 <span class="text-red-400 font-bold text-xl">✗</span>
                 <div>
                   <h4 class="font-semibold ">Limited Value for Early Supporters</h4>
-                  <p class="text-secondary text-sm">Beta testers and early adopters rarely receive long-term benefits.
+                  <p class="text-secondary-text text-sm">Beta testers and early adopters rarely receive long-term benefits.
                   </p>
                 </div>
               </div>
@@ -67,7 +69,7 @@
                 <span class="text-red-400 font-bold text-xl">✗</span>
                 <div>
                   <h4 class="font-semibold ">No Community Ownership</h4>
-                  <p class="text-secondary text-sm">Users have little say in the development process of tools they rely
+                  <p class="text-secondary-text text-sm">Users have little say in the development process of tools they rely
                     on.</p>
                 </div>
               </div>
@@ -80,7 +82,7 @@
                 <span class="text-green-400 font-bold text-xl">✓</span>
                 <div>
                   <h4 class="font-semibold ">Unified Lifetime Access</h4>
-                  <p class="text-secondary text-sm">One token unlocks premium features across all Corvid Labs apps,
+                  <p class="text-secondary-text text-sm">One token unlocks premium features across all Corvid Labs apps,
                     forever.</p>
                 </div>
               </div>
@@ -88,7 +90,7 @@
                 <span class="text-green-400 font-bold text-xl">✓</span>
                 <div>
                   <h4 class="font-semibold ">Meaningful Membership</h4>
-                  <p class="text-secondary text-sm">Holders gain governance rights and help shape our development
+                  <p class="text-secondary-text text-sm">Holders gain governance rights and help shape our development
                     roadmap.</p>
                 </div>
               </div>
@@ -96,7 +98,7 @@
                 <span class="text-green-400 font-bold text-xl">✓</span>
                 <div>
                   <h4 class="font-semibold ">A Tradeable Digital Asset</h4>
-                  <p class="text-secondary text-sm">Your membership has inherent utility and can be traded on the open
+                  <p class="text-secondary-text text-sm">Your membership has inherent utility and can be traded on the open
                     market.</p>
                 </div>
               </div>
@@ -147,11 +149,11 @@
           <div class="grid grid-cols-2 gap-4 mb-8">
             <div class="stat-card p-4 rounded-lg text-center">
               <h3 class="leading-none">1,000</h3>
-              <p class="text-secondary">Total Genesis Supply</p>
+              <p class="text-secondary-text">Total Genesis Supply</p>
             </div>
             <div class="stat-card p-4 rounded-lg text-center">
               <h3 class="leading-none">5 <span class="text-lg">ALGO</span></h3>
-              <p class="text-secondary">Nominal Mint Price</p>
+              <p class="text-secondary-text">Nominal Mint Price</p>
             </div>
           </div>
           <h3 class="text-2xl font-bold mb-4 text-accent">Allocation & Distribution</h3>
@@ -260,18 +262,18 @@
       <div class="flex flex-col md:flex-row justify-between items-center">
         <div class="text-center md:text-left mb-4 md:mb-0">
           <h3 class="text-xl font-bold">Corvid Labs</h3>
-          <p class="text-secondary">Building the future of mobile productivity.</p>
+          <p class="text-secondary-text">Building the future of mobile productivity.</p>
         </div>
         <div class="flex space-x-6">
           <a href="https://discord.gg/mQGPQy5fnd" target="_blank"
-            class="text-secondary hover:text-accent transition-colors">Discord</a>
+            class="text-secondary-text hover:text-accent transition-colors">Discord</a>
           <a href="https://github.com/CorvidLabs" target="_blank"
-            class="text-secondary hover:text-accent transition-colors">GitHub</a>
+            class="text-secondary-text hover:text-accent transition-colors">GitHub</a>
           <a href="mailto:corvid-labs.envoy197@passmail.net"
-            class="text-secondary hover:text-accent transition-colors">Email</a>
+            class="text-secondary-text hover:text-accent transition-colors">Email</a>
         </div>
       </div>
-      <div class="mt-8 pt-4 border-t border-gray-700 text-center text-secondary text-sm">
+      <div class="mt-8 pt-4 border-t border-gray-700 text-center text-secondary-text text-sm">
         &copy; 2025 Corvid Labs. All rights reserved.
       </div>
     </div>
