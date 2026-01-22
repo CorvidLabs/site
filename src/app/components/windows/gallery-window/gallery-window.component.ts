@@ -4,7 +4,7 @@ import { debounceTime, Subject, Subscription } from 'rxjs';
 import { DraggableDirective } from '../../../directives/draggable.directive';
 import { ResizableDirective } from '../../../directives/resizable.directive';
 import { CorvidNft } from '../../../interfaces/corvid-nft.interface';
-import { NodelyService } from '../../../services/nodely.service';
+import { AssetService } from '../../../services/asset.service';
 import { NftCardComponent } from "../../nft-card/nft-card.component";
 import { FloatWindow } from '../float-window/float-window.component';
 
@@ -28,7 +28,7 @@ export class GalleryWindowComponent extends FloatWindow implements OnInit, OnDes
   isLastPage: boolean = false;
 
   constructor(
-    private nodelyService: NodelyService
+    private assetService: AssetService
   ) {
     super();
 
@@ -72,9 +72,9 @@ export class GalleryWindowComponent extends FloatWindow implements OnInit, OnDes
   requestItems(): void {
     if (this.isLastPage) return;
 
-    this.nodelyService.listCreatedAssets(this.defaultPageSize, this.nextToken).subscribe({
+    this.assetService.listCreatedAssets(this.defaultPageSize, this.nextToken).subscribe({
       next: (response) => {
-        const nfts = this.nodelyService.listCorvidNftsFromCreatedAssets(response);
+        const nfts = this.assetService.listCorvidNftsFromCreatedAssets(response);
         nfts.subscribe({
           next: (nfts) => {
             this.corvidNfts = [...this.corvidNfts, ...nfts];

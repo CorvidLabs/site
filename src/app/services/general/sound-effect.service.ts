@@ -1,12 +1,15 @@
 import { DOCUMENT } from '@angular/common';
-import { Injectable, RendererFactory2, inject, signal } from '@angular/core';
+import { Injectable, RendererFactory2, computed, inject, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SoundEffectService {
-  // Public state - signal for reactive click sound enabled/disabled
-  clickSoundEnabled = signal<boolean>(true);
+  // Public state - volume level (0 to 1)
+  volume = signal<number>(0.3); // Default 30%
+
+  // Computed for backward compatibility - sound is enabled when volume > 0
+  clickSoundEnabled = computed(() => this.volume() > 0);
 
   // Private state
   private soundFiles = [
@@ -16,7 +19,7 @@ export class SoundEffectService {
   private audioPool: HTMLAudioElement[] = [];
   private currentPoolIndex = 0;
   private readonly POOL_SIZE = 3;
-  private readonly VOLUME = 0.3; // 30% volume for comfortable listening
+  private readonly DEFAULT_VOLUME = 0.3; // Default 30% volume
 
   // Dependencies
   private renderer = inject(RendererFactory2).createRenderer(null, null);
@@ -26,24 +29,43 @@ export class SoundEffectService {
   private clickListener: ((e: MouseEvent) => void) | null = null;
 
   constructor() {
-    this.initializeAudioPool();
     this.loadSettingsFromStorage();
+    this.initializeAudioPool();
     this.setupGlobalClickListener();
   }
 
   /**
-   * Toggle click sound on/off
+   * Toggle click sound on/off (toggles between 0 and default volume)
    */
   toggleClickSound(): void {
-    this.setClickSoundEnabled(!this.clickSoundEnabled());
+    if (this.volume() > 0) {
+      this.setVolume(0);
+    } else {
+      this.setVolume(this.DEFAULT_VOLUME);
+    }
   }
 
   /**
-   * Set click sound enabled state and persist to localStorage
+   * Set click sound enabled state (for backward compatibility)
+   * @deprecated Use setVolume instead
    */
   setClickSoundEnabled(enabled: boolean): void {
-    this.clickSoundEnabled.set(enabled);
-    localStorage.setItem('click-sound-enabled', enabled.toString());
+    this.setVolume(enabled ? this.DEFAULT_VOLUME : 0);
+  }
+
+  /**
+   * Set the volume for all audio elements
+   * @param volume The volume level (0 to 1)
+   */
+  setVolume(volume: number): void {
+    const clampedVolume = Math.max(0, Math.min(1, volume));
+    this.volume.set(clampedVolume);
+    localStorage.setItem('sound-volume', clampedVolume.toString());
+
+    // Update all audio elements in pool
+    this.audioPool.forEach(audio => {
+      audio.volume = clampedVolume;
+    });
   }
 
   /**
@@ -53,8 +75,8 @@ export class SoundEffectService {
   private initializeAudioPool(): void {
     for (let i = 0; i < this.POOL_SIZE; i++) {
       const audio = new Audio();
-      audio.volume = this.VOLUME;
-      
+      audio.volume = this.volume();
+
       audio.onerror = () => {
         console.warn(`Failed to load click sound effect`);
       };
@@ -64,16 +86,29 @@ export class SoundEffectService {
   }
 
   /**
-   * Load click sound enabled setting from localStorage
+   * Load volume setting from localStorage
    * @private
    */
   private loadSettingsFromStorage(): void {
-    const saved = localStorage.getItem('click-sound-enabled');
-    if (saved !== null) {
-      this.clickSoundEnabled.set(saved === 'true');
+    // Try to load new volume setting first
+    const savedVolume = localStorage.getItem('sound-volume');
+    if (savedVolume !== null) {
+      const parsed = parseFloat(savedVolume);
+      if (!isNaN(parsed)) {
+        this.volume.set(Math.max(0, Math.min(1, parsed)));
+        return;
+      }
     }
-    
-    // Default is true (already set in signal initialization)
+
+    // Backward compatibility: migrate from old click-sound-enabled setting
+    const savedEnabled = localStorage.getItem('click-sound-enabled');
+    if (savedEnabled !== null) {
+      this.volume.set(savedEnabled === 'true' ? this.DEFAULT_VOLUME : 0);
+      // Migrate to new format
+      localStorage.setItem('sound-volume', this.volume().toString());
+      localStorage.removeItem('click-sound-enabled');
+    }
+    // Default volume is already set in signal initialization (0.3)
   }
 
   /**

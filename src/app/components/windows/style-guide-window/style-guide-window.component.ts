@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, signal, computed } from '@angular/core';
+import { Component, input, signal, computed, inject } from '@angular/core';
 import { DraggableDirective } from '../../../directives/draggable.directive';
 import { CvdCheckboxComponent } from "../../shared/corvid-checkbox/corvid-checkbox.component";
 import { PixelIconComponent } from '../../shared/pixel-icon/pixel-icon.component';
 import { FloatWindow } from '../float-window/float-window.component';
 import { FormsModule } from '@angular/forms';
+import { UserService } from '../../../services/general/user.service';
+import { environment } from '../../../../environments/environment.local';
 
 @Component({
   selector: 'app-style-guide-window',
@@ -19,6 +21,7 @@ export class StyleGuideWindowComponent extends FloatWindow {
   iconSearch = signal('');
 
   progressValue: number = 50;
+  userService: UserService = inject(UserService);
 
   // All available pixelarticons
   allIcons: string[] = [
@@ -124,5 +127,26 @@ export class StyleGuideWindowComponent extends FloatWindow {
 
   getComputedColor(variable: string): string {
     return getComputedStyle(document.body).getPropertyValue(variable).trim() || '#000';
+  }
+
+  testNftSettingsSave(): void {
+    this.userService.test().subscribe({
+      next: response => {
+        console.log(response);
+      },
+      error: e => {
+        console.log(e);
+      }
+    });
+
+    // TODO: Setup endpoint call to actually test the Backend calls
+    this.userService.saveUserSettings(environment.development_wallet).subscribe({
+      next: response => {
+        console.log(response);
+      },
+      error: e => {
+        console.log(e);
+      }
+    });
   }
 }

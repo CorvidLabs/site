@@ -14,6 +14,15 @@ export interface CorvidNft {
     };
   };
   extra: {
+    siteSettingsMetadata?: SiteSettingsMetadata;
     [key: string]: any;
   };
+}
+
+export interface SiteSettingsMetadata {
+  walletAddress: string;
+  profilePicAsaID: number;
+  currentTheme: string;
+  soundVolume: number;
+  userCvdAsaIDs: number[];
 }

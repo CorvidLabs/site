@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ComponentRef, ViewChild, ViewContainerRef, signal } from '@angular/core';
+import { Component, ComponentRef, ViewChild, ViewContainerRef, inject, signal } from '@angular/core';
 import { PeraWalletConnect } from '@perawallet/connect';
 import { WindowTypes } from '../../enums/window-types.enum';
 import { AlgorandChainIDs, PeraWalletConnectOptions } from '../../interfaces/pera-wallet-connect-options';
@@ -16,6 +16,7 @@ import { RoadmapWindowComponent } from '../windows/roadmap-window/roadmap-window
 import { SettingsWindowComponent } from '../windows/settings-window/settings-window.component';
 import { StyleGuideWindowComponent } from '../windows/style-guide-window/style-guide-window.component';
 import { TetrisWindowComponent } from '../windows/tetris-window/tetris-window.component';
+import { AssetService } from '../../services/asset.service';
 
 interface DockItem {
   type: WindowTypes;
@@ -67,6 +68,8 @@ export class MainViewComponent {
   isAuthenticated = signal(false);
   // End Pera Wallet Connect Setup
 
+  assetService: AssetService = inject(AssetService);
+
   constructor() {
     this.iconMap = {
       [WindowTypes.LAUNCHPAD]: { icon: 'apps', label: 'Launch Pad' },
@@ -112,8 +115,6 @@ export class MainViewComponent {
 
     this.isAuthenticated.set(true);
     this.userAccountAddress.set(accountAddress);
-
-    // TODO: Get nevermore NFT collection information here, and an NFT of the user here
 
     // Update settings window if open
     if (this.settingsWindowRef) {

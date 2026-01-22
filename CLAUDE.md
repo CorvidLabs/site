@@ -155,7 +155,7 @@ bun test         # Run tests
 
 **Lazy load algosdk** to reduce initial bundle by ~400-600 KB:
 - Convert `algosdk` imports to dynamic imports in:
-  - `src/app/services/nodely.service.ts`
+  - `src/app/services/asset.service.ts`
   - `src/app/components/main-view/main-view.component.ts`
 - Trade-off: Slight delay when blockchain features are first used
 - Benefit: Faster initial page load for users who don't connect wallets
