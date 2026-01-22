@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+/* Define custom theme colors using CSS variables.
+   Tailwind will generate utilities for these, and the actual values
+   come from the theme files which override these variables. */
+@theme {
+  /* Background colors */
+  --color-primary-bg: var(--color-primary-bg, transparent);
+  --color-secondary-bg: var(--color-secondary-bg, transparent);
+  --color-section-bg: var(--color-section-bg, transparent);
+  --color-player-bg: var(--color-player-bg, transparent);
+
+  /* Text colors */
+  --color-primary-text: var(--color-primary-text, currentColor);
+  --color-secondary-text: var(--color-secondary-text, currentColor);
+
+  /* Accent colors */
+  --color-primary-accent: var(--color-primary-accent, currentColor);
+  --color-secondary-accent: var(--color-secondary-accent, currentColor);
+
+  /* Utility colors */
+  --color-border: var(--color-border, currentColor);
+  --color-shadow: var(--color-shadow, currentColor);
+
+  /* State colors */
+  --color-success: var(--color-success, green);
+  --color-warning: var(--color-warning, orange);
+  --color-error: var(--color-error, red);
+
+  /* Accent color shorthand */
+  --color-accent: var(--color-accent, currentColor);
+}

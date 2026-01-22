@@ -1,0 +1,96 @@
+// Component styles - global styles are already applied at app level
+
+.main-view {
+  // background-image: url('../../../../public/wallpapers/space-gradient-background.png');
+  background-size: cover;
+  background-position: center;
+
+  // w-screen h-screen flex flex-col bg-gray-200 overflow-hidden
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  // background: $secondary-bg;
+  overflow: hidden;
+}
+
+.main-view-content {
+  // flex-grow relative p-4;
+  flex-grow: 1;
+  position: relative;
+  padding: 1rem;
+}
+
+.main-view-dock-region {
+  position: relative;
+  height: 6rem;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+.main-view-dock-bar {
+  height: 4.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  // background-color: #ffffff66;
+  background-color: var(--theme-secondary-bg, #ffffff66);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 12px var(--theme-shadow-color, #0000001a);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 5px solid var(--theme-border-color, #ffffff33);
+}
+
+.main-view-dock-item {
+  width: 3.5rem;
+  height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+
+  > .item-icon {
+    color: var(--theme-primary-accent, var(--mat-sys-primary));
+    transform: scale(1.5);
+  }
+}
+
+// ============================================
+// Z-Index Hierarchy
+// ============================================
+// 10000 - Dock (always on top)
+// 9000  - Launchpad drawer (defined in launchpad-window.component.scss)
+// 8000  - Launchpad backdrop
+// 100+  - Floating windows (managed by ZIndexManagerService)
+
+// ============================================
+// Launchpad Backdrop
+// ============================================
+.launchpad-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 8000; // Below drawer, above windows
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+
+  &.backdrop-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}

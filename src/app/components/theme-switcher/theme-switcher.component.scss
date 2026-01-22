@@ -1,0 +1,60 @@
+.theme-switcher {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: var(--theme-section-bg, var(--mat-sys-surface-container));
+}
+
+.theme-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.theme-type-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  > .type-title {
+    margin: 0 0 0.5rem 0;
+    color: var(--theme-primary-text, var(--mat-sys-on-surface));
+    font-size: 1rem;
+  }
+
+  > .theme-button {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--theme-border-color, var(--mat-sys-outline));
+    background-color: var(--theme-secondary-bg, var(--mat-sys-surface));
+    color: var(--theme-primary-text, var(--mat-sys-on-surface));
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    text-align: center;
+
+    &:hover {
+      background-color: var(--theme-primary-accent, var(--mat-sys-primary));
+      // Use theme's primary background color for text to ensure contrast
+      color: var(--theme-primary-bg, var(--mat-sys-on-primary));
+    }
+
+    &.active {
+      background-color: var(--theme-primary-accent, var(--mat-sys-primary));
+      // Use theme's primary background color for text to ensure contrast
+      color: var(--theme-primary-bg, var(--mat-sys-on-primary));
+      font-weight: bold;
+    }
+  }
+
+  .current-theme {
+    margin-top: 1rem;
+    margin-bottom: 0;
+    color: var(--theme-secondary-text, var(--mat-sys-on-surface-variant));
+    font-size: 0.875rem;
+  }
+}

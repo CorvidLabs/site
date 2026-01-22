@@ -1,0 +1,281 @@
+<div [style.width.px]="width()" [style.height.px]="height()" #elementWithDrag appDraggable appResizable [minimalWidth]="865" [minimalHeight]="400" (windowResize)="onResize($event)" [appDraggableInitialPosition]="initialPosition()" class="float-window">
+
+  <!-- Header acts as the drag handle -->
+  <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging" (mousedown)="isDragging = true" (mouseup)="isDragging = false">
+    <h2>{{ title() }}</h2>
+    
+    <!-- Close button -->
+    <button (click)="close()" class="drag-handle-close">
+      &times;
+    </button>
+  </div>
+
+  <!-- Window Content -->
+  <div class="float-window-content">
+    <!-- <nav class="w-full bg-secondary/80 backdrop-blur-md sticky top-0 z-50 mx-auto px-6 py-4 flex justify-center items-center nes-border">
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="#nevermore-nft" class="ml-4 nav-link text-primary-text hover:text-accent font-medium">The Project</a>
+        <a href="#reimagining-subscriptions" class="nav-link text-primary-text hover:text-accent font-medium">Utility</a>
+        <a href="#core-utility-benefits" class="nav-link text-primary-text hover:text-accent font-medium">Tokenomics</a>
+        <a href="#team" class="nav-link text-primary-text hover:text-accent font-medium">Team</a>
+        <a href="#faq" class="nav-link text-primary-text hover:text-accent font-medium">FAQ</a>
+        <a href="https://discord.gg/mQGPQy5fnd" target="_blank" 
+          class="bg-accent text-primary-bg font-bold py-2 px-5 hover:bg-opacity-90 transition-colors ml-4">Join
+          Discord</a>
+      </div>
+    </nav> -->
+
+    <cvd-navbar [navbarItems]="navbarItems" />
+
+    <section id="nevermore-nft" class="nes-container with-title text-center !pb-4">
+      <h2 class="title font-bold">Nevermore NFT Collection</h2>
+      <h3 class="text-lg mb-2">A Lifetime Membership for the Corvid Labs Ecosystem.</h3>
+      <p class="mb-8">
+        This utility-focused NFT combines the security of the blockchain with tangible benefits for our early
+        supporters, granting pro features across all our iOS apps, exclusive access to new tools, and a voice in our
+        community-driven development.
+      </p>
+      <a href="#community-first-approach" class="bg-accent text-primary-bg font-bold py-3 px-8 rounded-lg hover:bg-opacity-90 transition-colors text-lg">Learn About the Mint</a>
+    </section>
+
+    <section id="reimagining-subscriptions" class="nes-container with-title is-centered">
+      <h2 class="title">Reimagining App Subscriptions</h2>
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+          <p class="mt-4 text-lg max-w-2xl mx-auto">The Nevermore NFT is our answer to the flaws of the traditional, fragmented
+            subscription model.</p>
+        </div>
+      
+        <div class="grid md:grid-cols-2 gap-8 items-center">
+          <div>
+            <h3 class="text-2xl font-semibold mb-4 text-accent">The Problem</h3>
+            <div class="space-y-4">
+              <div class="p-4 bg-red-900/30 rounded-lg flex items-start space-x-3">
+                <span class="text-red-400 font-bold text-xl">✗</span>
+                <div>
+                  <h4 class="font-semibold ">Fragmented Subscriptions</h4>
+                  <p class="text-secondary-text text-sm">Costs add up for users who need multiple specialized apps.</p>
+                </div>
+              </div>
+              <div class="p-4 bg-red-900/30 rounded-lg flex items-start space-x-3">
+                <span class="text-red-400 font-bold text-xl">✗</span>
+                <div>
+                  <h4 class="font-semibold ">Limited Value for Early Supporters</h4>
+                  <p class="text-secondary-text text-sm">Beta testers and early adopters rarely receive long-term benefits.
+                  </p>
+                </div>
+              </div>
+              <div class="p-4 bg-red-900/30 rounded-lg flex items-start space-x-3">
+                <span class="text-red-400 font-bold text-xl">✗</span>
+                <div>
+                  <h4 class="font-semibold ">No Community Ownership</h4>
+                  <p class="text-secondary-text text-sm">Users have little say in the development process of tools they rely
+                    on.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-2xl font-semibold mb-4 text-accent">Our Solution: The Nevermore NFT</h3>
+            <div class="space-y-4">
+              <div class="p-4 bg-green-900/30 rounded-lg flex items-start space-x-3">
+                <span class="text-green-400 font-bold text-xl">✓</span>
+                <div>
+                  <h4 class="font-semibold ">Unified Lifetime Access</h4>
+                  <p class="text-secondary-text text-sm">One token unlocks premium features across all Corvid Labs apps,
+                    forever.</p>
+                </div>
+              </div>
+              <div class="p-4 bg-green-900/30 rounded-lg flex items-start space-x-3">
+                <span class="text-green-400 font-bold text-xl">✓</span>
+                <div>
+                  <h4 class="font-semibold ">Meaningful Membership</h4>
+                  <p class="text-secondary-text text-sm">Holders gain governance rights and help shape our development
+                    roadmap.</p>
+                </div>
+              </div>
+              <div class="p-4 bg-green-900/30 rounded-lg flex items-start space-x-3">
+                <span class="text-green-400 font-bold text-xl">✓</span>
+                <div>
+                  <h4 class="font-semibold ">A Tradeable Digital Asset</h4>
+                  <p class="text-secondary-text text-sm">Your membership has inherent utility and can be traded on the open
+                    market.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="core-utility-benefits" class="nes-container with-title mx-auto px-6">
+      <h2 class="title">Core Utility & Benefits</h2>
+
+      <div class="text-center mb-12">
+        <p class="mt-4 text-lg max-w-2xl mx-auto">Holders of the Nevermore NFT will enjoy a suite of exclusive benefits
+          designed to enhance their experience within the Corvid Labs ecosystem.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="section-bg p-6 border-accent">
+          <h3 class="text-xl font-bold mb-2 text-accent">Lifetime Pro Access</h3>
+          <p class="">Unlock premium features in all current and future Corvid Labs applications,
+            including our upcoming flagship app, Mono. No more recurring subscription fees.</p>
+        </div>
+        <div class="section-bg p-6 border-teal">
+          <h3 class="text-xl font-bold mb-2 text-accent">Exclusive Tool Access</h3>
+          <p class="">Get early access to beta features, experimental tools, and specialized utilities
+            not available to the general public. Your feedback directly shapes our products.</p>
+        </div>
+      <div class="section-bg p-6 border-gray">
+          <h3 class="text-xl font-bold mb-2 text-accent">Community Privileges</h3>
+          <p class="">Gain voting rights on feature development, access private Discord channels with the
+            dev team, and join exclusive community events and AMAs.</p>
+        </div>
+      </div>
+      
+    </section>
+
+    <section id="community-first-approach" class="nes-container with-title mx-auto px-6">
+      <h2 class="title">Community-First Approach</h2>
+
+      <div class="text-center mb-12">
+        <p class="mt-4 text-lg max-w-2xl mx-auto">Our model prioritizes fair distribution and long-term
+        utility over revenue. We're focused on building a foundational community of engaged supporters.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8 md:gap-12 !items-center nes-border p-1">
+        <div class="text-center ml-4">
+          <div class="grid grid-cols-2 gap-4 mb-8">
+            <div class="stat-card p-4 rounded-lg text-center">
+              <h3 class="leading-none">1,000</h3>
+              <p class="text-secondary-text">Total Genesis Supply</p>
+            </div>
+            <div class="stat-card p-4 rounded-lg text-center">
+              <h3 class="leading-none">5 <span class="text-lg">ALGO</span></h3>
+              <p class="text-secondary-text">Nominal Mint Price</p>
+            </div>
+          </div>
+          <h3 class="text-2xl font-bold mb-4 text-accent">Allocation & Distribution</h3>
+          <p class="mb-2"><strong class="font-semibold">85% Community
+              Distribution:</strong> For public mint, giveaways, and beta tester rewards.</p>
+          <p class="mb-2"><strong class="font-semibold">10% Team Allocation:</strong>
+            Reserved for the four core founders to align long-term incentives.</p>
+          <p><strong class="font-semibold">5% Ecosystem Treasury:</strong> For
+            future partnerships, contributors, and community events.</p>
+        </div>
+        <div>
+          <div class="chart-container align-center m-4">
+            <canvas class="chart mx-auto" #tokenomicsChart></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="team" class="nes-container with-title">
+      <h2 class="title">The Core Team</h2>
+      <div class="@container mx-auto px-6">
+        <div class="text-center mb-12">
+          <p class="mt-4 text-lg max-w-2xl mx-auto">We are a passionate indie collective combining
+            technical expertise with creative vision to build tools that enhance productivity.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-8">
+          <a href="https://leif.algo.xyz" target="_blank" rel="noopener noreferrer"
+            class="block stat-card p-6 shadow-lg text-center hover:shadow-2xl hover:scale-105 transform transition-all duration-300">
+            <h2 class="text-xl font-bold text-accent">Leif</h2>
+            <p class="!font-semibold mb-2">Co-Founder & Lead Architect</p>
+            <p class="text-sm">Primary Swift developer and creator of the Nevermore NFT concept.</p>
+          </a>
+          <a href="https://app.nf.domains/name/gaspar.algo" target="_blank" rel="noopener noreferrer"
+            class="block stat-card p-6 shadow-lg text-center hover:shadow-2xl hover:scale-105 transform transition-all duration-300">
+            <h2 class="text-xl font-bold text-accent">Gaspar</h2>
+            <p class="!font-semibold mb-3">Co-Founder & Software Engineer</p>
+            <p class="text-sm">Full-stack expertise, leading backend systems and core infrastructure
+              development.</p>
+          </a>
+          <a href="https://kyn.algo.xyz" target="_blank" rel="noopener noreferrer"
+            class="block stat-card p-6 shadow-lg text-center hover:shadow-2xl hover:scale-105 transform transition-all duration-300">
+            <h2 class="text-xl font-bold text-accent">Kyn</h2>
+            <p class="!font-semibold mb-2">Co-Founder & Community Lead</p>
+            <p class="text-sm">Manages Discord community engagement and integrates user feedback.</p>
+          </a>
+          <a href="https://tofu.algo.xyz" target="_blank" rel="noopener noreferrer"
+            class="block stat-card p-6 shadow-lg text-center hover:shadow-2xl hover:scale-105 transform transition-all duration-300">
+            <h2 class="text-xl font-bold text-accent">Tofu</h2>
+            <p class="!font-semibold mb-2">Co-Founder & Creative Director</p>
+            <p class="text-sm">Leads visual identity, user experience design, and brand development.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="nes-container with-title mx-auto px-6">
+      <h2 class="title">Frequently Asked Questions</h2>
+
+      <div class="text-center mb-12">
+        <p class="mt-4 text-lg max-w-2xl mx-auto">Important details about the project, risks, and legal
+          considerations.</p>
+      </div>
+
+      <div #faqContainer class="space-y-4">
+        @for (item of faqData; track $index) {
+          <div class="faq-item nes-border" (click)="toggleFAQItem($index)">
+            <div class="faq-question flex justify-between items-center p-4">
+              <h4 class="!font-semibold text-lg">{{ item.question }}</h4>
+              <span class="faq-arrow text-accent">&darr;</span>
+            </div>
+        
+            <div class="faq-answer">
+              <p [innerHTML]="item.answer"></p>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+
+    <section id="support" class="nes-container with-title">
+      <h2 class="title">Support Our Work</h2>
+
+      <div class="text-center mb-12">
+        <p class="mt-4 text-lg max-w-2xl mx-auto">
+          As an indie collective, we're funded by our community. Donations help us cover server costs, invest in new
+          tools, and dedicate more time to building open-source projects for everyone.
+        </p>
+      </div>
+
+      <div class="section-bg p-6 text-center nes-border stat-card">
+        <p class="font-semibold mb-2">Our Official Donation Wallet (ALGO)</p>
+
+        <div class="container mx-auto px-6 max-w-1/3">
+          <img src="corvid-labs-wallet-qr.jpg" alt="Donation Wallet QR Code" class="mx-auto mb-4">
+        </div>
+
+        <div class="flex flex-col md:flex-row items-center justify-center gap-4 p-2">
+          <input #walletAddress type="text" readonly value="WGSHC4TYKYBS6EX5V5E377BQDLKWIIPBCFOLZQZIXCKHFIEKRPBFOMW25A"
+            class="bg-transparent text-sm font-mono focus:outline-none p-2 text-center max-w-full">
+          <button [class.!bg-green-600]="copyButtonText === 'Copied!'" #copyButton class="nes-btn py-2 px-4" (click)="copyWalletAddress()">{{ copyButtonText }}</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="container mx-auto px-6 py-8">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="text-center md:text-left mb-4 md:mb-0">
+          <h3 class="text-xl font-bold">Corvid Labs</h3>
+          <p class="text-secondary-text">Building the future of mobile productivity.</p>
+        </div>
+        <div class="flex space-x-6">
+          <a href="https://discord.gg/mQGPQy5fnd" target="_blank"
+            class="text-secondary-text hover:text-accent transition-colors">Discord</a>
+          <a href="https://github.com/CorvidLabs" target="_blank"
+            class="text-secondary-text hover:text-accent transition-colors">GitHub</a>
+          <a href="mailto:corvid-labs.envoy197@passmail.net"
+            class="text-secondary-text hover:text-accent transition-colors">Email</a>
+        </div>
+      </div>
+      <div class="mt-8 pt-4 border-t border-gray-700 text-center text-secondary-text text-sm">
+        &copy; 2025 Corvid Labs. All rights reserved.
+      </div>
+    </div>
+  </div>
+</div>

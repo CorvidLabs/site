@@ -1,0 +1,175 @@
+@use '../../../../themes/nes-pixel-mixins' as nes-pixel-mixins;
+
+// ============================================
+// Boot Overlay Container
+// ============================================
+.boot-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+
+  &.overlay-visible {
+    pointer-events: auto;
+  }
+}
+
+// ============================================
+// Boot Backdrop
+// ============================================
+.boot-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--theme-primary-bg);
+  backdrop-filter: blur(8px);
+  z-index: 10500;
+
+  opacity: 0;
+  transition: opacity 0.3s ease;
+
+  &.backdrop-visible {
+    opacity: 1;
+  }
+}
+
+// ============================================
+// Boot Card
+// ============================================
+.boot-card {
+  position: relative;
+  z-index: 11000;
+  width: 90%;
+  max-width: 400px;
+  padding: 2.5rem 2rem;
+
+  background-color: var(--theme-secondary-bg, var(--mat-sys-surface));
+  border: 4px solid var(--theme-border-color, var(--mat-sys-outline-variant));
+
+  @include nes-pixel-mixins.pixel-border(var(--theme-border-color));
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+
+  transform: scale(0.9) translateY(-20px);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+
+  &.card-visible {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+// ============================================
+// Boot Logo
+// ============================================
+.boot-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+
+  svg {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+// ============================================
+// Boot Title
+// ============================================
+.boot-title {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.5rem;
+  color: var(--theme-primary-text, var(--mat-sys-on-surface));
+  text-align: center;
+  margin: 0 0 2rem 0;
+  text-shadow: 2px 2px 0 var(--theme-shadow-color, rgba(0,0,0,0.3));
+}
+
+// ============================================
+// Progress Container
+// ============================================
+.boot-progress-container {
+  width: 100%;
+  height: 24px;
+  background: var(--theme-primary-bg);
+  border: 2px solid var(--theme-border-color);
+  margin-bottom: 1rem;
+  overflow: hidden;
+  position: relative;
+
+  // Pixel border effect
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px solid var(--theme-border-color);
+    pointer-events: none;
+  }
+}
+
+// ============================================
+// Progress Bar
+// ============================================
+.boot-progress-bar {
+  height: 100%;
+  background: var(--theme-primary-accent);
+  transition: width 0.1s linear;
+  box-shadow: inset 0 -2px 0 rgba(0,0,0,0.2);
+}
+
+// ============================================
+// Progress Text
+// ============================================
+.boot-progress-text {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.75rem;
+  color: var(--theme-secondary-text, var(--mat-sys-on-surface-variant));
+  text-align: center;
+  margin: 0;
+}
+
+// ============================================
+// Responsive Design
+// ============================================
+@media (max-width: 600px) {
+  .boot-card {
+    width: 95%;
+    padding: 2rem 1.5rem;
+  }
+
+  .boot-title {
+    font-size: 1.25rem;
+  }
+
+  .boot-logo svg {
+    width: 60px;
+    height: 60px;
+  }
+
+  .boot-progress-text {
+    font-size: 0.625rem;
+  }
+}
+
+// ============================================
+// Accessibility - Reduced Motion
+// ============================================
+@media (prefers-reduced-motion: reduce) {
+  .boot-backdrop,
+  .boot-card,
+  .boot-progress-bar {
+    transition: none;
+  }
+}

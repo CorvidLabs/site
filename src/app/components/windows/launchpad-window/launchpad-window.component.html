@@ -1,0 +1,30 @@
+<div class="launchpad-drawer"
+     [class.drawer-open]="isOpen()"
+     [class.drawer-closed]="!isOpen()">
+
+  <!-- Header -->
+  <div class="launchpad-drawer-header">
+    <h2>{{ title() }}</h2>
+    <button (click)="close()" class="drawer-close-btn">
+      &times;
+    </button>
+  </div>
+
+  <!-- Scrollable Content -->
+  <div class="launchpad-drawer-content">
+    <div class="apps-grid">
+      @for (app of apps; track app.type) {
+        <div class="app-icon" (click)="onAppClick(app.type)">
+            <div class="app-icon-btn" [style.background-color]="app.color">
+              @if (app.imgIcon) {
+                <img [src]="app.imgIcon" alt="{{ app.label }}" class="item-icon" />
+              } @else {
+                <cvd-pixel-icon [name]="app.icon" size="xl" [style.color]="app.color" [style.filter]="'invert(1)'" />
+              }
+            </div>
+          <span class="app-label">{{ app.label }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</div>

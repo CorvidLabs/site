@@ -1,0 +1,437 @@
+// Component styles - ensure solid backgrounds
+@use '../../../../themes/nes-pixel-mixins' as nes-pixel-mixins;
+
+.float-window {
+  // Force solid background in case global styles don't apply
+  background-color: var(--theme-secondary-bg, #1f2937) !important;
+}
+
+.drag-handle {
+  // Force solid background for header
+  background-color: var(--theme-primary-bg, #111827) !important;
+}
+
+.settings-section {
+  margin-bottom: 2rem;
+
+  .section-title {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    color: var(--theme-primary-text, var(--mat-sys-on-surface));
+  }
+
+  .nes-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    cvd-pixel-icon {
+      margin-right: 0.25rem;
+    }
+  }
+}
+
+// User Account Section
+.user-account-content {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.5rem 0;
+}
+
+// Clickable Avatar
+.user-avatar-wrapper {
+  margin-left: 1rem;
+  position: relative;
+  width: 128px;
+  height: 128px;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+
+    .avatar-overlay {
+      opacity: 1;
+    }
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.user-avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 3px solid var(--theme-border-color, #000);
+  
+  @include nes-pixel-mixins.pixel-border(var(--theme-border-color));
+
+  background-color: var(--theme-section-bg, #333);
+  image-rendering: pixelated;
+}
+
+.user-avatar-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border: 3px solid var(--theme-border-color, #000);
+  background-color: var(--theme-section-bg, #333);
+  
+  @include nes-pixel-mixins.pixel-border(var(--theme-border-color));
+}
+
+// Edit Overlay
+.avatar-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+
+  cvd-pixel-icon {
+    color: var(--theme-primary-text, #fff);
+    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.8));
+  }
+}
+
+// User Info
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 0;
+  margin-left: 2rem;
+}
+
+.user-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 0.75rem;
+  font-family: 'Press Start 2P', cursive;
+  line-height: 1.4;
+
+  &.authenticated {
+    color: var(--theme-success, #66bb6a);
+
+    cvd-pixel-icon {
+      color: var(--theme-success, #66bb6a);
+    }
+  }
+
+  &.not-authenticated {
+    color: var(--theme-secondary-text, #a8a9ad);
+
+    cvd-pixel-icon {
+      color: var(--theme-secondary-text, #a8a9ad);
+    }
+  }
+}
+
+.user-wallet {
+  font-size: 0.625rem;
+  color: var(--theme-secondary-text, #a8a9ad);
+  margin: 0;
+  font-family: 'Press Start 2P', cursive;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.login-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.625rem;
+  align-self: flex-start;
+
+  cvd-pixel-icon {
+    margin-right: 0.25rem;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.logout-btn {
+  margin-top: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.625rem;
+  align-self: flex-start;
+
+  cvd-pixel-icon {
+    margin-right: 0.25rem;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// Sound Settings Section
+.sound-settings-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .setting-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      color: var(--theme-primary-text);
+      min-width: 140px;
+    }
+  }
+
+  .setting-description {
+    font-size: 0.75rem;
+    color: var(--theme-secondary-text);
+    margin: 0;
+    opacity: 0.8;
+    line-height: 1.4;
+  }
+}
+
+// Volume Control Layout
+.volume-control {
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.volume-slider-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 200px;
+}
+
+.volume-value {
+  font-size: 0.625rem;
+  font-family: 'Press Start 2P', cursive;
+  color: var(--theme-primary-text);
+  min-width: 40px;
+  text-align: right;
+}
+
+// ============================================
+// Option A: Pixelated NES Slider
+// ============================================
+.nes-slider-pixelated {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 1.5rem;
+  background: transparent;
+  cursor: pointer;
+
+  // Track styling - Webkit
+  &::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 1.25rem;
+    background: linear-gradient(
+      to right,
+      var(--theme-primary-accent) 0%,
+      var(--theme-primary-accent) var(--progress-percent, 0%),
+      var(--theme-section-bg) var(--progress-percent, 0%),
+      var(--theme-section-bg) 100%
+    );
+    border: 3px solid var(--theme-border-color);
+    box-shadow:
+      // Outer pixel border effect
+      3px 0 0 0 var(--theme-border-color),
+      -3px 0 0 0 var(--theme-border-color),
+      0 3px 0 0 var(--theme-border-color),
+      0 -3px 0 0 var(--theme-border-color);
+  }
+
+  // Thumb styling - Webkit
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1rem;
+    height: 1.5rem;
+    background: var(--theme-primary-text);
+    border: 3px solid var(--theme-border-color);
+    cursor: grab;
+    margin-top: -3px;
+    box-shadow:
+      inset -3px -3px 0 0 var(--theme-secondary-text),
+      inset 3px 3px 0 0 #fff;
+
+    &:active {
+      cursor: grabbing;
+      box-shadow:
+        inset 3px 3px 0 0 var(--theme-secondary-text),
+        inset -3px -3px 0 0 #fff;
+    }
+  }
+
+  // Track styling - Firefox
+  &::-moz-range-track {
+    width: 100%;
+    height: 1.25rem;
+    background: var(--theme-section-bg);
+    border: 3px solid var(--theme-border-color);
+  }
+
+  &::-moz-range-progress {
+    background: var(--theme-primary-accent);
+    height: 1.25rem;
+    border: 3px solid var(--theme-border-color);
+    border-right: none;
+  }
+
+  // Thumb styling - Firefox
+  &::-moz-range-thumb {
+    width: 1rem;
+    height: 1.5rem;
+    background: var(--theme-primary-text);
+    border: 3px solid var(--theme-border-color);
+    border-radius: 0;
+    cursor: grab;
+    box-shadow:
+      inset -3px -3px 0 0 var(--theme-secondary-text),
+      inset 3px 3px 0 0 #fff;
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px dashed var(--theme-primary-accent);
+    outline-offset: 4px;
+  }
+}
+
+// ============================================
+// Option B: Smooth Modern-Retro Slider
+// ============================================
+.nes-slider-smooth {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 1.5rem;
+  background: transparent;
+  cursor: pointer;
+
+  // Track styling - Webkit
+  &::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 0.5rem;
+    background: linear-gradient(
+      to right,
+      var(--theme-primary-accent) 0%,
+      var(--theme-primary-accent) var(--progress-percent, 0%),
+      var(--theme-section-bg) var(--progress-percent, 0%),
+      var(--theme-section-bg) 100%
+    );
+    border-radius: 0.25rem;
+    border: 2px solid var(--theme-border-color);
+  }
+
+  // Thumb styling - Webkit (Square pixel thumb)
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    background: var(--theme-primary-text);
+    border: 3px solid var(--theme-border-color);
+    cursor: grab;
+    margin-top: -0.35rem;
+    box-shadow:
+      inset -2px -2px 0 0 var(--theme-secondary-text),
+      inset 2px 2px 0 0 #fff;
+
+    &:active {
+      cursor: grabbing;
+      box-shadow:
+        inset 2px 2px 0 0 var(--theme-secondary-text),
+        inset -2px -2px 0 0 #fff;
+    }
+  }
+
+  // Track styling - Firefox
+  &::-moz-range-track {
+    width: 100%;
+    height: 0.5rem;
+    background: var(--theme-section-bg);
+    border-radius: 0.25rem;
+    border: 2px solid var(--theme-border-color);
+  }
+
+  &::-moz-range-progress {
+    background: var(--theme-primary-accent);
+    height: 0.5rem;
+    border-radius: 0.25rem 0 0 0.25rem;
+    border: 2px solid var(--theme-border-color);
+    border-right: none;
+  }
+
+  // Thumb styling - Firefox (Square pixel thumb)
+  &::-moz-range-thumb {
+    width: 1rem;
+    height: 1rem;
+    background: var(--theme-primary-text);
+    border: 3px solid var(--theme-border-color);
+    border-radius: 0;
+    cursor: grab;
+    box-shadow:
+      inset -2px -2px 0 0 var(--theme-secondary-text),
+      inset 2px 2px 0 0 #fff;
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px dashed var(--theme-primary-accent);
+    outline-offset: 4px;
+  }
+}

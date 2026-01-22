@@ -1,4 +1,7 @@
+<ng-template #bootOverlayHost></ng-template>
+
 <!-- This is the main application component -->
 <!-- We can add some common components like a header later on -->
-
-<router-outlet />
+<div [class]="currentTheme">
+  <router-outlet />
+</div>

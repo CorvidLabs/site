@@ -1,0 +1,132 @@
+.tetris-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  gap: 1rem;
+  min-height: 0; // Important for flex children with overflow
+}
+
+.game-info {
+  display: flex;
+  justify-content: space-around;
+  padding: 0.5rem;
+  background-color: var(--theme-primary-bg, #111827);
+  border-radius: 0.25rem;
+  border: 1px solid var(--theme-border-color, #e0e0e0);
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.info-label {
+  font-size: 0.75rem;
+  color: var(--theme-secondary-text, #666666);
+  text-transform: uppercase;
+}
+
+.info-value {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--theme-primary-accent, var(--mat-sys-primary));
+}
+
+.game-board-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.game-board {
+  display: inline-flex;
+  flex-direction: column;
+  border: 2px solid var(--theme-border-color, #333);
+  background-color: #000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.board-row {
+  display: flex;
+}
+
+.board-cell {
+  width: 25px;
+  height: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-sizing: border-box;
+
+  &.empty {
+    background-color: #1a1a1a;
+  }
+
+  &:not(.empty) {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.2);
+  }
+}
+
+.game-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.game-over-message,
+.paused-message {
+  text-align: center;
+  color: white;
+  padding: 2rem;
+  background-color: var(--theme-secondary-bg, #1f2937);
+  border-radius: 0.5rem;
+  border: 2px solid var(--theme-primary-accent, var(--mat-sys-primary));
+
+  h2 {
+    margin: 0 0 1rem 0;
+    color: var(--theme-primary-accent, var(--mat-sys-primary));
+    font-size: 2rem;
+  }
+
+  p {
+    margin: 0 0 1.5rem 0;
+    font-size: 1.125rem;
+  }
+}
+
+.game-controls {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.game-instructions {
+  text-align: center;
+  padding: 0.5rem;
+  background-color: var(--theme-primary-bg, #111827);
+  border-radius: 0.25rem;
+  border: 1px solid var(--theme-border-color, #e0e0e0);
+
+  p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--theme-text-color, #000000);
+
+    &:first-child {
+      margin-bottom: 0.25rem;
+    }
+  }
+}

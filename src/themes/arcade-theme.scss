@@ -1,0 +1,72 @@
+@use '@angular/material' as mat;
+@use 'tailwind-theme-bridge' as tw;
+
+// Arcade Theme
+// Vibrant theme with bright colors on dark backgrounds, inspired by classic arcade games
+// Ideal for playful and energetic designs
+
+// Define the theme using Material's blue and green palettes
+$arcade-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: mat.$blue-palette,
+    tertiary: mat.$green-palette,
+  ),
+  typography: (
+    brand-family: 'Press Start 2P',
+    plain-family: 'Press Start 2P',
+  ),
+  density: (
+    scale: 0
+  )
+));
+
+@mixin theme() {
+  // Apply Material component themes with arcade colors
+  @include mat.all-component-themes($arcade-theme);
+  
+  // Custom theme variables - Arcade aesthetic
+  --theme-primary-bg: #000000;        // Pure black
+  --theme-secondary-bg: #1a1a1a;      // Very dark gray
+  --theme-section-bg: #2a2a2a;        // Dark gray
+  --theme-primary-text: #00ffea;      // Bright cyan
+  --theme-secondary-text: #66ffe0;    // Light cyan
+  --theme-primary-accent: #ff00ff;    // Vibrant magenta
+  --theme-secondary-accent: #ff66ff;  // Light magenta
+  --theme-border-color: #404040;      // Medium gray
+  --theme-player-bg: #1a1a1a;         // Very dark gray
+  --theme-shadow-color: #000000b3; // Dark shadow for depth
+  --theme-success: #00ff00;   // Classic neon green
+  --theme-warning: #ffff00;   // Neon yellow
+  --theme-error: #ff0000;     // Neon red
+
+  // Tailwind color bridge
+  @include tw.tailwind-colors();
+
+  scrollbar-color: var(--theme-primary-accent) var(--theme-primary-bg);
+
+  // Enhance focus states with arcade colors
+  *:focus-visible {
+    outline-color: var(--theme-primary-accent);
+  }
+
+  .main-view {
+    background: linear-gradient(var(--theme-primary-accent, #ff00ff) 0%, var(--theme-secondary-bg, #1a1a1a) 100%);
+  }
+
+  .login-container {
+    background: linear-gradient(var(--theme-primary-accent, #ff00ff) 0%, var(--theme-secondary-bg, #1a1a1a) 100%);
+  }
+}
+
+
+// Theme Color Palette Reference:
+// Primary Background:    #000000 (Pure Black)
+// Secondary Background:  #1a1a1a (Very Dark Gray)
+// Section Background:    #2a2a2a (Dark Gray)
+// Primary Text:          #00ffea (Bright Cyan)
+// Secondary Text:        #66ffe0 (Light Cyan)
+// Primary Accent:       #ff00ff (Vibrant Magenta)
+// Secondary Accent:     #ff66ff (Light Magenta)
+// Border Color:          #404040 (Medium Gray)
+// Player Background:    #1a1a1a (Very Dark Gray)

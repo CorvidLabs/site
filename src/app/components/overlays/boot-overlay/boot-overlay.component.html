@@ -1,0 +1,28 @@
+<div class="boot-overlay" [class.overlay-visible]="isOpen()">
+  <!-- Backdrop (full screen, blurred background) -->
+  <div class="boot-backdrop" [class.backdrop-visible]="isOpen()"></div>
+
+  <!-- Boot Card (centered modal) -->
+  <div class="boot-card" [class.card-visible]="isOpen()">
+    <!-- Logo Placeholder -->
+    <div class="boot-logo">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <!-- Simple placeholder: Circle with "C" -->
+        <circle cx="50" cy="50" r="40" fill="var(--theme-primary-accent)" opacity="0.2"/>
+        <text x="50" y="60" font-family="Press Start 2P" font-size="40"
+              fill="var(--theme-primary-accent)" text-anchor="middle">C</text>
+      </svg>
+    </div>
+
+    <!-- Title -->
+    <h1 class="boot-title">Corvid OS</h1>
+
+    <!-- Progress Bar -->
+    <div class="boot-progress-container">
+      <div class="boot-progress-bar" [style.width.%]="progress()"></div>
+    </div>
+
+    <!-- Progress Text -->
+    <p class="boot-progress-text">{{ progress() }}%</p>
+  </div>
+</div>

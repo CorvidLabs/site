@@ -1,0 +1,26 @@
+<div class="theme-switcher">
+  <div class="theme-groups">
+    <div class="theme-type-group">
+      <label class="type-title">Dark Themes</label>
+      @for (theme of darkThemes; track theme.id) {
+        <button class="theme-button"
+          (click)="switchTheme(theme)"
+          [class.active]="currentThemeId() === theme.id">
+          {{ theme.displayName }}
+        </button>
+      }
+    </div>
+
+
+    <div class="theme-type-group">
+      <label class="type-title">Light Themes</label>
+      @for (theme of lightThemes; track theme.id) {
+        <button class="theme-button"
+          (click)="switchTheme(theme)"
+          [class.active]="currentThemeId() === theme.id">
+          {{ theme.displayName }}
+        </button>
+      }
+    </div>
+  </div>
+</div>

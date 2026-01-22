@@ -1,0 +1,105 @@
+<div appDraggable appResizable (windowResize)="onResize($event)" #elementWithDrag [style.width.px]="width()" [style.height.px]="height()" class="float-window">
+
+  <!-- Header acts as the drag handle -->
+  <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging" (mousedown)="isDragging = true" (mouseup)="isDragging = false">
+    <h2>{{ title() }}</h2>
+    <!-- Close button -->
+    <button (click)="close()" class="drag-handle-close">
+      &times;
+    </button>
+  </div>
+
+  <!-- Window Content -->
+  <div class="float-window-content">
+
+    <section id="user-account" class="nes-container with-title">
+      <label class="title">User Account</label>
+
+      <div class="user-account-content">
+        <!-- Clickable Avatar -->
+        <div class="user-avatar-wrapper" (click)="onChangeProfilePicture()">
+          @if(isAuthenticated() && userImage()) {
+            <img [src]="userImage()" alt="User Profile" class="user-avatar-image" />
+          } @else {
+            <cvd-pixel-icon name="user" size="lg" class="user-avatar-icon"></cvd-pixel-icon>
+          }
+          
+          <div class="avatar-overlay">
+            <cvd-pixel-icon name="edit" size="sm"></cvd-pixel-icon>
+          </div>
+        </div>
+
+        <!-- User Status & Info -->
+        <div class="user-info">
+          @if(isAuthenticated()) {
+            <p class="user-status authenticated">
+              <cvd-pixel-icon name="check" size="sm"></cvd-pixel-icon>
+              <span>Logged In</span>
+            </p>
+
+            @if(userAccountAddress()) {
+              <p class="user-wallet">{{ userAccountAddress()!.substring(0, 8) }}...{{ userAccountAddress()!.substring(userAccountAddress()!.length - 6) }}</p>
+            }
+
+            <button class="nes-btn is-error logout-btn" (click)="onLogout()">
+              <cvd-pixel-icon name="logout" size="sm"></cvd-pixel-icon>
+              <span>Sign Out</span>
+            </button>
+
+          } @else {
+            <p class="user-status not-authenticated">
+              <cvd-pixel-icon name="contact-delete" size="sm"></cvd-pixel-icon>
+              <span>Not Logged In</span>
+            </p>
+            
+            <button class="nes-btn is-primary login-btn" (click)="onChangeUser()">
+              <cvd-pixel-icon name="login" size="sm"></cvd-pixel-icon>
+              <span>Sign In</span>
+            </button>
+          }
+        </div>
+      </div>
+    </section>
+
+    <section id="theme" class="nes-container with-title">
+      <label class="title !text-lg">Theme</label>
+      <app-theme-switcher></app-theme-switcher>
+    </section>
+
+    <section id="sound-effects" class="nes-container with-title">
+      <label class="title">Sound Effects</label>
+
+      <div class="sound-settings-content">
+        <!-- Option A: Pixelated Style -->
+        <!-- <div class="setting-row volume-control">
+          <label class="setting-label">
+            <cvd-pixel-icon [name]="volumeIcon()" size="sm"></cvd-pixel-icon>
+            <span>Volume (Pixelated)</span>
+          </label>
+          <div class="volume-slider-container">
+            <input type="range" class="nes-slider-pixelated" min="0" max="100" [value]="soundEffectService.volume() * 100"
+              (input)="onVolumeChange($event)" [style.--progress-percent]="soundEffectService.volume() * 100 + '%'" />
+            <span class="volume-value">{{ Math.round(soundEffectService.volume() * 100) }}%</span>
+          </div>
+        </div> -->
+
+        <!-- Option B: Smooth Style -->
+        <div class="setting-row volume-control">
+          <label class="setting-label">
+            <cvd-pixel-icon [name]="volumeIcon()" size="sm"></cvd-pixel-icon>
+            <span>Click Sound</span>
+          </label>
+          <div class="volume-slider-container">
+            <input type="range" class="nes-slider-smooth" min="0" max="100" [value]="soundEffectService.volume() * 100"
+              (input)="onVolumeChange($event)" [style.--progress-percent]="soundEffectService.volume() * 100 + '%'" />
+            <span class="volume-value">{{ Math.round(soundEffectService.volume() * 100) }}%</span>
+          </div>
+        </div>
+
+        <!-- <p class="setting-description">
+          Adjust the volume for click sound effects
+        </p> -->
+      </div>
+    </section>
+  </div>
+</div>
