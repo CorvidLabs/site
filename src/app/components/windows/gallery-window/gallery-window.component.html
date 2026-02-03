@@ -24,7 +24,7 @@
       <div #scrollableElement class="gallery-grid overflow-y-auto" (scroll)="onNearScrollEnd()">
         @if (isLoading()) {
           @for (i of [1,2,3,4,5,6,7,8,9]; track i) {
-            <div class="gallery-image-container">
+            <div class="gallery-skeleton-container">
               <app-skeleton-card />
             </div>
           }
@@ -35,9 +35,9 @@
             </div>
           }
 
-          @if (isLoadingMore()) {
-            @for (i of [1,2,3,4,5,6]; track i) {
-              <div class="gallery-image-container">
+          @if (!isLastPage()) {
+            @for (i of [1,2,3,4]; track i) {
+              <div class="gallery-skeleton-container">
                 <app-skeleton-card />
               </div>
             }

@@ -7,6 +7,14 @@ import { AssetService } from '../../../services/asset.service';
 import { NftCardComponent } from "../../nft-card/nft-card.component";
 import { SkeletonCardComponent } from "../../skeleton-card/skeleton-card.component";
 import { FloatWindow } from '../float-window/float-window.component';
+import { UtilsService } from '../../../services/general/utils.service';
+
+export interface GalleryStorageObj {
+  scrollPosition: number;
+  corvidNfts: CorvidNft[] | null;
+  isLastPage: boolean;
+  nextToken: string | null;
+}
 
 @Component({
   selector: 'app-gallery-window',
@@ -44,7 +52,7 @@ export class GalleryWindowComponent extends FloatWindow implements OnInit, OnDes
       this.height.set(400);
     }
 
-    this.requestItems();
+    this.initializeGallery();
   }
 
   ngOnInit() {
@@ -72,7 +80,7 @@ export class GalleryWindowComponent extends FloatWindow implements OnInit, OnDes
     }
   }
 
-  requestItems(): void {
+  requestItems(fallback: boolean = false): void {
     if (this.isLastPage() || this.isLoading() && this.corvidNfts().length > 0 || this.isLoadingMore()) return;
 
     const isInitialLoad = this.corvidNfts().length === 0;
@@ -84,14 +92,19 @@ export class GalleryWindowComponent extends FloatWindow implements OnInit, OnDes
       this.isLoadingMore.set(true);
     }
 
-    this.assetService.listCreatedAssets(this.defaultPageSize, this.nextToken).subscribe({
+    this.assetService.listCreatedAssets(this.defaultPageSize, this.nextToken, fallback).subscribe({
       next: (response) => {
+        this.isLastPage.set(response.assets.length < this.defaultPageSize || !response.nextToken);
+        this.nextToken = response.nextToken;
+
         const nfts = this.assetService.listCorvidNftsFromCreatedAssets(response);
         nfts.subscribe({
           next: (nfts) => {
             this.corvidNfts.update(current => [...current, ...nfts]);
             this.isLoading.set(false);
             this.isLoadingMore.set(false);
+
+            this.saveToLocalStorage();
           },
           error: err => {
             console.error('Error fetching NFT metadata:', err);
@@ -102,9 +115,6 @@ export class GalleryWindowComponent extends FloatWindow implements OnInit, OnDes
             }
           }
         });
-
-        this.isLastPage.set(response.assets.length < this.defaultPageSize || !response.nextToken);
-        this.nextToken = response.nextToken;
       },
       error: err => {
         console.error('Error fetching assets:', err);
@@ -118,10 +128,64 @@ export class GalleryWindowComponent extends FloatWindow implements OnInit, OnDes
     });
   }
 
+  /**
+   * Get cached gallery window data from local storage
+   * @returns True if cache was loaded successfully, false otherwise
+   */
+  loadFromLocalStorage(): boolean {
+    const storedData = UtilsService.recoverObjFromLocalStorage<GalleryStorageObj>('galleryWindowData');
+
+    if (storedData?.corvidNfts && storedData.corvidNfts.length > 0) {
+      this.corvidNfts.set(storedData.corvidNfts);
+      this.isLastPage.set(storedData.isLastPage);
+      this.nextToken = storedData.nextToken;
+      this.isLoading.set(false);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Save gallery window data to local storage
+   */
+  saveToLocalStorage() {
+    const data: GalleryStorageObj = {
+      scrollPosition: 0,
+      corvidNfts: this.corvidNfts(),
+      isLastPage: this.isLastPage(),
+      nextToken: this.nextToken
+    };
+
+    UtilsService.saveObjToLocalStorage('galleryWindowData', data);
+  }
+
   retry(): void {
     this.hasError.set(false);
     this.nextToken = null;
     this.isLastPage.set(false);
+    this.requestItems(true);
+  }
+
+  /**
+   * Initialize gallery - uses cache if available, otherwise fetches from API
+   */
+  initializeGallery(): void {
+    const hasCachedData = this.loadFromLocalStorage();
+
+    if (!hasCachedData) {
+      this.requestItems();
+    }
+  }
+
+  /**
+   * Force refresh - clears cache and fetches fresh data
+   */
+  refreshGallery(): void {
+    UtilsService.clearGalleryCache();
+    this.corvidNfts.set([]);
+    this.nextToken = null;
+    this.isLastPage.set(false);
+    this.hasError.set(false);
     this.requestItems();
   }
 }

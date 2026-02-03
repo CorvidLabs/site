@@ -7,10 +7,11 @@ import { SoundEffectService } from '../../../services/general/sound-effect.servi
 import { PixelIconComponent } from '../../shared/pixel-icon/pixel-icon.component';
 import { ThemeSwitcherComponent } from "../../theme-switcher/theme-switcher.component";
 import { FloatWindow } from '../float-window/float-window.component';
+import { ResizableDirective } from '../../../directives/resizable.directive';
 
 @Component({
   selector: 'app-settings-window',
-  imports: [CommonModule, DraggableDirective, ThemeSwitcherComponent, PixelIconComponent],
+  imports: [CommonModule, ResizableDirective, DraggableDirective, ThemeSwitcherComponent, PixelIconComponent],
   templateUrl: 'settings-window.component.html',
   styleUrls: ['settings-window.component.scss']
 })
@@ -43,9 +44,14 @@ export class SettingsWindowComponent extends FloatWindow implements OnInit {
 
   constructor() {
     super();
-
-    this.width.set(600);
-    this.height.set(400);
+    
+    if (window.innerWidth >= 1920) {
+      this.width.set(600);
+      this.height.set(830);
+    } else {
+      this.width.set(600);
+      this.height.set(400);
+    }
   }
 
   ngOnInit() {

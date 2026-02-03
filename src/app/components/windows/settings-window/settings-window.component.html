@@ -1,4 +1,4 @@
-<div appDraggable appResizable (windowResize)="onResize($event)" #elementWithDrag [style.width.px]="width()" [style.height.px]="height()" class="float-window">
+<div appDraggable appResizable (windowResize)="onResize($event)" #elementWithDrag [style.width.px]="width()" [style.height.px]="height()" [minimalWidth]="600" [minimalHeight]="400" class="float-window">
 
   <!-- Header acts as the drag handle -->
   <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging" (mousedown)="isDragging = true" (mouseup)="isDragging = false">
