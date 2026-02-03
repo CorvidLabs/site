@@ -58,6 +58,8 @@ export class SettingsWindowComponent extends FloatWindow implements OnInit {
   }
 
   onChangeProfilePicture() {
+    if (!this.isAuthenticated()) return;
+    
     // Placeholder for future profile picture gallery/upload
     console.log('Profile picture change requested');
   }

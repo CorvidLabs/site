@@ -17,16 +17,20 @@
 
       <div class="user-account-content">
         <!-- Clickable Avatar -->
-        <div class="user-avatar-wrapper" (click)="onChangeProfilePicture()">
-          @if(isAuthenticated() && userImage()) {
-            <img [src]="userImage()" alt="User Profile" class="user-avatar-image" />
-          } @else {
+        <div class="user-avatar-wrapper" [ngClass]="{'authenticated': isAuthenticated()}" (click)="onChangeProfilePicture()">
+          @if(!isAuthenticated()) {
             <cvd-pixel-icon name="user" size="lg" class="user-avatar-icon"></cvd-pixel-icon>
+          } @else {
+            @if(!userImage()) {
+              <cvd-pixel-icon name="user" size="lg" class="user-avatar-icon"></cvd-pixel-icon>
+            } @else {
+              <img [src]="userImage()" alt="User Profile" class="user-avatar-image" />
+            }
+            
+            <div class="avatar-overlay">
+              <cvd-pixel-icon name="edit" size="sm"></cvd-pixel-icon>
+            </div>
           }
-          
-          <div class="avatar-overlay">
-            <cvd-pixel-icon name="edit" size="sm"></cvd-pixel-icon>
-          </div>
         </div>
 
         <!-- User Status & Info -->

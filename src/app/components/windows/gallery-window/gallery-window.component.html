@@ -11,12 +11,39 @@
 
   <!-- Window Content -->
   <div class="float-window-content gallery-padding-fix overflow-hidden">
-    <div #scrollableElement class="gallery-grid overflow-y-auto" (scroll)="onNearScrollEnd()">
-      @for (asset of corvidNfts; track $index) {
-        <div class="gallery-image-container">
-          <app-nft-card [imageUrl]="asset.imageIpfsUrl?? ''" [title]="asset.name"></app-nft-card>
+    @if (hasError()) {
+      <div class="gallery-error">
+        <div class="gallery-error-content">
+          <span class="gallery-error-icon">!</span>
+          <p class="gallery-error-message">Failed to load gallery</p>
+          <p class="gallery-error-description">Could not fetch images from IPFS</p>
+          <button class="gallery-error-retry" (click)="retry()">Retry</button>
         </div>
-      }
-    </div>
+      </div>
+    } @else {
+      <div #scrollableElement class="gallery-grid overflow-y-auto" (scroll)="onNearScrollEnd()">
+        @if (isLoading()) {
+          @for (i of [1,2,3,4,5,6,7,8,9]; track i) {
+            <div class="gallery-image-container">
+              <app-skeleton-card />
+            </div>
+          }
+        } @else {
+          @for (asset of corvidNfts(); track asset.name) {
+            <div class="gallery-image-container">
+              <app-nft-card [imageUrl]="asset.imageIpfsUrl ?? ''" [title]="asset.name" />
+            </div>
+          }
+
+          @if (isLoadingMore()) {
+            @for (i of [1,2,3,4,5,6]; track i) {
+              <div class="gallery-image-container">
+                <app-skeleton-card />
+              </div>
+            }
+          }
+        }
+      </div>
+    }
   </div>
 </div>

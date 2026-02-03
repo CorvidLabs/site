@@ -50,7 +50,7 @@
   cursor: pointer;
   transition: transform 0.2s ease;
 
-  &:hover {
+  &:hover.authenticated {
     transform: scale(1.05);
 
     .avatar-overlay {
