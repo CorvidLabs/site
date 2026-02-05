@@ -5,8 +5,8 @@
     <h2>{{ title() }}</h2>
     <div class="header-actions">
       <!-- Preview Toggle -->
-      <button mat-icon-button (click)="togglePreview()" [matTooltip]="isPreviewMode() ? 'Edit Mode' : 'Preview Mode'">
-        <mat-icon>{{ isPreviewMode() ? 'edit' : 'visibility' }}</mat-icon>
+      <button class="nes-btn edit-preview-button" (click)="togglePreview()" [matTooltip]="isPreviewMode() ? 'Edit Mode' : 'Preview Mode'">
+        <cvd-pixel-icon size="sm" [name]="isPreviewMode() ? 'edit' : 'visibility'"></cvd-pixel-icon>
       </button>
       <!-- Close button -->
       <button (click)="close()" class="drag-handle-close">
