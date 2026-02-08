@@ -142,7 +142,7 @@ html, body {
 // ============================================
 .nes-btn {
   position: relative;
-  display: inline-block;
+  // display: inline-block;
   padding: 0.5rem 1rem;
   margin: 0.5rem;
   font-family: var(--nes-font);
@@ -151,7 +151,7 @@ html, body {
   background-color: var(--theme-secondary-bg);
   border: var(--nes-pixel-size) solid var(--theme-border-color);
   cursor: pointer;
-  text-align: center;
+  // text-align: center;
   text-decoration: none;
   transition: none;
   user-select: none;

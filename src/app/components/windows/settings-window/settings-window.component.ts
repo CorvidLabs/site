@@ -7,10 +7,12 @@ import { SoundEffectService } from '../../../services/general/sound-effect.servi
 import { PixelIconComponent } from '../../shared/pixel-icon/pixel-icon.component';
 import { ThemeSwitcherComponent } from "../../theme-switcher/theme-switcher.component";
 import { FloatWindow } from '../float-window/float-window.component';
+import { ResizableDirective } from '../../../directives/resizable.directive';
+import { CvdSliderComponent } from "../../slider/slider.component";
 
 @Component({
   selector: 'app-settings-window',
-  imports: [CommonModule, DraggableDirective, ThemeSwitcherComponent, PixelIconComponent],
+  imports: [CommonModule, ResizableDirective, DraggableDirective, ThemeSwitcherComponent, PixelIconComponent, CvdSliderComponent],
   templateUrl: 'settings-window.component.html',
   styleUrls: ['settings-window.component.scss']
 })
@@ -30,9 +32,9 @@ export class SettingsWindowComponent extends FloatWindow implements OnInit {
   volumeIcon = computed(() => {
     const vol = this.soundEffectService.volume();
     if (vol === 0) return 'volume-x';
-    if (vol < 0.33) return 'volume-1';
-    if (vol < 0.66) return 'volume-2';
-    return 'volume';
+    if (vol < 0.33) return 'volume';
+    if (vol < 0.66) return 'volume-1';
+    return 'volume-2';
   });
 
   // Math reference for template
@@ -43,9 +45,14 @@ export class SettingsWindowComponent extends FloatWindow implements OnInit {
 
   constructor() {
     super();
-
-    this.width.set(600);
-    this.height.set(400);
+    
+    if (window.innerWidth >= 1920) {
+      this.width.set(600);
+      this.height.set(830);
+    } else {
+      this.width.set(600);
+      this.height.set(400);
+    }
   }
 
   ngOnInit() {
@@ -58,6 +65,8 @@ export class SettingsWindowComponent extends FloatWindow implements OnInit {
   }
 
   onChangeProfilePicture() {
+    if (!this.isAuthenticated()) return;
+    
     // Placeholder for future profile picture gallery/upload
     console.log('Profile picture change requested');
   }
@@ -75,9 +84,10 @@ export class SettingsWindowComponent extends FloatWindow implements OnInit {
     });
   }
 
-  onVolumeChange(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const volume = Number(input.value) / 100; // Convert 0-100 to 0-1
+  onVolumeChange(volume: number) {
+    // Normalize volume to 0-1 range cause of the audio player html component
+    volume /= 100;
+    
     this.soundEffectService.setVolume(volume);
   }
 }

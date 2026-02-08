@@ -28,16 +28,26 @@ export class AssetService {
   private algod_url: string = "https://mainnet-api.4160.nodely.dev";
   private corvid_wallet = environment.corvid_wallet;
 
+  private ipfsFallbacks = ["https://ipfs.io/ipfs/", "https://ipfs.filebase.io/ipfs/", "https://dweb.link/ipfs/"];
+  private currentIpfsFallbackIndex = 0;
+
   private httpClient: HttpClient = inject(HttpClient);
   private themeService: ThemeService = inject(ThemeService);
   private soundService: SoundEffectService = inject(SoundEffectService);
 
   constructor() {}
 
-  listCreatedAssets(pageSize: number, nextToken: string | null): Observable<CreatedAssetsResponse>  {
+  listCreatedAssets(pageSize: number, nextToken: string | null, fallback: boolean = false): Observable<CreatedAssetsResponse>  {
     let params: HttpParams = new HttpParams();
     params = params.append('limit', pageSize);
-    
+
+    let gateway = this.ipfsGateway;
+
+    if (fallback) {
+      gateway = this.ipfsFallbacks[this.currentIpfsFallbackIndex];
+      this.currentIpfsFallbackIndex = (this.currentIpfsFallbackIndex + 1) % this.ipfsFallbacks.length;
+    }
+
     if (nextToken) {
       params = params.append('next', nextToken);
     }
@@ -49,7 +59,7 @@ export class AssetService {
           nextToken: rawResponse['next-token'] ?? null,
           assets: rawResponse.assets.map((asset: any) => {
             let cid = this.extractCidFromReserveAddress(asset.params.reserve);
-            const metadataIpfs = `${this.ipfsGateway}${cid}`;
+            const metadataIpfs = `${gateway}${cid}`;
 
             return {
               createdAtRound: asset['created-at-round'],

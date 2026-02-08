@@ -89,10 +89,10 @@
 .game-over-message,
 .paused-message {
   text-align: center;
-  color: white;
+  color: var(--theme-primary-text, #000000);
   padding: 2rem;
   background-color: var(--theme-secondary-bg, #1f2937);
-  border-radius: 0.5rem;
+  // border-radius: 0.5rem;
   border: 2px solid var(--theme-primary-accent, var(--mat-sys-primary));
 
   h2 {
@@ -114,19 +114,49 @@
 }
 
 .game-instructions {
-  text-align: center;
-  padding: 0.5rem;
-  background-color: var(--theme-primary-bg, #111827);
-  border-radius: 0.25rem;
-  border: 1px solid var(--theme-border-color, #e0e0e0);
+  .faq-item {
+    background-color: var(--theme-primary-bg, #111827);
+    border-radius: 0.25rem;
+    border: 1px solid var(--theme-border-color, #e0e0e0);
 
-  p {
-    margin: 0;
-    font-size: 0.875rem;
-    color: var(--theme-text-color, #000000);
+    &.open {
+      .faq-answer {
+        max-height: 200px;
+        padding: 0.5rem 1rem 0.75rem;
+        background-color: color-mix(in srgb, var(--theme-secondary-bg, var(--mat-sys-surface-container)) 85%, var(--theme-primary-accent));
+      }
 
-    &:first-child {
-      margin-bottom: 0.25rem;
+      .faq-arrow {
+        transform: rotate(180deg);
+      }
     }
+  }
+
+  .faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    color: var(--theme-primary-text, #000000);
+    font-size: 0.875rem;
+  }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    padding: 0 1rem;
+
+    p {
+      margin: 0.15rem 0;
+      font-size: 0.8rem;
+      color: var(--theme-primary-text, #000000);
+    }
+  }
+
+  .faq-arrow {
+    transition: transform 0.3s ease-out;
   }
 }

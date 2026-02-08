@@ -1,9 +1,11 @@
-import { Component, OnInit, OnDestroy, signal, HostListener, input } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, HostListener, input, ElementRef, viewChild } from '@angular/core';
 import { FloatWindow } from '../float-window/float-window.component';
 import { DraggableDirective } from '../../../directives/draggable.directive';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { ResizableDirective } from '../../../directives/resizable.directive';
+import { PixelIconComponent } from "../../shared/pixel-icon/pixel-icon.component";
 
 interface Position {
   x: number;
@@ -32,7 +34,7 @@ const COLORS = {
 
 @Component({
   selector: 'app-tetris-window',
-  imports: [CommonModule, DraggableDirective, MatIconModule, MatButtonModule],
+  imports: [CommonModule, DraggableDirective, ResizableDirective, MatIconModule, MatButtonModule, PixelIconComponent],
   templateUrl: 'tetris-window.component.html',
   styleUrls: ['tetris-window.component.scss']
 })
@@ -41,6 +43,8 @@ export class TetrisWindowComponent extends FloatWindow implements OnInit, OnDest
   private readonly BOARD_WIDTH = 10;
   private readonly BOARD_HEIGHT = 20;
   private readonly CELL_SIZE = 25;
+
+  controlsItem = viewChild<ElementRef<HTMLDivElement>>('controlsItem');
 
   board: (string | null)[][] = [];
   currentPiece: { shape: number[][], color: string, type: string } | null = null;
@@ -54,8 +58,8 @@ export class TetrisWindowComponent extends FloatWindow implements OnInit, OnDest
 
   constructor() {
     super();
-    this.width.set(380);
-    this.height.set(750);
+    this.width.set(400);
+    this.height.set(850);
     this.initBoard();
   }
 
@@ -71,7 +75,14 @@ export class TetrisWindowComponent extends FloatWindow implements OnInit, OnDest
 
   @HostListener('window:keydown', ['$event'])
   handleKeyPress(event: KeyboardEvent) {
-    if (this.isGameOver() || this.isPaused()) return;
+    if (this.isGameOver()) return;
+
+    if (event.key === 'p' || event.key === 'P') {
+      event.preventDefault();
+      this.togglePause();
+    }
+
+    if (this.isPaused()) return;
 
     switch (event.key) {
       case 'ArrowLeft':
@@ -90,11 +101,6 @@ export class TetrisWindowComponent extends FloatWindow implements OnInit, OnDest
       case ' ':
         event.preventDefault();
         this.rotatePiece();
-        break;
-      case 'p':
-      case 'P':
-        event.preventDefault();
-        this.togglePause();
         break;
     }
   }
@@ -294,5 +300,11 @@ export class TetrisWindowComponent extends FloatWindow implements OnInit, OnDest
 
   togglePause() {
     this.isPaused.set(!this.isPaused());
+  }
+
+  toggleControls() {
+    const el = this.controlsItem()?.nativeElement;
+    if (!el) return;
+    el.classList.toggle('open');
   }
 }

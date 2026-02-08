@@ -7,15 +7,16 @@ import { FloatWindow } from '../float-window/float-window.component';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../../services/general/user.service';
 import { environment } from '../../../../environments/environment.local';
+import { CvdSliderComponent } from "../../slider/slider.component";
 
 @Component({
   selector: 'app-style-guide-window',
-  imports: [CommonModule, DraggableDirective, PixelIconComponent, CvdCheckboxComponent, FormsModule],
+  imports: [CommonModule, DraggableDirective, PixelIconComponent, CvdCheckboxComponent, FormsModule, CvdSliderComponent],
   templateUrl: 'style-guide-window.component.html',
   styleUrls: ['style-guide-window.component.scss']
 })
 export class StyleGuideWindowComponent extends FloatWindow {
-  override title = input<string>('Style Guide');
+  override title = input<string>('(DEV ONLY) Style Guide');
 
   myValue = signal<boolean>(false);
   iconSearch = signal('');

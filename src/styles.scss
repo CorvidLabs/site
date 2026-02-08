@@ -162,15 +162,26 @@ body {
   height: 1.5rem;
   display: flex;
   align-items: center;
+  vertical-align: middle;
   justify-content: center;
   cursor: pointer;
   background: var(--theme-error, var(--mat-sys-error));
   border: 2px solid var(--theme-border-color, var(--mat-sys-outline-variant));
-  font-family: 'Press Start 2P', cursive;
+  font-family: 'Press Start 2P' !important;
+  padding-top: 1px;
+  padding-left: 1px;
 
   &:hover {
     filter: brightness(1.2);
   }
+}
+
+.cvd-slider {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  width: 100%;
+  min-width: auto;
 }
 
 // ============================================
@@ -188,6 +199,14 @@ body {
   color: var(--theme-primary-text, var(--mat-sys-on-surface));
   background-color: var(--theme-secondary-bg, var(--mat-sys-surface-container));
   border-color: var(--theme-border-color, var(--mat-sys-outline-variant));
+
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+
+  > cvd-pixel-icon {
+    padding-right: 0.25rem;
+  }
 }
 
 .nes-btn.is-primary {

@@ -4,6 +4,24 @@
   gap: 0.5rem;
 }
 
+.edit-preview-button {
+  color: var(--theme-primary-text, var(--mat-sys-on-surface));
+  font-weight: bold;
+  font-size: 1rem;
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 2px solid var(--theme-border-color, var(--mat-sys-outline-variant));
+  font-family: 'Press Start 2P', cursive;
+
+  &:hover {
+    filter: brightness(1.2);
+  }
+}
+
 .notepad-content {
   flex: 1;
   display: flex;
@@ -18,8 +36,8 @@
   padding: 0.75rem;
   border: 1px solid var(--theme-border-color, #e0e0e0);
   border-radius: 0.25rem;
-  background-color: var(--theme-bg, #ffffff);
-  color: var(--theme-text-color, #000000);
+  background-color: var(--theme-secondary-bg, #ffffff);
+  color: var(--theme-primary-text, #000000);
   font-family: 'Courier New', Courier, monospace;
   font-size: 14px;
   line-height: 1.6;
@@ -27,11 +45,11 @@
   outline: none;
 
   &:focus {
-    border-color: var(--theme-primary-color, #007bff);
+    border-color: var(--theme-border-color, #007bff);
   }
 
   &::placeholder {
-    color: var(--theme-placeholder-color, #999999);
+    color: var(--theme-secondary-text, #999999);
   }
 }
 
@@ -41,15 +59,15 @@
   padding: 0.75rem;
   border: 1px solid var(--theme-border-color, #e0e0e0);
   border-radius: 0.25rem;
-  background-color: var(--theme-bg, #ffffff);
-  color: var(--theme-text-color, #000000);
+  background-color: var(--theme-secondary-bg, #ffffff);
+  // color: var(--theme-primary-text, #000000);
   overflow-y: auto;
   font-size: 14px;
   line-height: 1.6;
 
   // Markdown element styles following theme
   h1, h2, h3, h4, h5, h6 {
-    color: var(--theme-primary-accent, var(--mat-sys-primary));
+    color: var(--theme-primary-accent, var(--mat-sys-primary)) !important;
     margin-top: 1em;
     margin-bottom: 0.5em;
     font-weight: 600;
@@ -82,11 +100,11 @@
 
   em {
     font-style: italic;
-    color: var(--theme-text-color, #000000);
+    color: var(--theme-primary-text, #000000);
   }
 
   code {
-    background-color: var(--theme-code-bg, rgba(0, 0, 0, 0.05));
+    background-color: var(--theme-secondary-bg, rgba(0, 0, 0, 0.05));
     padding: 0.2em 0.4em;
     border-radius: 3px;
     font-family: 'Courier New', Courier, monospace;
@@ -95,7 +113,7 @@
   }
 
   pre {
-    background-color: var(--theme-code-bg, rgba(0, 0, 0, 0.05));
+    background-color: var(--theme-secondary-bg, rgba(0, 0, 0, 0.05));
     padding: 1em;
     border-radius: 0.25rem;
     overflow-x: auto;
@@ -104,7 +122,7 @@
     code {
       background-color: transparent;
       padding: 0;
-      color: var(--theme-text-color, #000000);
+      color: var(--theme-primary-text, #000000);
     }
   }
 
