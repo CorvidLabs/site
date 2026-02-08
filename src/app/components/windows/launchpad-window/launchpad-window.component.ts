@@ -76,7 +76,7 @@ export class LaunchpadWindowComponent {
     ...(environment.production ? [] : [{
       type: WindowTypes.STYLE_GUIDE,
       icon: 'colors-swatch',
-      label: 'Styles',
+      label: 'Style Guide',
       color: '#FFB6C1'
     }])
   ];
