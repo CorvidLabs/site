@@ -55,7 +55,7 @@ export class UtilsService {
    * @param key The key to save the object under.
    * @param obj The object to save.
    */
-  public static saveObjToLocalStorage(key: string, obj: any): void {
+  public static saveObjToLocalStorage<T>(key: string, obj: T): void {
     localStorage.setItem(key, JSON.stringify(obj));
   }
 

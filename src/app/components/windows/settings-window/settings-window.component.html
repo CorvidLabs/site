@@ -80,7 +80,7 @@
         </div> -->
 
         <div class="setting-row volume-control">
-          <cvd-slider [icon]="volumeIcon()" iconSize="sm" label="Click Sound" (valueChange)="onVolumeChange($event)"></cvd-slider>
+          <cvd-slider [icon]="volumeIcon()" iconSize="sm" label="Click Sound" [value]="soundEffectService.volume() * 100" (valueChange)="onVolumeChange($event)"></cvd-slider>
         </div>
         <!-- <p class="setting-description">
           Adjust the volume for click sound effects

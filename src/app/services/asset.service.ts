@@ -30,6 +30,7 @@ export class AssetService {
 
   private ipfsFallbacks = ["https://ipfs.io/ipfs/", "https://ipfs.filebase.io/ipfs/", "https://dweb.link/ipfs/"];
   private currentIpfsFallbackIndex = 0;
+  private activeGateway = this.ipfsGateway;
 
   private httpClient: HttpClient = inject(HttpClient);
   private themeService: ThemeService = inject(ThemeService);
@@ -41,12 +42,13 @@ export class AssetService {
     let params: HttpParams = new HttpParams();
     params = params.append('limit', pageSize);
 
-    let gateway = this.ipfsGateway;
-
     if (fallback) {
-      gateway = this.ipfsFallbacks[this.currentIpfsFallbackIndex];
+      this.activeGateway = this.ipfsFallbacks[this.currentIpfsFallbackIndex];
       this.currentIpfsFallbackIndex = (this.currentIpfsFallbackIndex + 1) % this.ipfsFallbacks.length;
+      console.log("Switched to fallback gateway: " + this.activeGateway);
     }
+
+    const gateway = this.activeGateway;
 
     if (nextToken) {
       params = params.append('next', nextToken);

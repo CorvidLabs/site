@@ -50,13 +50,20 @@
   cursor: pointer;
   transition: transform 0.2s ease;
 
-  &:hover.authenticated {
+  &.authenticated:hover {
     transform: scale(1.05);
 
     .avatar-overlay {
       opacity: 1;
     }
   }
+  // &:hover.authenticated {
+  //   transform: scale(1.05);
+
+  //   .avatar-overlay {
+  //     opacity: 1;
+  //   }
+  // }
 
   &:active {
     transform: scale(0.98);
@@ -207,15 +214,6 @@
     display: inline-flex;
     vertical-align: middle;
     align-items: center;
-
-    // .setting-label {
-    //   display: flex;
-    //   align-items: center;
-    //   gap: 0.5rem;
-    //   font-size: 0.75rem;
-    //   color: var(--theme-primary-text);
-    //   min-width: 140px;
-    // }
   }
 
   .setting-description {

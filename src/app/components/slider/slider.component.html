@@ -8,10 +8,10 @@
   </label>
 
   <div class="slider-slider-container">
-    <input type="range" [class]="barStyle() === 'smooth' ? 'nes-slider-smooth' : 'nes-slider-pixelated'" min="0" max="100" [value]="percentage" (input)="onElementInput($event)" [style.--progress-percent]="percentage + '%'" />
+    <input type="range" [class]="barStyle() === 'smooth' ? 'nes-slider-smooth' : 'nes-slider-pixelated'" min="0" max="100" [value]="percentage()" (input)="onElementInput($event)" [style.--progress-percent]="percentage() + '%'" />
 
     @if(showValueLabel()) {
-      <span class="slider-value">{{ Math.round(percentage) }}%</span>
+      <span class="slider-value">{{ Math.round(percentage()) }}%</span>
     }
   </div>
 </div>

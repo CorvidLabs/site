@@ -1,4 +1,4 @@
-<div class="navbar w-full bg-secondary/80 backdrop-blur-md sticky top-0 z-50 mx-auto mb-4 justify-center items-center px-6 py-4 flex" [ngClass]="pixelBorder()? 'nes-border' : 'border-b-6 border-b-accent'">
+<div class="navbar w-full bg-secondary/80 backdrop-blur-md sticky top-0 z-50 mx-auto mb-4 justify-center items-center px-6 py-4 flex" [ngClass]="pixelBorder()? 'nes-border' : 'border-b-6 border-b-border'">
   <div class="navbar-items hidden md:flex items-center space-x-8">
     @for (item of navbarItems(); track $index) {
       <a [href]="item.link" [className]="item.styling ? item.styling + ' navbar-item font-medium' : 'navbar-item text-primary-text hover:text-accent font-medium'">{{ item.label }}</a>

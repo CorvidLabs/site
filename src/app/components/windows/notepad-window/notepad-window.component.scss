@@ -6,16 +6,19 @@
 
 .edit-preview-button {
   color: var(--theme-primary-text, var(--mat-sys-on-surface));
-  font-weight: bold;
-  font-size: 1rem;
-  width: 1.5rem !important;
-  height: 1.5rem !important;
+  width: 24px !important;
+  height: 24px !important;
+  padding: 0 !important;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   border: 2px solid var(--theme-border-color, var(--mat-sys-outline-variant));
-  font-family: 'Press Start 2P', cursive;
+
+  cvd-pixel-icon {
+    margin-left: 3px;
+  }
 
   &:hover {
     filter: brightness(1.2);

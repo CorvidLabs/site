@@ -1,5 +1,9 @@
 @use '../../../../themes/nes-pixel-mixins' as nes-pixel-mixins;
 
+.main-content {
+  margin-top: -5rem;
+}
+
 .e-ink-card {
   background-color: var(--theme-secondary-bg);
   border: var(--nes-pixel-size) solid var(--theme-border-color);

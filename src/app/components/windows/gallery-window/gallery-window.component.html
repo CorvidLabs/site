@@ -3,10 +3,16 @@
   <!-- Header acts as the drag handle -->
   <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging" (mousedown)="isDragging = true" (mouseup)="isDragging = false">
     <h2>{{ title() }}</h2>
-    <!-- Close button -->
-    <button (click)="close()" class="drag-handle-close">
-      &times;
-    </button>
+    <div class="header-actions">
+      <!-- Retry with fallback IPFS -->
+      <button class="nes-btn gallery-action-button" (click)="retry()" matTooltip="Reload Gallery">
+        <cvd-pixel-icon size="sm" name="refresh"></cvd-pixel-icon>
+      </button>
+      <!-- Close button -->
+      <button (click)="close()" class="drag-handle-close">
+        &times;
+      </button>
+    </div>
   </div>
 
   <!-- Window Content -->

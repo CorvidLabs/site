@@ -1,5 +1,32 @@
 // Component styles - global styles are already applied at app level
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.gallery-action-button {
+  color: var(--theme-primary-text, var(--mat-sys-on-surface));
+  width: 24px !important;
+  height: 24px !important;
+  padding: 0 !important;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 2px solid var(--theme-border-color, var(--mat-sys-outline-variant));
+
+  cvd-pixel-icon {
+    margin-left: 3px;
+  }
+
+  &:hover {
+    filter: brightness(1.2);
+  }
+}
+
 .gallery-padding-fix {
   padding: 0.5rem;
 }

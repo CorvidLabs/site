@@ -8,6 +8,8 @@ import { NftCardComponent } from "../../nft-card/nft-card.component";
 import { SkeletonCardComponent } from "../../skeleton-card/skeleton-card.component";
 import { FloatWindow } from '../float-window/float-window.component';
 import { UtilsService } from '../../../services/general/utils.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { PixelIconComponent } from '../../shared/pixel-icon/pixel-icon.component';
 
 export interface GalleryStorageObj {
   scrollPosition: number;
@@ -18,7 +20,7 @@ export interface GalleryStorageObj {
 
 @Component({
   selector: 'app-gallery-window',
-  imports: [DraggableDirective, ResizableDirective, NftCardComponent, SkeletonCardComponent],
+  imports: [DraggableDirective, ResizableDirective, NftCardComponent, SkeletonCardComponent, MatTooltipModule, PixelIconComponent],
   templateUrl: 'gallery-window.component.html',
   styleUrls: ['gallery-window.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -81,7 +83,7 @@ export class GalleryWindowComponent extends FloatWindow implements OnInit, OnDes
   }
 
   requestItems(fallback: boolean = false): void {
-    if (this.isLastPage() || this.isLoading() && this.corvidNfts().length > 0 || this.isLoadingMore()) return;
+    if (this.isLastPage() || (this.isLoading() || this.isLoadingMore()) && this.corvidNfts().length > 0) return;
 
     const isInitialLoad = this.corvidNfts().length === 0;
 
@@ -159,10 +161,25 @@ export class GalleryWindowComponent extends FloatWindow implements OnInit, OnDes
     UtilsService.saveObjToLocalStorage('galleryWindowData', data);
   }
 
+  /**
+   * Clear local storage
+   */
+  clearLocalStorage() {
+    UtilsService.clearGalleryCache();
+  }
+
   retry(): void {
     this.hasError.set(false);
     this.nextToken = null;
     this.isLastPage.set(false);
+
+    this.clearLocalStorage();
+    this.corvidNfts.set([]);
+
+    if (this.scrollableElement) {
+      this.scrollableElement.nativeElement.scrollTop = 0;
+    }
+
     this.requestItems(true);
   }
 

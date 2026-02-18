@@ -12,9 +12,9 @@
 
   <!-- Window Content -->
   <div class="float-window-content">
-    <cvd-navbar [navbarItems]="navbarItems" />
+    <cvd-navbar [pixelBorder]="false" [navbarItems]="navbarItems" />
 
-    <section id="nevermore-nft" class="nes-container with-title text-center !pb-4">
+    <section id="nevermore-nft" class="nes-container with-title text-center !pb-4 scroll-mt-21">
       <h2 class="title font-bold">Nevermore NFT Collection</h2>
       <h3 class="text-lg mb-2">A Lifetime Membership for the Corvid Labs Ecosystem.</h3>
       <p class="mb-8">
@@ -25,7 +25,7 @@
       <a href="#community-first-approach" class="bg-accent text-primary-bg font-bold py-3 px-8 rounded-lg hover:bg-opacity-90 transition-colors text-lg">Learn About the Mint</a>
     </section>
 
-    <section id="reimagining-subscriptions" class="nes-container with-title is-centered">
+    <section id="reimagining-subscriptions" class="nes-container with-title is-centered scroll-mt-21">
       <h2 class="title">Reimagining App Subscriptions</h2>
       <div class="container mx-auto px-6">
         <div class="text-center mb-12">
@@ -37,23 +37,23 @@
           <div>
             <h3 class="text-2xl font-semibold mb-4 text-accent">The Problem</h3>
             <div class="space-y-4">
-              <div class="p-4 bg-red-900/30 rounded-lg inline-flex items-center align-middle space-x-3">
-                <span class="text-red-400 font-bold text-xl">✗</span>
+              <div class="p-4 bg-red-900/30 rounded-lg inline-flex items-start space-x-3">
+                <span class="text-red-400 font-bold text-xl icon-fix">✗</span>
                 <div>
                   <h4 class="font-semibold ">Fragmented Subscriptions</h4>
                   <p class="text-secondary-text text-sm">Costs add up for users who need multiple specialized apps.</p>
                 </div>
               </div>
-              <div class="p-4 bg-red-900/30 rounded-lg inline-flex items-center align-middle space-x-3">
-                <span class="text-red-400 font-bold text-xl">✗</span>
+              <div class="p-4 bg-red-900/30 rounded-lg inline-flex items-start space-x-3">
+                <span class="text-red-400 font-bold text-xl icon-fix">✗</span>
                 <div>
                   <h4 class="font-semibold ">Limited Value for Early Supporters</h4>
                   <p class="text-secondary-text text-sm">Beta testers and early adopters rarely receive long-term benefits.
                   </p>
                 </div>
               </div>
-              <div class="p-4 bg-red-900/30 rounded-lg inline-flex items-center align-middle space-x-3">
-                <span class="text-red-400 font-bold text-xl">✗</span>
+              <div class="p-4 bg-red-900/30 rounded-lg inline-flex items-start space-x-3">
+                <span class="text-red-400 font-bold text-xl icon-fix">✗</span>
                 <div>
                   <h4 class="font-semibold ">No Community Ownership</h4>
                   <p class="text-secondary-text text-sm">Users have little say in the development process of tools they rely
@@ -65,24 +65,24 @@
           <div>
             <h3 class="text-2xl font-semibold mb-4 text-accent">Our Solution: The Nevermore NFT</h3>
             <div class="space-y-4">
-              <div class="p-4 bg-green-900/30 rounded-lg inline-flex items-center align-middle space-x-3">
-                <span class="text-green-400 font-bold text-xl">✓</span>
+              <div class="p-4 bg-green-900/30 rounded-lg inline-flex items-start space-x-3">
+                <span class="text-green-400 font-bold text-xl icon-fix">✓</span>
                 <div>
                   <h4 class="font-semibold ">Unified Lifetime Access</h4>
                   <p class="text-secondary-text text-sm">One token unlocks premium features across all Corvid Labs apps,
                     forever.</p>
                 </div>
               </div>
-              <div class="p-4 bg-green-900/30 rounded-lg inline-flex items-center align-middle space-x-3">
-                <span class="text-green-400 font-bold text-xl">✓</span>
+              <div class="p-4 bg-green-900/30 rounded-lg inline-flex items-start space-x-3">
+                <span class="text-green-400 font-bold text-xl icon-fix">✓</span>
                 <div>
                   <h4 class="font-semibold ">Meaningful Membership</h4>
                   <p class="text-secondary-text text-sm">Holders gain governance rights and help shape our development
                     roadmap.</p>
                 </div>
               </div>
-              <div class="p-4 bg-green-900/30 rounded-lg inline-flex items-center align-middle space-x-3">
-                <span class="text-green-400 font-bold text-xl">✓</span>
+              <div class="p-4 bg-green-900/30 rounded-lg inline-flex items-start space-x-3">
+                <span class="text-green-400 font-bold text-xl icon-fix">✓</span>
                 <div>
                   <h4 class="font-semibold ">A Tradeable Digital Asset</h4>
                   <p class="text-secondary-text text-sm">Your membership has inherent utility and can be traded on the open
@@ -95,7 +95,7 @@
       </div>
     </section>
 
-    <section id="core-utility-benefits" class="nes-container with-title mx-auto px-6">
+    <section id="core-utility-benefits" class="nes-container with-title mx-auto px-6 scroll-mt-21">
       <h2 class="title">Core Utility & Benefits</h2>
 
       <div class="text-center mb-12">
@@ -123,7 +123,7 @@
       
     </section>
 
-    <section id="community-first-approach" class="nes-container with-title mx-auto px-6">
+    <section id="community-first-approach" class="nes-container with-title mx-auto px-6 scroll-mt-21">
       <h2 class="title">Community-First Approach</h2>
 
       <div class="text-center mb-12">
@@ -131,7 +131,7 @@
         utility over revenue. We're focused on building a foundational community of engaged supporters.</p>
       </div>
 
-      <div class="grid md:grid-cols-2 gap-8 md:gap-12 !items-center nes-border p-1">
+      <div class="grid md:grid-cols-2 gap-8 md:gap-12 !items-center p-1">
         <div class="text-center ml-4">
           <div class="grid grid-cols-2 gap-4 mb-8">
             <div class="stat-card p-4 rounded-lg text-center">
@@ -159,7 +159,7 @@
       </div>
     </section>
 
-    <section id="team" class="nes-container with-title">
+    <section id="team" class="nes-container with-title scroll-mt-21">
       <h2 class="title">The Core Team</h2>
       <div class="@container mx-auto px-6">
         <div class="text-center mb-12">
@@ -196,7 +196,7 @@
       </div>
     </section>
 
-    <section id="faq" class="nes-container with-title mx-auto px-6">
+    <section id="faq" class="nes-container with-title mx-auto px-6 scroll-mt-21">
       <h2 class="title">Frequently Asked Questions</h2>
 
       <div class="text-center mb-12">
@@ -220,7 +220,7 @@
       </div>
     </section>
 
-    <section id="support" class="nes-container with-title">
+    <section id="support" class="nes-container with-title scroll-mt-21">
       <h2 class="title">Support Our Work</h2>
 
       <div class="text-center mb-12">

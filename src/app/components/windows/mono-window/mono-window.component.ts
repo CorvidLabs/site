@@ -1,4 +1,4 @@
-import { Component, input, OnInit, Signal, signal, WritableSignal } from '@angular/core';
+import { Component, input, OnInit, signal, WritableSignal } from '@angular/core';
 import { FloatWindow } from '../float-window/float-window.component';
 import { DraggableDirective } from '../../../directives/draggable.directive';
 import { ResizableDirective } from '../../../directives/resizable.directive';
@@ -106,10 +106,5 @@ export class MonoWindowComponent extends FloatWindow implements OnInit {
   // Handle card click
   handleCardClick(applet: monoAppletData): void {
     this.selectApplet(applet);
-  }
-
-  changeContent(content: 'terms' | 'privacy' | 'overview'): void {
-    this.contentDisplaying.set(content);
-    
   }
 }
