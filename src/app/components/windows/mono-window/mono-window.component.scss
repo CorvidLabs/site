@@ -92,3 +92,30 @@
     grid-template-areas: "cards details";
   }
 }
+
+.extra-content { 
+  display: block;
+  text-align: center;
+  align-items: center;
+  padding: 48px 16px;
+
+  color: var(--theme-secondary-text, #B0B0B0);
+
+  > h2 {
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  > h4 {
+    font-size: 11px;
+    margin: 24px 0 12px;
+  }
+
+  > p, > li {
+    font-size: 10px;
+  }
+
+  > ul {
+    margin-left: 16px;
+  } 
+}

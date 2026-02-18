@@ -50,7 +50,7 @@
   cursor: pointer;
   transition: transform 0.2s ease;
 
-  &:hover {
+  &:hover.authenticated {
     transform: scale(1.05);
 
     .avatar-overlay {
@@ -204,18 +204,18 @@
   gap: 1rem;
 
   .setting-row {
-    display: flex;
-    justify-content: space-between;
+    display: inline-flex;
+    vertical-align: middle;
     align-items: center;
 
-    .setting-label {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.75rem;
-      color: var(--theme-primary-text);
-      min-width: 140px;
-    }
+    // .setting-label {
+    //   display: flex;
+    //   align-items: center;
+    //   gap: 0.5rem;
+    //   font-size: 0.75rem;
+    //   color: var(--theme-primary-text);
+    //   min-width: 140px;
+    // }
   }
 
   .setting-description {
@@ -233,13 +233,13 @@
   gap: 0.5rem;
 }
 
-.volume-slider-container {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  flex: 1;
-  min-width: 200px;
-}
+// .volume-slider-container {
+//   display: flex;
+//   align-items: center;
+//   gap: 0.75rem;
+//   flex: 1;
+//   min-width: 200px;
+// }
 
 .volume-value {
   font-size: 0.625rem;
@@ -247,191 +247,4 @@
   color: var(--theme-primary-text);
   min-width: 40px;
   text-align: right;
-}
-
-// ============================================
-// Option A: Pixelated NES Slider
-// ============================================
-.nes-slider-pixelated {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 1.5rem;
-  background: transparent;
-  cursor: pointer;
-
-  // Track styling - Webkit
-  &::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 1.25rem;
-    background: linear-gradient(
-      to right,
-      var(--theme-primary-accent) 0%,
-      var(--theme-primary-accent) var(--progress-percent, 0%),
-      var(--theme-section-bg) var(--progress-percent, 0%),
-      var(--theme-section-bg) 100%
-    );
-    border: 3px solid var(--theme-border-color);
-    box-shadow:
-      // Outer pixel border effect
-      3px 0 0 0 var(--theme-border-color),
-      -3px 0 0 0 var(--theme-border-color),
-      0 3px 0 0 var(--theme-border-color),
-      0 -3px 0 0 var(--theme-border-color);
-  }
-
-  // Thumb styling - Webkit
-  &::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 1rem;
-    height: 1.5rem;
-    background: var(--theme-primary-text);
-    border: 3px solid var(--theme-border-color);
-    cursor: grab;
-    margin-top: -3px;
-    box-shadow:
-      inset -3px -3px 0 0 var(--theme-secondary-text),
-      inset 3px 3px 0 0 #fff;
-
-    &:active {
-      cursor: grabbing;
-      box-shadow:
-        inset 3px 3px 0 0 var(--theme-secondary-text),
-        inset -3px -3px 0 0 #fff;
-    }
-  }
-
-  // Track styling - Firefox
-  &::-moz-range-track {
-    width: 100%;
-    height: 1.25rem;
-    background: var(--theme-section-bg);
-    border: 3px solid var(--theme-border-color);
-  }
-
-  &::-moz-range-progress {
-    background: var(--theme-primary-accent);
-    height: 1.25rem;
-    border: 3px solid var(--theme-border-color);
-    border-right: none;
-  }
-
-  // Thumb styling - Firefox
-  &::-moz-range-thumb {
-    width: 1rem;
-    height: 1.5rem;
-    background: var(--theme-primary-text);
-    border: 3px solid var(--theme-border-color);
-    border-radius: 0;
-    cursor: grab;
-    box-shadow:
-      inset -3px -3px 0 0 var(--theme-secondary-text),
-      inset 3px 3px 0 0 #fff;
-
-    &:active {
-      cursor: grabbing;
-    }
-  }
-
-  &:focus {
-    outline: none;
-  }
-
-  &:focus-visible {
-    outline: 2px dashed var(--theme-primary-accent);
-    outline-offset: 4px;
-  }
-}
-
-// ============================================
-// Option B: Smooth Modern-Retro Slider
-// ============================================
-.nes-slider-smooth {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 1.5rem;
-  background: transparent;
-  cursor: pointer;
-
-  // Track styling - Webkit
-  &::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 0.5rem;
-    background: linear-gradient(
-      to right,
-      var(--theme-primary-accent) 0%,
-      var(--theme-primary-accent) var(--progress-percent, 0%),
-      var(--theme-section-bg) var(--progress-percent, 0%),
-      var(--theme-section-bg) 100%
-    );
-    border-radius: 0.25rem;
-    border: 2px solid var(--theme-border-color);
-  }
-
-  // Thumb styling - Webkit (Square pixel thumb)
-  &::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 1rem;
-    height: 1rem;
-    background: var(--theme-primary-text);
-    border: 3px solid var(--theme-border-color);
-    cursor: grab;
-    margin-top: -0.35rem;
-    box-shadow:
-      inset -2px -2px 0 0 var(--theme-secondary-text),
-      inset 2px 2px 0 0 #fff;
-
-    &:active {
-      cursor: grabbing;
-      box-shadow:
-        inset 2px 2px 0 0 var(--theme-secondary-text),
-        inset -2px -2px 0 0 #fff;
-    }
-  }
-
-  // Track styling - Firefox
-  &::-moz-range-track {
-    width: 100%;
-    height: 0.5rem;
-    background: var(--theme-section-bg);
-    border-radius: 0.25rem;
-    border: 2px solid var(--theme-border-color);
-  }
-
-  &::-moz-range-progress {
-    background: var(--theme-primary-accent);
-    height: 0.5rem;
-    border-radius: 0.25rem 0 0 0.25rem;
-    border: 2px solid var(--theme-border-color);
-    border-right: none;
-  }
-
-  // Thumb styling - Firefox (Square pixel thumb)
-  &::-moz-range-thumb {
-    width: 1rem;
-    height: 1rem;
-    background: var(--theme-primary-text);
-    border: 3px solid var(--theme-border-color);
-    border-radius: 0;
-    cursor: grab;
-    box-shadow:
-      inset -2px -2px 0 0 var(--theme-secondary-text),
-      inset 2px 2px 0 0 #fff;
-
-    &:active {
-      cursor: grabbing;
-    }
-  }
-
-  &:focus {
-    outline: none;
-  }
-
-  &:focus-visible {
-    outline: 2px dashed var(--theme-primary-accent);
-    outline-offset: 4px;
-  }
 }

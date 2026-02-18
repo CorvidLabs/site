@@ -1,4 +1,4 @@
-import { Component, input, OnInit, signal } from '@angular/core';
+import { Component, input, OnInit, Signal, signal, WritableSignal } from '@angular/core';
 import { FloatWindow } from '../float-window/float-window.component';
 import { DraggableDirective } from '../../../directives/draggable.directive';
 import { ResizableDirective } from '../../../directives/resizable.directive';
@@ -25,6 +25,8 @@ export class MonoWindowComponent extends FloatWindow implements OnInit {
   // Track selected applet for details view (desktop)
   selectedApplet = signal<monoAppletData | null>(null);
 
+  contentDisplaying: WritableSignal<'overview' | 'terms' | 'privacy'> = signal<'overview' | 'terms' | 'privacy'>('overview');
+
   navbarItems: NavbarItem[] = [
     {
       label: 'Overview',
@@ -41,7 +43,6 @@ export class MonoWindowComponent extends FloatWindow implements OnInit {
     {
       label: 'Contact',
       link: '#contact',
-      styling: 'text-accent'
     }
   ];
 
@@ -105,5 +106,10 @@ export class MonoWindowComponent extends FloatWindow implements OnInit {
   // Handle card click
   handleCardClick(applet: monoAppletData): void {
     this.selectApplet(applet);
+  }
+
+  changeContent(content: 'terms' | 'privacy' | 'overview'): void {
+    this.contentDisplaying.set(content);
+    
   }
 }

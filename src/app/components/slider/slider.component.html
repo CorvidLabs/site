@@ -1,0 +1,17 @@
+<div [class]="'slider-default ' + style()">
+  @if (icon()) {
+    <cvd-pixel-icon class="mr-2" [name]="icon() ?? ''" [size]="iconSize()"></cvd-pixel-icon>
+  }
+
+  <label class="slider-label">
+    <span>{{label()}}</span>
+  </label>
+
+  <div class="slider-slider-container">
+    <input type="range" [class]="barStyle() === 'smooth' ? 'nes-slider-smooth' : 'nes-slider-pixelated'" min="0" max="100" [value]="percentage" (input)="onElementInput($event)" [style.--progress-percent]="percentage + '%'" />
+
+    @if(showValueLabel()) {
+      <span class="slider-value">{{ Math.round(percentage) }}%</span>
+    }
+  </div>
+</div>

@@ -127,10 +127,10 @@
     <div class="nes-container with-title">
       <p class="title">Progress Bars</p>
       <div>
-        <progress class="nes-progress" [value]="progressValue" max="100">{{progressValue}}</progress>
+        <cvd-slider label="Adjust Progress" [(value)]="progressValue" ></cvd-slider>
       </div>
-      <div style="margin-bottom: 0.5rem;">
-        <input type="range" class="nes-range" min="0" max="100" [(ngModel)]="progressValue" />
+      <div>
+        <progress class="nes-progress" [value]="progressValue" max="100">{{progressValue}}</progress>
       </div>
 
       <div style="margin-bottom: 0.5rem;">

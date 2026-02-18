@@ -1,4 +1,4 @@
-<div appDraggable appResizable #elementWithDrag [style.width.px]="width()" [style.height.px]="height()" (windowResize)="onResize($event)" class="float-window">
+<div appDraggable appResizable #elementWithDrag [style.width.px]="width()" [style.height.px]="height()" [minimalWidth]="400" [minimalHeight]="850" (windowResize)="onResize($event)" class="float-window">
 
   <!-- Header acts as the drag handle -->
   <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging" (mousedown)="isDragging = true" (mouseup)="isDragging = false">
@@ -45,8 +45,9 @@
           <div class="game-over-message">
             <h2>Game Over!</h2>
             <p>Final Score: {{ score() }}</p>
-            <button mat-raised-button color="primary" (click)="restartGame()">
-              <mat-icon>refresh</mat-icon> Play Again
+            <button class="nes-btn is-primary" (click)="restartGame()">
+              <cvd-pixel-icon [name]="'refresh'"></cvd-pixel-icon>
+              Play Again
             </button>
           </div>
         </div>
@@ -63,19 +64,30 @@
     </div>
 
     <div class="game-controls">
-      <button mat-button (click)="togglePause()" [disabled]="isGameOver()">
-        <mat-icon>{{ isPaused() ? 'play_arrow' : 'pause' }}</mat-icon>
-        {{ isPaused() ? 'Resume' : 'Pause' }}
+      <button class="nes-btn" (click)="togglePause()" [disabled]="isGameOver()">
+        <cvd-pixel-icon [name]=" isPaused() ? 'play' : 'pause' "></cvd-pixel-icon>
+        {{  isPaused() ? 'Resume' : 'Pause' }}
       </button>
-      <button mat-button (click)="restartGame()">
-        <mat-icon>refresh</mat-icon>
+
+      <button class="nes-btn" (click)="restartGame()">
+        <cvd-pixel-icon [name]="'refresh'"></cvd-pixel-icon>
         Restart
       </button>
     </div>
 
     <div class="game-instructions">
-      <p><strong>Controls:</strong></p>
-      <p>← → Move | ↑/Space Rotate | ↓ Drop | P Pause</p>
+      <div #controlsItem class="faq-item" (click)="toggleControls(); togglePause()">
+        <div class="faq-question">
+          <strong>Controls</strong>
+          <span class="faq-arrow">&darr;</span>
+        </div>
+        <div class="faq-answer">
+          <p>← → Move</p>
+          <p>↑ / Space — Rotate</p>
+          <p>↓ — Drop</p>
+          <p>P — Pause</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>

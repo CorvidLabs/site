@@ -1,4 +1,4 @@
-<div appDraggable appResizable (windowResize)="onResize($event)" #elementWithDrag [style.width.px]="width()" [style.height.px]="height()" class="float-window">
+<div appDraggable appResizable (windowResize)="onResize($event)" #elementWithDrag [style.width.px]="width()" [style.height.px]="height()" [minimalWidth]="600" [minimalHeight]="400" class="float-window">
 
   <!-- Header acts as the drag handle -->
   <div class="drag-handle" [class.cursor-grab]="!isDragging" [class.cursor-grabbing]="isDragging" (mousedown)="isDragging = true" (mouseup)="isDragging = false">
@@ -17,16 +17,20 @@
 
       <div class="user-account-content">
         <!-- Clickable Avatar -->
-        <div class="user-avatar-wrapper" (click)="onChangeProfilePicture()">
-          @if(isAuthenticated() && userImage()) {
-            <img [src]="userImage()" alt="User Profile" class="user-avatar-image" />
-          } @else {
+        <div class="user-avatar-wrapper" [ngClass]="{'authenticated': isAuthenticated()}" (click)="onChangeProfilePicture()">
+          @if(!isAuthenticated()) {
             <cvd-pixel-icon name="user" size="lg" class="user-avatar-icon"></cvd-pixel-icon>
+          } @else {
+            @if(!userImage()) {
+              <cvd-pixel-icon name="user" size="lg" class="user-avatar-icon"></cvd-pixel-icon>
+            } @else {
+              <img [src]="userImage()" alt="User Profile" class="user-avatar-image" />
+            }
+            
+            <div class="avatar-overlay">
+              <cvd-pixel-icon name="edit" size="sm"></cvd-pixel-icon>
+            </div>
           }
-          
-          <div class="avatar-overlay">
-            <cvd-pixel-icon name="edit" size="sm"></cvd-pixel-icon>
-          </div>
         </div>
 
         <!-- User Status & Info -->
@@ -72,30 +76,12 @@
       <div class="sound-settings-content">
         <!-- Option A: Pixelated Style -->
         <!-- <div class="setting-row volume-control">
-          <label class="setting-label">
-            <cvd-pixel-icon [name]="volumeIcon()" size="sm"></cvd-pixel-icon>
-            <span>Volume (Pixelated)</span>
-          </label>
-          <div class="volume-slider-container">
-            <input type="range" class="nes-slider-pixelated" min="0" max="100" [value]="soundEffectService.volume() * 100"
-              (input)="onVolumeChange($event)" [style.--progress-percent]="soundEffectService.volume() * 100 + '%'" />
-            <span class="volume-value">{{ Math.round(soundEffectService.volume() * 100) }}%</span>
-          </div>
+          <cvd-slider [icon]="volumeIcon()" iconSize="sm" label="Click Sound" barStyle="pixelated" (valueChange)="onVolumeChange($event)"></cvd-slider>
         </div> -->
 
-        <!-- Option B: Smooth Style -->
         <div class="setting-row volume-control">
-          <label class="setting-label">
-            <cvd-pixel-icon [name]="volumeIcon()" size="sm"></cvd-pixel-icon>
-            <span>Click Sound</span>
-          </label>
-          <div class="volume-slider-container">
-            <input type="range" class="nes-slider-smooth" min="0" max="100" [value]="soundEffectService.volume() * 100"
-              (input)="onVolumeChange($event)" [style.--progress-percent]="soundEffectService.volume() * 100 + '%'" />
-            <span class="volume-value">{{ Math.round(soundEffectService.volume() * 100) }}%</span>
-          </div>
+          <cvd-slider [icon]="volumeIcon()" iconSize="sm" label="Click Sound" (valueChange)="onVolumeChange($event)"></cvd-slider>
         </div>
-
         <!-- <p class="setting-description">
           Adjust the volume for click sound effects
         </p> -->

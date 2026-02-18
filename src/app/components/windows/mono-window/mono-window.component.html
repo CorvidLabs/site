@@ -11,119 +11,157 @@
 
   <!-- Window Content -->
   <div class="float-window-content">
-    <cvd-navbar [navbarItems]="navbarItems" />
-
-    <section id="overview" class="bg-secondary py-20 lg:py-28 text-center scroll-mt-21">
-      <h1 class="font-mono-plex text-4xl md:text-6xl font-bold leading-tight tracking-tight text-secondary-text">A utility suite for<br><span class="text-accent">focused, distraction-free</span> workflows.</h1>
-      <p class="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-secondary-text">
-        Mono is a minimalist, modular app launcher and utility suite for Apple devices, inspired by the focused aesthetic of E-Ink. Built in Swift with SwiftUI, Mono offers a quiet, clutter-free home screen and a curated set of tools that stay out of your way.
-      </p>
-    </section>
-
-    <section id="design" class="nes-container @container with-title py-20 scroll-mt-21">
-      <h2 class="title font-mono-plex text-3xl font-bold !text-accent">Design Philosophy</h2>
-      
-      <div class="text-center mb-16">
-        <p class="mt-4 max-w-2xl mx-auto text-lg text-secondary-text">Mono is built on a foundation of clear design principles to
-          ensure a consistent, high-quality, and calm experience.</p>
+    @if(contentDisplaying() === 'terms') {
+      <div id="terms" class="terms-of-service">
+        <button class="nes-btn is-primary back-button mb-4" (click)="contentDisplaying.set('overview')">Back</button>
+        <div class="extra-content active nes-container">
+          <h2>Terms of Service</h2>
+          <p><em>Last Updated: January 2026</em></p>
+          <p>By using Mono, you agree to these terms.</p>
+          <h4>1. The Basics</h4>
+          <p>Provided by Zach Eriksen. Use responsibly and legally.</p>
+          <h4>2. Intellectual Property</h4>
+          <p>Mono is the exclusive property of Zach Eriksen.</p>
+          <h4>3. Warranty Disclaimer</h4>
+          <p>Provided "AS IS" without warranties.</p>
+          <h4>4. Limitation of Liability</h4>
+          <p>Not liable for indirect or consequential damages.</p>
+          <h4>5. Governing Law</h4>
+          <p>Colorado, United States.</p>
+          <p style="margin-top: 24px;">Thanks for using Mono!<br><a href="mailto:mono.tamper346@passmail.net">mono.tamper346@passmail.net</a></p>
+        </div>
       </div>
-      
-      <div class="grid @sm:grid-cols-1 @md:grid-cols-2 gap-8 mx-auto">
-        <div class="p-6 bg-secondary border text-center">
-          <h4 class="font-mono-plex font-semibold text-lg mb-2">Minimalist</h4>
-          <p class="text-secondary-text">Monospaced UI with a pure black-and-white palette, using subtle grayscale only where
-            necessary.</p>
+    } @else if(contentDisplaying() === 'privacy') {
+      <div id="privacy" class="privacy-policy">
+        <button class="nes-btn is-primary back-button mb-4" (click)="contentDisplaying.set('overview')">Back</button>
+        <div class="extra-content nes-container align-center">
+          <h2>Privacy Policy</h2>
+          <p><em>Last updated: January 2026</em></p>
+          <p>Mono stores all user data directly on your device. We do not transmit or store personal data on our servers.</p>
+          <h4>Location Data (Weather Applet)</h4>
+          <p>The Weather applet uses precise location to fetch weather from the National Weather Service (api.weather.gov). Coordinates are sent directly to NWS and not stored elsewhere.</p>
+          <h4>Analytics</h4>
+          <p>No analytics or third-party tracking. Everything stays local.</p>
+          <p>Questions? <a href="mailto:mono.tamper346@passmail.net">mono.tamper346@passmail.net</a></p>
         </div>
-        <div class="p-6 bg-secondary border text-center">
-          <h4 class="font-mono-plex font-semibold text-lg mb-2">Low-Stimulation</h4>
-          <p class="text-secondary-text">Little to no motion, color, or haptics to create a focused environment.</p>
-        </div>
-        <div class="p-6 bg-secondary border text-center">
-          <h4 class="font-mono-plex font-semibold text-lg mb-2">Modular</h4>
-          <p class="text-secondary-text">Every feature lives in its own independent Swift Package for stability and
-            maintainability.
+      </div>
+    } @else {
+      <div class="main-content">
+        <cvd-navbar [navbarItems]="navbarItems" />
+
+        <section id="overview" class="bg-secondary py-20 lg:py-28 text-center scroll-mt-21">
+          <h1 class="font-mono-plex text-4xl md:text-6xl font-bold leading-tight tracking-tight text-secondary-text">A utility suite for<br><span class="text-accent">focused, distraction-free</span> workflows.</h1>
+          <p class="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-secondary-text">
+            Mono is a minimalist, modular app launcher and utility suite for Apple devices, inspired by the focused aesthetic of E-Ink. Built in Swift with SwiftUI, Mono offers a quiet, clutter-free home screen and a curated set of tools that stay out of your way.
           </p>
-        </div>
-        <div class="p-6 bg-secondary border text-center">
-          <h4 class="font-mono-plex font-semibold text-lg mb-2">E-Ink Inspired</h4>
-          <p class="text-secondary-text">A high-contrast, low-motion interface designed for clarity and focus, reducing visual
-            noise.
-          </p>
-        </div>
-      </div>
-    </section>
+        </section>
 
-    <section id="applets" class="nes-container with-title @container py-20 scroll-mt-21">
-      <h2 class="title font-mono-plex font-bold !text-accent">The Applet Collection</h2>
-      <div class="text-center mb-16">
-        <p class="mt-4 max-w-2xl mx-auto text-lg text-primary-text">Explore the full collection of utilities available in Mono.
-          Click any item to learn more about its function.</p>
-      </div>
-      <div class="applets-layout">
-        <div id="applet-cards" class="applets-grid">
-          @for (applet of appletsData; track applet.id) {
-            <div class="e-ink-card overflow-hidden transition-all duration-300"
-                 [class.active]="isSelected(applet.id)">
+        <section id="design" class="nes-container @container with-title py-20 scroll-mt-21">
+          <h2 class="title font-mono-plex text-3xl font-bold !text-accent">Design Philosophy</h2>
+          
+          <div class="text-center mb-16">
+            <p class="mt-4 max-w-2xl mx-auto text-lg text-secondary-text">Mono is built on a foundation of clear design principles to
+              ensure a consistent, high-quality, and calm experience.</p>
+          </div>
+          
+          <div class="grid @sm:grid-cols-1 @md:grid-cols-2 gap-8 mx-auto">
+            <div class="p-6 bg-secondary border text-center">
+              <h4 class="font-mono-plex font-semibold text-lg mb-2">Minimalist</h4>
+              <p class="text-secondary-text">Monospaced UI with a pure black-and-white palette, using subtle grayscale only where
+                necessary.</p>
+            </div>
+            <div class="p-6 bg-secondary border text-center">
+              <h4 class="font-mono-plex font-semibold text-lg mb-2">Low-Stimulation</h4>
+              <p class="text-secondary-text">Little to no motion, color, or haptics to create a focused environment.</p>
+            </div>
+            <div class="p-6 bg-secondary border text-center">
+              <h4 class="font-mono-plex font-semibold text-lg mb-2">Modular</h4>
+              <p class="text-secondary-text">Every feature lives in its own independent Swift Package for stability and
+                maintainability.
+              </p>
+            </div>
+            <div class="p-6 bg-secondary border text-center">
+              <h4 class="font-mono-plex font-semibold text-lg mb-2">E-Ink Inspired</h4>
+              <p class="text-secondary-text">A high-contrast, low-motion interface designed for clarity and focus, reducing visual
+                noise.
+              </p>
+            </div>
+          </div>
+        </section>
 
-              <!-- Card Header (clickable) -->
-              <div class="card-header p-4 cursor-pointer flex items-center space-x-4"
-                   (click)="handleCardClick(applet)">
-                <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center text-primary-text text-sm font-mono-plex">
-                  {{ applet.icon }}
+        <section id="applets" class="nes-container with-title @container py-20 scroll-mt-21">
+          <h2 class="title font-mono-plex font-bold !text-accent">The Applet Collection</h2>
+          <div class="text-center mb-16">
+            <p class="mt-4 max-w-2xl mx-auto text-lg text-primary-text">Explore the full collection of utilities available in Mono.
+              Click any item to learn more about its function.</p>
+          </div>
+          <div class="applets-layout">
+            <div id="applet-cards" class="applets-grid">
+              @for (applet of appletsData; track applet.id) {
+                <div class="e-ink-card overflow-hidden transition-all duration-300"
+                    [class.active]="isSelected(applet.id)">
+
+                  <!-- Card Header (clickable) -->
+                  <div class="card-header p-4 cursor-pointer flex items-center space-x-4"
+                      (click)="handleCardClick(applet)">
+                    <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center text-primary-text text-sm font-mono-plex">
+                      {{ applet.icon }}
+                    </div>
+                    <h3 class="font-mono-plex font-semibold text-secondary-text">
+                      {{ applet.name }}
+                    </h3>
+                  </div>
                 </div>
-                <h3 class="font-mono-plex font-semibold text-secondary-text">
-                  {{ applet.name }}
-                </h3>
+              }
+            </div>
+            <div id="applet-details-container" class="applets-details">
+              <div class="details-card sticky top-24 min-h-[350px]">
+                @if (selectedApplet()) {
+                  <div id="applet-details-content" class="p-6">
+                    <div class="flex items-center space-x-4 mb-6">
+                      <div class="w-12 h-12 bg-transparent flex items-center justify-center text-primary-text text-2xl font-mono-plex flex-shrink-0">
+                        {{ selectedApplet()!.icon }}
+                      </div>
+                      <div>
+                        <h3 class="font-mono-plex text-xl font-semibold text-accent">{{ selectedApplet()!.name }}</h3>
+                        <p class="text-sm text-primary-text">Utility Applet</p>
+                      </div>
+                    </div>
+                    <div class="space-y-4">
+                      <div>
+                        <h4 class="font-semibold text-sm text-accent font-mono-plex uppercase tracking-wider">Description</h4>
+                        <p class="text-primary-text mt-1">{{ selectedApplet()!.description }}</p>
+                      </div>
+                      <div>
+                        <h4 class="font-semibold text-sm text-accent font-mono-plex uppercase tracking-wider">Use Case</h4>
+                        <p class="text-primary-text mt-1">{{ selectedApplet()!.use_case }}</p>
+                      </div>
+                    </div>
+                  </div>
+                }
               </div>
             </div>
-          }
-        </div>
-        <div id="applet-details-container" class="applets-details">
-          <div class="details-card sticky top-24 min-h-[350px]">
-            @if (selectedApplet()) {
-              <div id="applet-details-content" class="p-6">
-                <div class="flex items-center space-x-4 mb-6">
-                  <div class="w-12 h-12 bg-transparent flex items-center justify-center text-primary-text text-2xl font-mono-plex flex-shrink-0">
-                    {{ selectedApplet()!.icon }}
-                  </div>
-                  <div>
-                    <h3 class="font-mono-plex text-xl font-semibold text-accent">{{ selectedApplet()!.name }}</h3>
-                    <p class="text-sm text-primary-text">Utility Applet</p>
-                  </div>
-                </div>
-                <div class="space-y-4">
-                  <div>
-                    <h4 class="font-semibold text-sm text-accent font-mono-plex uppercase tracking-wider">Description</h4>
-                    <p class="text-primary-text mt-1">{{ selectedApplet()!.description }}</p>
-                  </div>
-                  <div>
-                    <h4 class="font-semibold text-sm text-accent font-mono-plex uppercase tracking-wider">Use Case</h4>
-                    <p class="text-primary-text mt-1">{{ selectedApplet()!.use_case }}</p>
-                  </div>
-                </div>
-              </div>
-            }
+          </div>
+        </section>
+
+        <div id="contact" class="mt-20 bg-secondary scroll-mt-20">
+          <div class="container mx-auto px-4 py-16 text-center">
+            <h3 class="font-mono-plex text-2xl font-bold text-primary-text">Get in Touch</h3>
+            <p class="mt-4 max-w-xl mx-auto text-secondary-text">Mono is crafted by <a href="https://github.com/0xLeif" target="_blank"
+                class="text-accent hover:underline">@0xLeif (Zach Eriksen)</a>. For contracting, collaboration, or general
+              questions, please reach out.</p>
+            <div class="mt-8">
+              <a href="mailto:mono.tamper346@passmail.net" class="nes-btn is-primary !font-mono-plex !font-medium !text-lg !px-8 !py-3">
+                Contact Author</a>
+            </div>
+            <div class="mt-16 text-sm text-gray-500 space-x-6">
+              <a href="#privacy" (click)="contentDisplaying.set('privacy')" id="privacy-link" class="hover:text-[#4A90E2] cursor-pointer">Privacy Policy</a>
+              <a href="#terms" (click)="contentDisplaying.set('terms')" id="terms-link" class="hover:text-[#4A90E2] cursor-pointer">Terms of Service</a>
+            </div>
+            <p class="mt-8 text-xs text-gray-400">Copyright © 2025 Mono. All rights reserved.</p>
           </div>
         </div>
       </div>
-    </section>
-
-    <div id="contact" class="mt-20 bg-secondary scroll-mt-20">
-      <div class="container mx-auto px-4 py-16 text-center">
-        <h3 class="font-mono-plex text-2xl font-bold text-primary-text">Get in Touch</h3>
-        <p class="mt-4 max-w-xl mx-auto text-secondary-text">Mono is crafted by <a href="https://github.com/0xLeif" target="_blank"
-            class="text-accent hover:underline">@0xLeif (Zach Eriksen)</a>. For contracting, collaboration, or general
-          questions, please reach out.</p>
-        <div class="mt-8">
-          <a href="mailto:mono.tamper346@passmail.net" class="nes-btn is-primary !font-mono-plex !font-medium !text-lg !px-8 !py-3">
-            Contact Author</a>
-        </div>
-        <div class="mt-16 text-sm text-gray-500 space-x-6">
-          <a href="#privacy" id="privacy-link" class="hover:text-[#4A90E2] cursor-pointer">Privacy Policy</a>
-          <a href="#terms" id="terms-link" class="hover:text-[#4A90E2] cursor-pointer">Terms of Service</a>
-        </div>
-        <p class="mt-8 text-xs text-gray-400">Copyright © 2025 Mono. All rights reserved.</p>
-      </div>
-    </div>
+    }
   </div>
 </div>
